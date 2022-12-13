@@ -5,6 +5,8 @@
         "node": true
     },
     "extends": [
+        "plugin:prettier/recommended",
+        "prettier",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended"
     ],
@@ -15,7 +17,7 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
-    "plugins": ["import", "@typescript-eslint"],
+    "plugins": ["prettier", "import", "@typescript-eslint"],
     "rules": {
         "no-debugger": "off",
         "no-console": 0,
