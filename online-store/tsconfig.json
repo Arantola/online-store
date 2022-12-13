@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es2016",
+    "skipLibCheck": true
+  },
+  "files": ["src/index.ts"]
+}
