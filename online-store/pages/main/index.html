@@ -4,17 +4,305 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../../assets/styles/all.css">
         <title>Main</title>
     </head>
     <body>
         <header>
-
+            <div class="container">
+                <div class="logo">
+                    <a href="../main/index.html"><h1>LOGO</h1></a>
+                </div>
+                <div class="cart">
+                    <a href="../cart/index.html"><img src="../../assets/icons/shopping-cart.svg" alt="cart"></a>
+                </div>
+            </div>
         </header>
         <main>
-
+            <div class="container">
+                <div class="filter">
+                    <div class="filter-box">
+                        <h3>Theme</h3>
+                        <div class="filter-list">
+                            <div class="checkbox-info">
+                                <input id="theme_1" type="checkbox">
+                                <label for="theme_1">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_2" type="checkbox">
+                                <label for="theme_2">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_3" type="checkbox">
+                                <label for="theme_3">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_1" type="checkbox">
+                                <label for="theme_1">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_2" type="checkbox">
+                                <label for="theme_2">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_3" type="checkbox">
+                                <label for="theme_3">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_1" type="checkbox">
+                                <label for="theme_1">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_2" type="checkbox">
+                                <label for="theme_2">Abstract</label>
+                                <span>23</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="theme_3" type="checkbox">
+                                <label for="theme_3">Abstract</label>
+                                <span>23</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-box">
+                        <h3>Brand</h3>
+                        <div class="filter-list">
+                            <div class="checkbox-info">
+                                <input id="brand_1" type="checkbox">
+                                <label for="brand_1">Dream Makers</label>
+                                <span>11</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="brand_2" type="checkbox">
+                                <label for="brand_2">Dream Makers</label>
+                                <span>11</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="brand_3" type="checkbox">
+                                <label for="brand_3">Dream Makers</label>
+                                <span>11</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="brand_1" type="checkbox">
+                                <label for="brand_1">Dream Makers</label>
+                                <span>11</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="brand_2" type="checkbox">
+                                <label for="brand_2">Dream Makers</label>
+                                <span>11</span>
+                            </div>
+                            <div class="checkbox-info">
+                                <input id="brand_3" type="checkbox">
+                                <label for="brand_3">Dream Makers</label>
+                                <span>11</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-box">
+                        <h3>Price</h3>
+                        <div class="range-data">
+                            <span>10</span><span>-</span><span>20000</span>
+                        </div>
+                        <div class="double-range">
+                            <div class="slider-track"></div>
+                            <input id="price-slide-1" type="range" min="0" max="100" value="0">
+                            <input id="price-slide-2" type="range" min="0" max="100" value="100">
+                        </div>
+                    </div>
+                    <div class="filter-box">
+                        <h3>Number of players</h3>
+                        <div class="range-data">
+                            <span>10</span><span>-</span><span>20000</span>
+                        </div>
+                        <div class="double-range">
+                            <div class="slider-track"></div>
+                            <input id="players-slide-1" type="range" min="0" max="100" value="0">
+                            <input id="players-slide-2" type="range" min="0" max="100" value="100">
+                        </div>
+                    </div>
+                </div>
+                <div class="products">
+                    <div class="sort-products">
+                        <div class="sort-bar">
+                            <select id="sort-option">
+                                <option value="">Default</option>
+                                <option value="">Ascending price</option>
+                                <option value="">Descending price</option>
+                                <option value="">Ascending rating</option>
+                                <option value="">Descending rating</option>
+                            </select>
+                        </div>
+                        <div class="total-found"> Found:<span>00</span></div>
+                        <div class="search-bar">
+                            <input type="search" name="" id="" placeholder="Search product">
+                        </div>
+                        <div class="view-bar">
+                            <div class="view-card"><img src="../../assets/icons/cards.svg" alt="cards"></div>
+                            <div class="view-list"><img src="../../assets/icons/list.svg" alt="list"></div>
+                        </div>
+                    </div>
+                    <div class="products-lists">
+                        <div class="product-card-container">
+                            <a href="../description/index.html">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="product-card-container">
+                            <a href="#">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="product-card-container">
+                            <a href="#">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="product-card-container">
+                            <a href="#">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="product-card-container">
+                            <a href="#">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="product-card-container">
+                            <a href="#">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="product-card-container">
+                            <a href="../description/index.html">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="product-card-container">
+                            <a href="../description/index.html">
+                                <div class="product-card">
+                                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
+                                    <div class="product-description">
+                                        <div class="name">Bobi story</div>
+                                        <div class="small-di">it's story about Bobi</div>
+                                    </div>
+                                    <div class="add-cart">
+                                        <button>
+                                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
+                                            151$
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
         <footer>
-            
+            <div class="container">
+                <div class="RSSchool">
+                    <a href="https://rs.school/js/"><img src="../../assets/icons/rs_school_js.svg" alt="RS-logo"></a>
+                </div>
+                <div class="git-info">
+                    <a href="https://github.com/MonstersBY">
+                        <p>Created 2022 by MonstersBY and Arantola</p> 
+                        <p>Git link</p>
+                    </a> 
+                </div>
+            </div>
         </footer>
     </body>
 </html>
