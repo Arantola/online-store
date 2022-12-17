@@ -15,7 +15,8 @@
     "parser": "@typescript-eslint/parser",
     "root": true,
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
     "plugins": ["prettier", "import", "@typescript-eslint"],
     "rules": {
@@ -23,6 +24,8 @@
         "no-console": 0,
         "class-methods-use-this": "off",
         "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/no-explicit-any": "warn"
-    }
+        "@typescript-eslint/no-explicit-any": "warn",
+        "prettier/prettier": ["error", { "endOfLine": "auto", "tabWidth": 4}]
+    },
+    "ignorePatterns": ["**/*.js"]
 }
