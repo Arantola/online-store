@@ -4,10 +4,33 @@ interface IGamesArray {
 }
 
 interface IGame {
+  id: string;
   name: string;
-  image_url: string;
   description_preview: string;
+  average_user_rating: number;
+
+  price: string;
   price_text: string;
+  discount: string;
+
+  thumb_url: string;
+  image_url: string;
+  images: {
+    large: string;
+    medium: string;
+    original: string;
+    small: string;
+    thumb: string;
+  }
+
+  primary_publisher: string;
+
+  min_players: number;
+  max_players: number;
+  max_playtime: number;
+  min_playtime: number;
+
+  url: string;
 }
 
 function getElementBySelector<T extends HTMLElement>(
