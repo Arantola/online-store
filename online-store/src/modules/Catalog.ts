@@ -115,7 +115,18 @@ export default class Catalog {
 
 // Categories
 const categories = {
-  CardGame: "eX8uuNlQkQ",
+  "Abstract":"hBqZ3Ar4RJ",
+  "Adventure": "KUBCKBkGxV",
+  "Building": "ODWOjWAJj3",
+  "Card-game": "eX8uuNlQkQ",
+  "Cooperative": "ge8pIhEUGE",
+  "Deduction": "bCBXJy9qDw",
+  "Economic": "N0TkEGfEsF",
+  "Fantasy": "ZTneo8TaIO",
+  "Fighting": "upXZ8vNfNO",
+  "Humor": "TYnxiuiI3X",
+  "Sci-Fi": "3B3QpKvXD3",
+  "Wargame": "jX8asGGR6o",
 }
 
 // Более унифицированная функция которая может получать любые данные
