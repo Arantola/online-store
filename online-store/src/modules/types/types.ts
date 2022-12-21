@@ -21,9 +21,11 @@ interface IGame {
     original: string;
     small: string;
     thumb: string;
-  }
+  };
 
-  primary_publisher: string;
+  primary_publisher: {
+    name: string;
+  };
 
   min_players: number;
   max_players: number;
