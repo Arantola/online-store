@@ -1,10 +1,12 @@
 import { getElementBySelector } from "./modules/types/types";
 
+import "./assets/styles/_reset";
 import "./assets/styles/_catalog.css";
 import "./assets/styles/_cart.css";
 import "./assets/styles/_description.css";
 import "./assets/styles/_all.css";
 import "./assets/styles/_card.css";
+
 
 import App from "./modules/App";
 
