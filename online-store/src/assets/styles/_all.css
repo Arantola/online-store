@@ -1,20 +1,18 @@
+html,
+body {
+    height: 100%;
+}
+
 body {
     margin: 0;
     background-color: white;
     color: black;
 }
+
 p {
     margin: 0;
 }
-.container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 1160px;
-    display: flex;
-}
-main .container {
-    width: 1200px;
-}
+
 a {
     color: black;
     text-decoration: none;
@@ -23,14 +21,6 @@ h1, h3, h2 {
     margin: 0;
 }
 
-
-header .container {
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid orange;
-    padding: 10px 20px;
-    border-radius: 0 0 10px 10px;
-}
 header .cart img{
     width: 25px;
 }
@@ -40,18 +30,53 @@ main {
     margin-bottom: 20px;
 }
 
+footer {
+    flex: 0 0 auto;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+
+footer img{
+    width: 150px;
+}
+
+footer .git-info{
+    text-align: center;
+}
+
+
+.container {
+    margin: 0 auto;
+    width: 1160px;
+    display: flex;
+}
+
+header .container {
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid orange;
+    padding: 10px 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+main .container {
+    width: 1200px;
+}
+
 footer .container {
     align-items: center;
     justify-content: space-between;
     border: 1px solid orange;
     padding: 10px 20px;
     border-radius: 10px 10px 0 0;
-}
-footer img{
-    width: 150px;
-}
-footer .git-info{
-    text-align: center;
 }
 
 @media (max-width: 1440px) {
