@@ -364,15 +364,15 @@
               </div>
               <div class="products">
                   <div class="sort-products">
-                      <div class="sort-bar">
-                          <select id="sort-option">
+                      <form class="sort-bar" name="sort">
+                          <select name="sortList" id="sort-list">
                               <option value="">Default</option>
-                              <option value="">Ascending price</option>
-                              <option value="">Descending price</option>
-                              <option value="">Ascending rating</option>
-                              <option value="">Descending rating</option>
+                              <option value="price" data-ascending="true">Ascending price</option>
+                              <option value="price" data-ascending="false">Descending price</option>
+                              <option value="rank" data-ascending="true">Ascending rating</option>
+                              <option value="rank" data-ascending="false">Descending rating</option>
                           </select>
-                      </div>
+                      </form>
                       <div class="total-found"> Found: <span id="total-games-display">0</span></div>
                       <div class="search-bar">
                           <input type="search" name="" id="" placeholder="Search product">

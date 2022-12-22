@@ -12,8 +12,10 @@ export default class Catalog {
 
     public apiUrl: URL = new URL('https://api.boardgameatlas.com/'),
     public pathname = "/api/search",
-    public qThemes: Array<any> = [],
-    public qPublishers: Array<any> = [],
+    public qThemes: Array<string> = [],
+    public qPublishers: Array<string> = [],
+    public qAscending: Array<string> = [],
+    public qOrder: Array<string> = [],
   ) {}
 
   renderPage() {
@@ -21,6 +23,7 @@ export default class Catalog {
     this.renderFilters();
     this.addListenerToFilters(".checkbox_theme", this.qThemes);
     this.addListenerToFilters(".checkbox_publisher", this.qPublishers);
+    this.addListenerToFiltersOrder();
     this.totalGamesFound = getElementBySelector("#total-games-display");
     this.catalogGameList = getElementBySelector("#catalog-list");
     this.addDefaultQuery();
@@ -60,8 +63,12 @@ export default class Catalog {
   resetQueryParams() {
     this.apiUrl.searchParams.delete("categories");
     this.apiUrl.searchParams.delete("publisher");
+    this.apiUrl.searchParams.delete("order_by");
+    this.apiUrl.searchParams.delete("ascending");
     this.addQueryParamsFrom("categories", this.qThemes);
     this.addQueryParamsFrom("publisher", this.qPublishers);
+    this.addQueryParamsFrom("order_by", this.qOrder);
+    this.addQueryParamsFrom("ascending", this.qAscending);
   }
 
   formRequestURL() {
@@ -136,22 +143,6 @@ export default class Catalog {
     query.push(param);
   }
 
-  // addListenerToFilter() {
-  //   const themeCheckboxes = document.querySelectorAll(".checkbox_theme");
-  //   themeCheckboxes.forEach((themeBox: any) => {
-  //     themeBox.addEventListener("change", (e: any) => {
-  //       const box = e.target;
-  //       if (box.checked) {
-  //         this.addToQuery(this.qThemes, box.getAttribute("idapi"));
-  //       } else {
-  //         this.removeFromQuery(this.qThemes, box.getAttribute("idapi"));
-  //       }
-  //       console.log(this.qThemes);
-  //       this.getAndPlaceData(this.formRequestURL());
-  //     });
-  //   });
-  // }
-
   addListenerToFilters(selector: string, query: Array<string>) {
     const checkboxes = document.querySelectorAll(selector);
     checkboxes.forEach((checkbox: any) => {
@@ -162,10 +153,51 @@ export default class Catalog {
         } else {
           this.removeFromQuery(query, box.getAttribute("idapi"));
         }
-        console.log(query);
+        const form: any = document.forms[0];
+        console.log(form.sortList.options[0].value);
         this.getAndPlaceData(this.formRequestURL());
       });
     });
+  }
+
+  addListenerToFiltersOrder() {
+    const form: any = document.forms[0]; // обращение к life-коллекции элементов form
+    const formSelect: any = form.sortList;
+    // console.log(formSelect);
+    console.log(formSelect.options);
+    formSelect.addEventListener("change", (e: any) => {
+      // console.log(e);
+      // console.log(e.target);
+      // console.log(formSelect.selectedIndex);
+      this.apiUrl.searchParams.delete("order_by");
+      this.apiUrl.searchParams.delete("ascending");
+      this.qAscending = [];
+      this.qOrder = [];
+      const formSelectSelectedIndex = formSelect.selectedIndex;
+      // formSelect                 форма с именем sortList
+      //.options                    коллекция опций
+      //[formSelectSelectedIndex]   идекс выбранной опции в options
+      //.dataset                    обращение к data-атрибутам элемента
+      //.ascending);                имя data-атрибута
+
+      switch (formSelect.value) {
+        case "rank":
+          this.addToQuery(this.qOrder, "rank");
+          this.addToQuery(this.qAscending, formSelect.options[formSelectSelectedIndex].dataset.ascending);
+          console.log(this.qOrder, this.qAscending);
+          break;
+        case "price":
+          this.addToQuery(this.qOrder, "price");
+          this.addToQuery(this.qAscending, formSelect.options[formSelectSelectedIndex].dataset.ascending);
+          console.log(this.qOrder, this.qAscending);
+          break;
+      }
+      this.getAndPlaceData(this.formRequestURL());
+    });
+
+    // this.addToQuery(query, AscendingPrice.getAttribute("idapi"));
+    // this.addQueryParamsFrom("order_by", this.qOrder);
+    // this.addQueryParamsFrom("ascending", this.qAscending);
   }
 }
 
