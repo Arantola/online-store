@@ -80,7 +80,7 @@ export default class Catalog {
       // Либо нужно сохранять где-то пришедшую коллекцию, и сюда записывать номер в коллекции, чтобы не делать дополнительный запрос
       clone.querySelector(".card__link").setAttribute("apiID", item.id);
 
-      clone.querySelector(".card__img").src = `${item.image_url}`;
+      clone.querySelector(".card__img").src = `${item.image_url ? item.image_url : "/placeholder.svg"}`;
       clone.querySelector(".card__img").alt = `${item.name}`;
       clone.querySelector(".card__name").textContent = `${item.name}`;
       // clone.querySelector(".card__description").textContent = `${item.description_preview}`;

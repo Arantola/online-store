@@ -49,7 +49,14 @@ footer {
 .content {
     flex: 1 0 auto;
 }
+footer {
+    background: #231f20;
+    color: #fff;
+}
 
+footer a {
+    color: #4169e1;
+}
 
 footer img{
     width: 150px;
@@ -80,7 +87,7 @@ header .container {
 }
 
 .banner {
-    margin-bottom: -50px;
+    margin-bottom: -60px;
     height: 270px;
     background: url("../images/hero-shop.webp") no-repeat center center ;
 }
@@ -92,7 +99,6 @@ main .container {
 footer .container {
     align-items: center;
     justify-content: space-between;
-    border: 1px solid orange;
     padding: 10px 20px;
     border-radius: 10px 10px 0 0;
 }
@@ -113,4 +119,8 @@ footer .container {
     .container {
         width: 300px;
     }
+}
+
+.hidden {
+    visibility: hidden;
 }

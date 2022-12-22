@@ -1,5 +1,5 @@
 .card {
-  max-width: calc(24% - 1em);
+  max-width: 23%;
   margin: 1%;
   padding-top: 10px;
   height: 300px;
@@ -7,7 +7,16 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   background: #fff;
+}
+
+.card:hover,
+.card:focus {
+  color: #231f20;
+  background-image: linear-gradient(180deg,white 0%,#f7f7f7 100%);
+  box-shadow: 0 0 14px #0000001a;
+  z-index: 1;
 }
 
 .card__info {
