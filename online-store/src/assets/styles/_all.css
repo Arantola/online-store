@@ -27,8 +27,17 @@ h1, h3, h2 {
     margin: 0;
 }
 
-header .cart img{
+.cart {
+    background: url('../icons/shopping-cart.svg') center center contain blue;
+    background-size: cover;
+}
+
+.cart__link{
+    display: block;
     width: 25px;
+    height: 25px;
+    background: url('../icons/shopping-cart.svg') center center contain blue;
+    background-size: contain;
 }
 
 main {
@@ -49,6 +58,7 @@ footer {
 .content {
     flex: 1 0 auto;
 }
+
 footer {
     background: #231f20;
     color: #fff;

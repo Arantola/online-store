@@ -1,4 +1,5 @@
 import { getElementBySelector, IGame } from "./types/types";
+import Filter from "./Filter";
 
 export default class Catalog {
   constructor(
@@ -7,15 +8,22 @@ export default class Catalog {
     public templateCard: any = getElementBySelector("#product-card"),
     public totalGamesFound: any = undefined,
     public catalogGameList: any = undefined,
-    public itemsOnPage = 12,
+    public itemsOnPage = 100,
     public itemsSkip = 0,
 
     public apiUrl: URL = new URL('https://api.boardgameatlas.com/'),
     public pathname = "/api/search",
+
+
     public qThemes: Array<string> = [],
     public qPublishers: Array<string> = [],
     public qAscending: Array<string> = [],
     public qOrder: Array<string> = [],
+    public qName: Array<string> = [],
+    public qMinPlayers: Array<string> = [],
+    public qMaxPlayers: Array<string> = [],
+    public qMinTime: Array<string> = [],
+    public qMaxTime: Array<string> = [],
   ) {}
 
   renderPage() {
@@ -24,6 +32,9 @@ export default class Catalog {
     this.addListenerToFilters(".checkbox_theme", this.qThemes);
     this.addListenerToFilters(".checkbox_publisher", this.qPublishers);
     this.addListenerToFiltersOrder();
+    this.addListenerToNameInput();
+    this.addListenerToRangeInput();
+    this.addButtonSaveListener()
     this.totalGamesFound = getElementBySelector("#total-games-display");
     this.catalogGameList = getElementBySelector("#catalog-list");
     this.addDefaultQuery();
@@ -65,10 +76,23 @@ export default class Catalog {
     this.apiUrl.searchParams.delete("publisher");
     this.apiUrl.searchParams.delete("order_by");
     this.apiUrl.searchParams.delete("ascending");
+    this.apiUrl.searchParams.delete("name");
+
+    this.apiUrl.searchParams.delete("min_players");
+    this.apiUrl.searchParams.delete("max_players");
+    this.apiUrl.searchParams.delete("min_playtime");
+    this.apiUrl.searchParams.delete("max_playtime");
+
     this.addQueryParamsFrom("categories", this.qThemes);
     this.addQueryParamsFrom("publisher", this.qPublishers);
     this.addQueryParamsFrom("order_by", this.qOrder);
     this.addQueryParamsFrom("ascending", this.qAscending);
+    this.addQueryParamsFrom("name", this.qName);
+
+    this.addQueryParamsFrom("min_players", this.qMinPlayers);
+    this.addQueryParamsFrom("max_players", this.qMaxPlayers);
+    this.addQueryParamsFrom("min_playtime", this.qMinTime);
+    this.addQueryParamsFrom("max_playtime", this.qMaxTime);
   }
 
   formRequestURL() {
@@ -163,12 +187,8 @@ export default class Catalog {
   addListenerToFiltersOrder() {
     const form: any = document.forms[0]; // обращение к life-коллекции элементов form
     const formSelect: any = form.sortList;
-    // console.log(formSelect);
     console.log(formSelect.options);
-    formSelect.addEventListener("change", (e: any) => {
-      // console.log(e);
-      // console.log(e.target);
-      // console.log(formSelect.selectedIndex);
+    formSelect.addEventListener("change", (e: Event) => {
       this.apiUrl.searchParams.delete("order_by");
       this.apiUrl.searchParams.delete("ascending");
       this.qAscending = [];
@@ -199,6 +219,113 @@ export default class Catalog {
     // this.addQueryParamsFrom("order_by", this.qOrder);
     // this.addQueryParamsFrom("ascending", this.qAscending);
   }
+
+  // input.addEventListener('input', () => { input.value += '5'; });
+  addListenerToNameInput() {
+    getElementBySelector('#searchName').addEventListener('keydown', (e: any) => { // KeyboardEvent?
+        if (e.keyCode === 13) {
+          this.qName = [];
+          this.addToQuery(this.qName, e.target.value);
+          console.log(e.target.value);
+          this.getAndPlaceData(this.formRequestURL());
+        }
+    });
+  }
+
+  // addListenerToRangeInput() {
+  //   getElementBySelector('#searchName').addEventListener('keydown', (e: any) => { // KeyboardEvent?
+  //       if (e.keyCode === 13) {
+  //         this.qName = [];
+  //         this.addToQuery(this.qName, e.target.value);
+  //         console.log(e.target.value);
+  //         this.getAndPlaceData(this.formRequestURL());
+  //       }
+  //   });
+  // }
+
+  getInputVals(parent: any, x: number) {
+    // Get slider values
+    // const parent = getElementBySelector("slider")
+    const slides = parent.getElementsByTagName("input");
+    // console.log(slides);
+    let slide1 = parseFloat(slides[0].value);
+    let slide2 = parseFloat(slides[1].value);
+    // console.log(slide1, slide2);
+    // Neither slider will clip the other, so make sure we determine which is larger
+    if (slide1 > slide2) {
+      [slide1, slide2] = [slide2, slide1];
+    }
+    const displayElement = parent.getElementsByClassName("slider__data")[0];
+    // console.log(displayElement);
+    displayElement.innerHTML = slide1 + " - " + slide2;
+    if (x == 0) {
+      this.qMinTime = [];
+      this.qMaxTime = [];
+      this.addToQuery(this.qMinTime, String(slide1));
+      this.addToQuery(this.qMaxTime, String(slide2));
+      // console.log(this.qMinTime, this.qMaxTime);
+    } else if (x == 1) {
+      this.qMinPlayers = [];
+      this.qMaxPlayers = [];
+      this.addToQuery(this.qMinPlayers, String(slide1));
+      this.addToQuery(this.qMaxPlayers, String(slide2));
+      // console.log(this.qMinPlayers, this.qMaxPlayers);
+    }
+    this.getAndPlaceData(this.formRequestURL());
+  }
+
+  addListenerToRangeInput() {
+    // Initialize Sliders
+    const sliderSections = document.getElementsByClassName("slider");
+    // console.log(sliderSections);
+    for (let x = 0; x < sliderSections.length; x++) {
+      const sliders: any = sliderSections[x].getElementsByTagName("input");
+      // console.log(sliderSections[x]);
+      // console.log(sliders);
+      for (let y = 0; y < sliders.length; y++) {
+        // console.log(sliders[y]);
+        if (sliders[y].type === "range") {
+          sliders[y].addEventListener("input", (e: any) => {
+            this.getInputVals(sliderSections[x], x);
+          });
+        }
+      }
+    }
+  }
+
+  addButtonSaveListener() {
+    getElementBySelector(".button_save").addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log(String(this.apiUrl)); // Запоминать в кэш
+    });
+  }
+
+  addButtonResetListener() {
+    getElementBySelector(".button_reset").addEventListener("click", (e) => {
+      // Добавить сброс всего выделенного на странице
+      e.preventDefault();
+      this.apiUrl.searchParams.delete("categories");
+      this.apiUrl.searchParams.delete("publisher");
+      this.apiUrl.searchParams.delete("order_by");
+      this.apiUrl.searchParams.delete("ascending");
+      this.apiUrl.searchParams.delete("name");
+      this.qThemes = [];
+      this.qPublishers = [];
+      this.qAscending = [];
+      this.qOrder = [];
+      this.qName = [];
+      this.qMinPlayers = [];
+      this.qMaxPlayers = [];
+      this.qMinTime = [];
+      this.qMaxTime = [];
+    });
+  }
+
+  // addOpenCloseToFilters() {
+  //   const filtersBoxes = document.querySelectorAll('.filters__title');
+  //   const filtersLists = document.querySelectorAll('.filters__list');
+  //   console.log(filtersBoxes, filtersLists);
+  // }
 }
 
 // Categories

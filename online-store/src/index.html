@@ -32,7 +32,7 @@
                             <span class="total-cost-info">Total cost: 1412$</span>
                         </div>
                         <div class="cart">
-                            <a class="cart__link" href="/cart"><img src="./assets/icons/shopping-cart.svg" alt="cart"></a>
+                            <a class="cart__link" href="/cart"></a>
                         </div>
                     </div>
                 </header>
@@ -42,7 +42,7 @@
             <footer>
                 <div class="container">
                     <div class="RSSchool">
-                        <a class="link_RSSchool" href="https://rs.school/js/"><img src="/src/assets/icons/rs_school_js.svg" alt="RS-logo"></a>
+                        <a class="link_RSSchool" href="https://rs.school/js/"><img src="./assets/icons/rs_school_js.svg" alt="RS-logo"></a>
                     </div>
                     <div class="git-info">
                         <p>Created by
@@ -185,6 +185,10 @@
         <template id="catalog-filters">
             <div class="container">
                 <div class="filters">
+                    <div class="filters__title">
+                        <button class="button_reset">Reset filters</button>
+                        <button class="button_save">Get link</button>
+                    </div>
                     <div class="filters__box">
                         <h3 class="filters__title">Theme</h3>
                         <ul class="filters__list">
@@ -339,52 +343,50 @@
                             </li>
                         </ul>
                     </div>
-                  <div class="filters__box slider">
-                      <h3 class="filters__title">Price</h3>
-                      <div class="slider__data">
-                          <span id="price-min-range">5</span><span>-</span><span id="price-max-range">1000</span>
-                      </div>
-                      <div class="slider__double-range">
-                          <div class="slider__track"></div>
-                          <input class="slider__input" id="price-slider-min" type="range" min="5" max="1000" value="5" step="5">
-                          <input class="slider__input" id="price-slider-max" type="range" min="5" max="1000" value="1000" step="5">
-                      </div>
-                  </div>
-                  <div class="filters__box slider">
-                      <h3 class="filters__title">Number of players</h3>
-                      <div class="slider__data">
-                          <span id="players-min-range">1</span><span>-</span><span id="players-max-range">20</span>
-                      </div>
-                      <div class="slider__double-range">
-                          <div class="slider__track"></div>
-                          <input class="slider__input" id="players-slider-min" type="range" min="1" max="20" value="1" step="1">
-                          <input class="slider__input" id="players-slider-max" type="range" min="1" max="20" value="20" step="1">
-                      </div>
-                  </div>
-              </div>
-              <div class="products">
-                  <div class="sort-products">
-                      <form class="sort-bar" name="sort">
-                          <select name="sortList" id="sort-list">
-                              <option value="">Default</option>
-                              <option value="price" data-ascending="true">Ascending price</option>
-                              <option value="price" data-ascending="false">Descending price</option>
-                              <option value="rank" data-ascending="true">Ascending rating</option>
-                              <option value="rank" data-ascending="false">Descending rating</option>
-                          </select>
-                      </form>
-                      <div class="total-found"> Found: <span id="total-games-display">0</span></div>
-                      <div class="search-bar">
-                          <input type="search" name="" id="" placeholder="Search product">
-                      </div>
-                      <div class="view-bar">
-                          <div class="view-card"><img src="../../assets/icons/cards.svg" alt="cards"></div>
-                          <div class="view-list"><img src="../../assets/icons/list.svg" alt="list"></div>
-                      </div>
-                  </div>
-                  <div class="products__list" id="catalog-list">
-                  </div>
-              </div>
+
+                    <div class="filters__box slider">
+                        <h3 class="filters__title">Playtime</h3>
+                        <span class="slider__data">5 - 120</span>
+                        <div class="slider__double-range">
+                            <div class="slider__track"></div>
+                            <input class="slider__input" id="time-slider-min" type="range" min="5" max="120" value="5" step="5">
+                            <input class="slider__input" id="time-slider-max" type="range" min="5" max="120" value="120" step="5">
+                        </div>
+                    </div>
+                    <div class="filters__box slider">
+                        <h3 class="filters__title">Number of players</h3>
+                        <span class="slider__data">1 - 20</span>
+                        <div class="slider__double-range">
+                            <div class="slider__track"></div>
+                            <input class="slider__input" id="players-slider-min" type="range" min="1" max="20" value="1" step="1">
+                            <input class="slider__input" id="players-slider-max" type="range" min="1" max="20" value="20" step="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="products">
+                    <div class="sort-products">
+                        <form class="sort-bar" name="sort">
+                            <select name="sortList" id="sort-list">
+                                <option value="">Default</option>
+                                <option value="price" data-ascending="true">Ascending price</option>
+                                <option value="price" data-ascending="false">Descending price</option>
+                                <option value="rank" data-ascending="true">Ascending rating</option>
+                                <option value="rank" data-ascending="false">Descending rating</option>
+                            </select>
+                        </form>
+                        <div class="total-found"> Found: <span id="total-games-display">0</span></div>
+                        <div class="search-bar">
+                            <input type="search" name="" id="searchName" placeholder="Search product">
+                        </div>
+                        <div class="view-bar">
+                            <div class="view-card"><img src="../../assets/icons/cards.svg" alt="cards"></div>
+                            <div class="view-list"><img src="../../assets/icons/list.svg" alt="list"></div>
+                        </div>
+                    </div>
+                    <div class="products__list" id="catalog-list">
+                    </div>
+                </div>
             </div>
         </template>
 
