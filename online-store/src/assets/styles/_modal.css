@@ -43,13 +43,19 @@
   cursor: pointer;
 }
 
+.info-input {
+    display: flex;
+    margin-bottom: 35px;
+}
 .input-error {
+    width: 50px;
+    padding-left: 50px;
+    color: red;
     display: none;
 }
 
 .group {
     position: relative;
-    margin-bottom: 35px;
 }
 .group:last-of-type {
     margin-top: 120px;
@@ -154,6 +160,17 @@
     width: 50px;
     margin: 0 10px;
 }
+.card-number input {
+    font-size: 14px;
+    padding: 1px 1px 1px 5px;
+    display: block;
+    width: 150px;
+    border: none;
+    box-sizing: border-box;
+}
+.card-number input:focus {
+    outline: none;
+}
 
 .card-other, .card-other-num {
     display: flex;
@@ -165,9 +182,23 @@
     width: 50px;
 }
 
+.card-other-num div {
+    margin-right: 5px;
+}
+.card-other-num input {
+    font-size: 14px;
+    padding: 1px 1px 1px 5px;
+    display: block;
+    width: 100px;
+    border: none;
+    box-sizing: border-box;
+}
+.card-other-num input:focus {
+    outline: none;
+}
+
 .order-btn {
-    cursor: pointer;
-    background: orange;
+    background: rgb(121, 121, 121);
     border: none;
     width: 100%;
     height: 54px;
@@ -175,4 +206,8 @@
     font-size: 16px;
     color: #FFFFFF;
     text-transform: uppercase;
+}
+.order-btn.active {
+    background: orange;
+    cursor: pointer;
 }
