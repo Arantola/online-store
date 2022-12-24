@@ -1,5 +1,6 @@
-import { getElementBySelector, IGame } from "./types/types";
+import { getElementBySelector, IGame, IQueryParams } from "./types/types";
 import Filter from "./Filter";
+
 
 export default class Catalog {
   constructor(
@@ -14,16 +15,31 @@ export default class Catalog {
     public apiUrl: URL = new URL('https://api.boardgameatlas.com/'),
     public pathname = "/api/search",
 
-
+    public collection: any = [],
+    // Преобразовать в объект или класс
     public qThemes: Array<string> = [],
     public qPublishers: Array<string> = [],
     public qAscending: Array<string> = [],
     public qOrder: Array<string> = [],
-    public qName: Array<string> = [],
+    public qName: Array<string> = [],  
     public qMinPlayers: Array<string> = [],
     public qMaxPlayers: Array<string> = [],
     public qMinTime: Array<string> = [],
     public qMaxTime: Array<string> = [],
+    public queryParams: IQueryParams = {
+      categories: ["ZTneo8TaIO"],
+      publisher: "fLH8tXTBBp",
+      name: undefined,
+      min_price: 1,
+      max_price: 1000,
+      min_players: 1,
+      max_players: 20,
+      min_playtime: 5,
+      max_playtime: 120,
+      order_by: undefined,
+      ascending: undefined,
+      client_id: "XZAmoxZ2qA",
+    }
   ) {}
 
   renderPage() {
@@ -34,7 +50,7 @@ export default class Catalog {
     this.addListenerToFiltersOrder();
     this.addListenerToNameInput();
     this.addListenerToRangeInput();
-    this.addButtonSaveListener()
+    this.addButtonSaveListener();
     this.totalGamesFound = getElementBySelector("#total-games-display");
     this.catalogGameList = getElementBySelector("#catalog-list");
     this.addDefaultQuery();
@@ -58,9 +74,16 @@ export default class Catalog {
         return response.json();
       })
       .then((data: any) => {
-        this.drawCards(data.games ? data.games : console.log("You fetch wrong data!"));
-        this.refreshTotalGamesFound(data.count);
-        console.log(data);
+        // console.log(data.games);
+        const filter = new Filter(data);
+        filter.collection = data;
+        // console.log(filter.collection);
+        // Применение фильтров //
+        filter.setQueryParams(this.queryParams);
+        filter.filterByQueryParams();
+        // console.log(filter.collection);
+        this.drawCards(filter.collection.games);
+        this.refreshTotalGamesFound(filter.collection.count);
       });
   }
 
@@ -71,17 +94,25 @@ export default class Catalog {
     }
   }
 
-  resetQueryParams() {
-    this.apiUrl.searchParams.delete("categories");
-    this.apiUrl.searchParams.delete("publisher");
-    this.apiUrl.searchParams.delete("order_by");
-    this.apiUrl.searchParams.delete("ascending");
-    this.apiUrl.searchParams.delete("name");
+  deleteSearchParam(parameters: Array<string>) {
+    for (const parameter of parameters) {
+      this.apiUrl.searchParams.delete(parameter);
+    }
+  }
 
-    this.apiUrl.searchParams.delete("min_players");
-    this.apiUrl.searchParams.delete("max_players");
-    this.apiUrl.searchParams.delete("min_playtime");
-    this.apiUrl.searchParams.delete("max_playtime");
+  resetQueryParams() {
+    const queryParams = [
+      "categories",
+      "publisher",
+      "order_by",
+      "ascending",
+      "name",
+      "min_players",
+      "max_players",
+      "min_playtime",
+      "max_playtime",
+    ];
+    this.deleteSearchParam(queryParams);
 
     this.addQueryParamsFrom("categories", this.qThemes);
     this.addQueryParamsFrom("publisher", this.qPublishers);
@@ -104,6 +135,7 @@ export default class Catalog {
 
   drawCards(items: Array<IGame>) {
     this.catalogGameList.innerHTML = "";
+    console.log(items);
     items.forEach((item: IGame) => {
       const clone = this.templateCard.content.cloneNode(true);
 
@@ -151,7 +183,6 @@ export default class Catalog {
 
   addDefaultQuery() {
     this.apiUrl.searchParams.append("limit", String(this.itemsOnPage));
-    this.apiUrl.searchParams.append("skip", String(this.itemsSkip));
     this.apiUrl.searchParams.append("client_id", "XZAmoxZ2qA");
   }
 
@@ -232,17 +263,6 @@ export default class Catalog {
     });
   }
 
-  // addListenerToRangeInput() {
-  //   getElementBySelector('#searchName').addEventListener('keydown', (e: any) => { // KeyboardEvent?
-  //       if (e.keyCode === 13) {
-  //         this.qName = [];
-  //         this.addToQuery(this.qName, e.target.value);
-  //         console.log(e.target.value);
-  //         this.getAndPlaceData(this.formRequestURL());
-  //       }
-  //   });
-  // }
-
   getInputVals(parent: any, x: number) {
     // Get slider values
     // const parent = getElementBySelector("slider")
@@ -285,7 +305,7 @@ export default class Catalog {
       for (let y = 0; y < sliders.length; y++) {
         // console.log(sliders[y]);
         if (sliders[y].type === "range") {
-          sliders[y].addEventListener("input", (e: any) => {
+          sliders[y].addEventListener("change", (e: any) => {
             this.getInputVals(sliderSections[x], x);
           });
         }
@@ -297,6 +317,8 @@ export default class Catalog {
     getElementBySelector(".button_save").addEventListener("click", (e) => {
       e.preventDefault();
       console.log(String(this.apiUrl)); // Запоминать в кэш
+      this.apiUrl.searchParams.append("categories", "lolka");
+      console.log(this.apiUrl.searchParams.toString());
     });
   }
 
@@ -320,52 +342,4 @@ export default class Catalog {
       this.qMaxTime = [];
     });
   }
-
-  // addOpenCloseToFilters() {
-  //   const filtersBoxes = document.querySelectorAll('.filters__title');
-  //   const filtersLists = document.querySelectorAll('.filters__list');
-  //   console.log(filtersBoxes, filtersLists);
-  // }
 }
-
-// Categories
-const categories = {
-  "Abstract":"hBqZ3Ar4RJ",
-  "Adventure": "KUBCKBkGxV",
-  "Building": "ODWOjWAJj3",
-  "Card-game": "eX8uuNlQkQ",
-  "Cooperative": "ge8pIhEUGE",
-  "Deduction": "bCBXJy9qDw",
-  "Economic": "N0TkEGfEsF",
-  "Fantasy": "ZTneo8TaIO",
-  "Fighting": "upXZ8vNfNO",
-  "Humor": "TYnxiuiI3X",
-  "Sci-Fi": "3B3QpKvXD3",
-  "Wargame": "jX8asGGR6o",
-}
-
-const publishers = {
-  "Fantasy Flight Games": "fLH8tXTBBp",
-  "Hasbro": "IirRC59g8r",
-  "Wizards of the Coast": "LjmghcBsOU",
-  "Asmodee": "1LE7oe5KVZ",
-  "Eagle-Gryphon Games": "u02tuZCku5",
-  "Rio Grande Games": "BrfTva4mEF",
-  "Z-Man Games, Inc.": "UPqP0MXLqj",
-  "Alderac Entertainment Group": "m4T08lQftL",
-  "IELLO": "Qx6KrgnjCA",
-  "Queen Games": "OQJtEkBNQV",
-  "Portal Games": "YnNKwCizDo",
-  "Stronghold Games": "fp9ajXmUFW",
-}
-
-// Более унифицированная функция которая может получать любые данные
-// getData(url: URL, callback: Function, errorMsg = "Something went wrong") {
-//   return fetch(url)
-//     .then((response: any) => {
-//       if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
-
-//       return response.json();
-//     })
-//     .then((data: any) => callback(data));
-// }

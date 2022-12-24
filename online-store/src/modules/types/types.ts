@@ -6,6 +6,7 @@ interface IGamesArray {
 interface IGame {
   id: string;
   name: string;
+  categories: Array<any>;
   description_preview: string;
   average_user_rating: number;
 
@@ -15,17 +16,11 @@ interface IGame {
 
   thumb_url: string;
   image_url: string;
-  images: {
-    large: string;
-    medium: string;
-    original: string;
-    small: string;
-    thumb: string;
-  };
 
-  primary_publisher: {
+  primary_publisher: Array<{
+    id: string;
     name: string;
-  };
+  }>;
 
   min_players: number;
   max_players: number;
@@ -33,6 +28,21 @@ interface IGame {
   min_playtime: number;
 
   url: string;
+}
+
+interface IQueryParams {
+  categories: Array<string> | undefined;
+  publisher: string | undefined;
+  name: string | undefined;
+  min_price: number | undefined;
+  max_price: number | undefined;
+  min_players: number | undefined;
+  max_players: number | undefined;
+  min_playtime: number | undefined;
+  max_playtime: number | undefined;
+  order_by: string | undefined;
+  ascending: boolean | undefined;
+  client_id: string;
 }
 
 function getElementBySelector<T extends HTMLElement>(
@@ -45,4 +55,4 @@ function getElementBySelector<T extends HTMLElement>(
   return element;
 }
 
-export { getElementBySelector, IGame, IGamesArray };
+export { getElementBySelector, IGame, IGamesArray, IQueryParams };
