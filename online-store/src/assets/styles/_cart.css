@@ -7,6 +7,7 @@ main .container {
     border: 1px solid orange;
     border-radius: 10px;
 }
+
 .cart-info {
     display: flex;
     justify-content: space-between;
@@ -14,6 +15,7 @@ main .container {
     padding: 10px;
     border-bottom: 1px solid orange;
 }
+
 .cart-page button {
     border-radius: 50px;
     height: 25px;
@@ -28,37 +30,46 @@ main .container {
 .cart-item-container {
     border-bottom: 1px solid orange;
 }
+
 .cart-item-container:last-of-type {
     border-bottom: none;
 }
+
 .cart-item {
     display: flex;
     align-items: center;
     margin: 10px;
     justify-content: space-between;
 }
+
 .item-id {
     width: 4%;
 }
+
 .item-info {
     display: flex;
 }
+
 .item-info img{
     display: block;
     width: 100px;
     margin-right: 15px;
 }
+
 .item-description .other {
     display: flex;
     justify-content: space-between;
 }
+
 .stock-info {
     text-align: center;
     width: 30%;
 }
+
 .item-num {
     margin-bottom: 10px;
 }
+
 .item-num button {
     border-radius: 50px;
     height: 25px;
@@ -78,13 +89,16 @@ main .container {
     text-align: center;
     padding: 10px;
 }
+
 .sum-res {
     margin-bottom: 10px;
 }
+
 .sum-desc .total {
     font-size: 1.3em;
     margin-bottom: 20px;
 }
+
 .sum-desc input[type="text"] {
     width: 70%;
     border: 1px solid orange;
@@ -95,6 +109,7 @@ main .container {
     font-size: 100%;
     margin-bottom: 20px;
 }
+
 .sum-desc button {
     cursor: pointer;
     background: orange;
@@ -106,6 +121,7 @@ main .container {
     color: #FFFFFF;
     text-transform: uppercase;
 }
+
 .sum-desc .act-promo {
     margin-bottom: 20px;
 }

@@ -12,6 +12,7 @@ class App {
     public cart: Array<any> = [],
     public totalCost = 0
   ) {}
+
 }
 
 export default App;

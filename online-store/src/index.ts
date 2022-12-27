@@ -88,7 +88,6 @@ const pageTitle: any = getElementBySelector("#page-title");
 //   });
 // }
 
-
 getElementBySelector("#error").addEventListener("click", (e) => {
   e.preventDefault();
   window.history.pushState({}, "/404", window.location.origin + "/404");
