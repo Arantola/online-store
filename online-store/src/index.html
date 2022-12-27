@@ -8,187 +8,267 @@
         <link type="css" rel="stylesheet" href="/src/assets/styles/_cart.css">
         <link type="css" rel="stylesheet" href="./assets/styles/_catalog.css">
         <link type="css" rel="stylesheet" href="./assets/styles/_description.css">
+        <link type="css" rel="stylesheet" href="./assets/styles/_card.css">
+        <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700;900&display=swap" rel="stylesheet">
         <title>Main</title>
     </head>
     <body>
-        <header>
-            <div class="container">
-                <div class="logo">
-                    <a href="../main/index.html"><h1>LOGO</h1></a>
-                </div>
-                <div class="cart">
-                    <a href="./pages/cart.html"><img src="./assets/icons/shopping-cart.svg" alt="cart"></a>
-                </div>
+        <div class="wrapper">
+            <div class="content">
+                <header>
+                    <div class="container_header container">
+                        <div class="logo">
+                            <a href="../main/index.html"><h1>LOGO</h1></a>
+                        </div>
+                        <div class="total-cost">
+                            <span class="total-cost-info">Total cost: 1412$</span>
+                        </div>
+                        <div class="cart">
+                            <a class="cart__link" href="/cart"></a>
+                        </div>
+                    </div>
+                </header>
+                <div class="banner"></div>
+                <main id="main"></main>
             </div>
-        </header>
-        <main id="main">
-            <div class="container flex-box">
-                <div class="filter">
-                    <div class="filter-box">
-                        <h3>Theme</h3>
-                        <div class="filter-list">
-                            <div class="checkbox-info">
-                                <input id="theme_1" type="checkbox">
-                                <label for="theme_1">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_2" type="checkbox">
-                                <label for="theme_2">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_3" type="checkbox">
-                                <label for="theme_3">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_1" type="checkbox">
-                                <label for="theme_1">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_2" type="checkbox">
-                                <label for="theme_2">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_3" type="checkbox">
-                                <label for="theme_3">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_1" type="checkbox">
-                                <label for="theme_1">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_2" type="checkbox">
-                                <label for="theme_2">Abstract</label>
-                                <span>23</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="theme_3" type="checkbox">
-                                <label for="theme_3">Abstract</label>
-                                <span>23</span>
-                            </div>
+            <footer>
+                <div class="container">
+                    <div class="RSSchool">
+                        <a class="link_RSSchool" href="https://rs.school/js/"><img src="./assets/icons/rs_school_js.svg" alt="RS-logo"></a>
+                    </div>
+                    <div class="git-info">
+                        <p>Created by
+                            <a href="https://github.com/MonstersBY">MonstersBY</a> and 
+                            <a href="https://github.com/MonstersBY">Arantola</a>
+                            in 2022
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <template id="catalog-filters">
+            <div class="container">
+                <div class="filters">
+                    <div class="filters__title">
+                        <button class="button_reset">Reset filters</button>
+                        <button class="button_save">Get link</button>
+                    </div>
+                    <div class="filters__box">
+                        <h3 class="filters__title">Theme</h3>
+                        <ul class="filters__list">
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_1" idAPI="hBqZ3Ar4RJ" type="checkbox">
+                                <label class="checkbox__label" for="theme_1">Abstract
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_2" idAPI="KUBCKBkGxV" type="checkbox">
+                                <label class="checkbox__label" for="theme_2">Adventure
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_3" idAPI="ODWOjWAJj3" type="checkbox">
+                                <label class="checkbox__label" for="theme_3">Building
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_4" idAPI="eX8uuNlQkQ" type="checkbox">
+                                <label class="checkbox__label" for="theme_4">Card-game
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_5" idAPI="ge8pIhEUGE" type="checkbox">
+                                <label class="checkbox__label" for="theme_5">Cooperative
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_6" idAPI="bCBXJy9qDw" type="checkbox">
+                                <label class="checkbox__label" for="theme_6">Deduction
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_7" idAPI="N0TkEGfEsF" type="checkbox">
+                                <label class="checkbox__label" for="theme_7">Economic
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_8" idAPI="ZTneo8TaIO" type="checkbox">
+                                <label class="checkbox__label" for="theme_8">Fantasy
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_9" idAPI="upXZ8vNfNO" type="checkbox">
+                                <label class="checkbox__label" for="theme_9">Fighting
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_10" idAPI="TYnxiuiI3X" type="checkbox">
+                                <label class="checkbox__label" for="theme_10">Humor
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_11" idAPI="3B3QpKvXD3" type="checkbox">
+                                <label class="checkbox__label" for="theme_11">Sci-Fi
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_theme" id="theme_12" idAPI="jX8asGGR6o" type="checkbox">
+                                <label class="checkbox__label" for="theme_12">Wargame
+                                    <span class="checkbox__counter">23</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="filters__box">
+                        <h3 class="filters__title">Publishers</h3>
+                        <ul class="filter-list">
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_1" idAPI="fLH8tXTBBp" type="checkbox">
+                                <label class="checkbox__label" for="brand_1">Fantasy Flight Games
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_2" idAPI="IirRC59g8r" type="checkbox">
+                                <label class="checkbox__label" for="brand_2">Hasbro
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_3" idAPI="LjmghcBsOU" type="checkbox">
+                                <label class="checkbox__label" for="brand_3">Wizards of the Coast
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_4" idAPI="1LE7oe5KVZ" type="checkbox">
+                                <label class="checkbox__label" for="brand_4">Asmodee
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_5" idAPI="u02tuZCku5" type="checkbox">
+                                <label class="checkbox__label" for="brand_5">Eagle-Gryphon Games
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_6" idAPI="BrfTva4mEF" type="checkbox">
+                                <label class="checkbox__label" for="brand_6">Rio Grande Games
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_7" idAPI="UPqP0MXLqj" type="checkbox">
+                                <label class="checkbox__label" for="brand_7">Z-Man Games, Inc.
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_8" idAPI="m4T08lQftL" type="checkbox">
+                                <label class="checkbox__label" for="brand_8">Alderac Entertainment Group
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_9" idAPI="Qx6KrgnjCA" type="checkbox">
+                                <label class="checkbox__label" for="brand_9">IELLO
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_10" idAPI="OQJtEkBNQV" type="checkbox">
+                                <label class="checkbox__label" for="brand_10">Queen Games
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_11" idAPI="YnNKwCizDo" type="checkbox">
+                                <label class="checkbox__label" for="brand_11">Portal Games
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                            <li class="checkbox__box">
+                                <input class="checkbox__input checkbox_publisher" id="brand_12" idAPI="fp9ajXmUFW" type="checkbox">
+                                <label class="checkbox__label" for="brand_12">Stronghold Games
+                                    <span class="checkbox__counter">11</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="filters__box slider">
+                        <h3 class="filters__title">Playtime</h3>
+                        <span class="slider__data">5 - 120</span>
+                        <div class="slider__double-range">
+                            <div class="slider__track"></div>
+                            <input class="slider__input" id="time-slider-min" type="range" min="5" max="120" value="5" step="5">
+                            <input class="slider__input" id="time-slider-max" type="range" min="5" max="120" value="120" step="5">
                         </div>
                     </div>
-                    <div class="filter-box">
-                        <h3>Brand</h3>
-                        <div class="filter-list">
-                            <div class="checkbox-info">
-                                <input id="brand_1" type="checkbox">
-                                <label for="brand_1">Dream Makers</label>
-                                <span>11</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="brand_2" type="checkbox">
-                                <label for="brand_2">Dream Makers</label>
-                                <span>11</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="brand_3" type="checkbox">
-                                <label for="brand_3">Dream Makers</label>
-                                <span>11</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="brand_1" type="checkbox">
-                                <label for="brand_1">Dream Makers</label>
-                                <span>11</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="brand_2" type="checkbox">
-                                <label for="brand_2">Dream Makers</label>
-                                <span>11</span>
-                            </div>
-                            <div class="checkbox-info">
-                                <input id="brand_3" type="checkbox">
-                                <label for="brand_3">Dream Makers</label>
-                                <span>11</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-box">
-                        <h3>Price</h3>
-                        <div class="range-data">
-                            <span>10</span><span>-</span><span>20000</span>
-                        </div>
-                        <div class="double-range">
-                            <div class="slider-track"></div>
-                            <input id="price-slide-1" type="range" min="0" max="100" value="0">
-                            <input id="price-slide-2" type="range" min="0" max="100" value="100">
-                        </div>
-                    </div>
-                    <div class="filter-box">
-                        <h3>Number of players</h3>
-                        <div class="range-data">
-                            <span>10</span><span>-</span><span>20000</span>
-                        </div>
-                        <div class="double-range">
-                            <div class="slider-track"></div>
-                            <input id="players-slide-1" type="range" min="0" max="100" value="0">
-                            <input id="players-slide-2" type="range" min="0" max="100" value="100">
+                    <div class="filters__box slider">
+                        <h3 class="filters__title">Number of players</h3>
+                        <span class="slider__data">1 - 20</span>
+                        <div class="slider__double-range">
+                            <div class="slider__track"></div>
+                            <input class="slider__input" id="players-slider-min" type="range" min="1" max="20" value="1" step="1">
+                            <input class="slider__input" id="players-slider-max" type="range" min="1" max="20" value="20" step="1">
                         </div>
                     </div>
                 </div>
+
                 <div class="products">
                     <div class="sort-products">
-                        <div class="sort-bar">
-                            <select id="sort-option">
+                        <form class="sort-bar" name="sort">
+                            <select name="sortList" id="sort-list">
                                 <option value="">Default</option>
-                                <option value="">Ascending price</option>
-                                <option value="">Descending price</option>
-                                <option value="">Ascending rating</option>
-                                <option value="">Descending rating</option>
+                                <option value="price" data-ascending="true">Ascending price</option>
+                                <option value="price" data-ascending="false">Descending price</option>
+                                <option value="rank" data-ascending="true">Ascending rating</option>
+                                <option value="rank" data-ascending="false">Descending rating</option>
                             </select>
-                        </div>
-                        <div class="total-found"> Found:<span>00</span></div>
+                        </form>
+                        <div class="total-found"> Found: <span id="total-games-display">0</span></div>
                         <div class="search-bar">
-                            <input type="search" name="" id="" placeholder="Search product">
+                            <input type="search" name="" id="searchName" placeholder="Search product">
                         </div>
                         <div class="view-bar">
                             <div class="view-card"><img src="../../assets/icons/cards.svg" alt="cards"></div>
                             <div class="view-list"><img src="../../assets/icons/list.svg" alt="list"></div>
                         </div>
                     </div>
-                    <div class="products-lists"  id="product-list"></div>
-                </div>
-            </div>
-        </main>
-        <footer>
-            <div class="container">
-                <div class="RSSchool">
-                    <a href="https://rs.school/js/"><img src="./assets/icons/rs_school_js.svg" alt="RS-logo"></a>
-                </div>
-                <div class="git-info">
-                    <a href="https://github.com/MonstersBY">
-                        <p>Created 2022 by MonstersBY and Arantola</p> 
-                        <p>Git link</p>
-                    </a> 
-                </div>
-            </div>
-        </footer>
-
-        <template id="product-card">
-            <div class="product-card-container">
-                <a href="#">
-                <div class="product-card">
-                    <div class="product-img"><img src="../../assets/images/red-dragon.jpg" alt="board game name"></div>
-                    <div class="product-description">
-                        <div class="name">Bobi story</div>
-                        <div class="small-di">it's story about Bobi</div>
-                    </div>
-                    <div class="add-cart">
-                        <button>
-                            <img src="../../assets/icons/shopping-cart.svg" alt="cart">
-                            151$
-                        </button>
+                    <div class="products__list" id="catalog-list">
                     </div>
                 </div>
-                </a>
             </div>
         </template>
+
+        <template id="product-card">
+            <a class="card card__link" href="/" id="">
+                <div class="card__info">
+                    <div class="card__img-wrapper"><img class="card__img" src="" alt=""><img class="card__img_alt" src="" alt=""></div>
+                    <div class="card__name"></div>
+                    <div class="card__price"></div>
+                </div>
+                <div class="card__buttons">
+                    <button class="card__button_cart button">Add to cart</button>
+                    <button class="card__button_info button">More info</button>
+                </div>
+            </a>
+        </template>
+
 
     </body>
 </html>

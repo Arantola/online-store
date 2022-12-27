@@ -1,38 +1,39 @@
+html,
+body {
+    height: 100%;
+    font-family: 'Titillium Web', sans-serif;
+}
+
 body {
     margin: 0;
-    background-color: white;
+    background-color: #f7f7f7;
     color: black;
 }
+
 p {
     margin: 0;
 }
-.container {
-    margin-left: auto;
-    margin-right: auto;
-    width: 1160px;
-    display: flex;
-}
-main .container {
-    width: 1200px;
-}
+
 a {
     color: black;
     text-decoration: none;
 }
+
 h1, h3, h2 {
     margin: 0;
 }
 
-
-header .container {
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid orange;
-    padding: 10px 20px;
-    border-radius: 0 0 10px 10px;
+.cart {
+    background: url('../icons/shopping-cart.svg') center center contain blue;
+    background-size: cover;
 }
-header .cart img{
+
+.cart__link{
+    display: block;
     width: 25px;
+    height: 25px;
+    background: url('../icons/shopping-cart.svg') center center contain blue;
+    background-size: contain;
 }
 
 main {
@@ -40,18 +41,71 @@ main {
     margin-bottom: 20px;
 }
 
-footer .container {
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid orange;
-    padding: 10px 20px;
-    border-radius: 10px 10px 0 0;
+footer {
+    flex: 0 0 auto;
 }
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+footer {
+    background: #231f20;
+    color: #fff;
+}
+
+footer a {
+    color: #4169e1;
+}
+
 footer img{
     width: 150px;
 }
+
 footer .git-info{
     text-align: center;
+}
+
+.container {
+    margin: 0 auto;
+    width: 1160px;
+    display: flex;
+}
+
+header {
+    background: white;
+    box-shadow: 0 8px 20px #0003;
+}
+
+header .container {
+    align-items: center;
+    justify-content: space-between;
+    /* border: 1px solid orange; */
+    padding: 10px 20px;
+    /* border-radius: 0 0 10px 10px; */
+}
+
+.banner {
+    margin-bottom: -60px;
+    height: 270px;
+    background: url("../images/hero-shop.webp") no-repeat center center ;
+}
+
+main .container {
+    width: 1200px;
+}
+
+footer .container {
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-radius: 10px 10px 0 0;
 }
 
 @media (max-width: 1440px) {
@@ -70,4 +124,8 @@ footer .git-info{
     .container {
         width: 300px;
     }
+}
+
+.hidden {
+    visibility: hidden;
 }

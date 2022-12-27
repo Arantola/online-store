@@ -1,14 +1,15 @@
-import { getElementBySelector } from "./types/index";
+import { getElementBySelector } from "./types/types";
 
 export default class Cart {
   constructor(
-    public section: HTMLElement = getElementBySelector("#product-list"),
-    public template: any = getElementBySelector("#product-card"),
-    public itemsOnPage = 12,
+    public main: HTMLElement = getElementBySelector("#main"),
+    public templateCart: any = getElementBySelector("#cart"),
+    public itemsOnPage = 6,
     public cart = []
   ) {}
 
   renderPage() {
     return;
   }
+
 }

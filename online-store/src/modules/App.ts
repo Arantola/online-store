@@ -1,3 +1,4 @@
+
 import Cart from "./Cart";
 import Catalog from "./Catalog";
 import Item from "./Item";
@@ -5,6 +6,7 @@ import Error from "./Error";
 
 class App {
   constructor(
+
     public catalogPage: Catalog = new Catalog(),
     public cartPage: Cart = new Cart(),
     public itemPage: Item = new Item(),
@@ -21,18 +23,22 @@ class App {
     // Получить pathname
     switch (pageURL.pathname) {
       case "/catalog":
-        this.catalogPage.renderPage();
+        alert(`Ты в каталоге`);
+        // this.loader.passDataToRender('url', this.renderer.drawCards());
         break;
       case "/cart":
-        this.cartPage.renderPage();
+        alert(`Ты в каталоге`);
+        // this.cartPage.renderPage();
         break;
       case "/item":
-        this.itemPage.renderPage();
+        alert(`Ты в товаре`);
+        // this.itemPage.renderPage();
         break;
       default:
-        this.errorPage.renderPage();
+        // this.errorPage.renderPage();
     }
   }
+
 }
 
 export default App;

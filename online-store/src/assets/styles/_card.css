@@ -1,0 +1,65 @@
+.card {
+  max-width: 23%;
+  margin: 1%;
+  padding-top: 10px;
+  height: 300px;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background: #fff;
+}
+
+.card:hover,
+.card:focus {
+  color: #231f20;
+  background-image: linear-gradient(180deg,white 0%,#f7f7f7 100%);
+  box-shadow: 0 0 14px #0000001a;
+  z-index: 1;
+}
+
+.card__info {
+  flex-grow: 1;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.card__img {
+  display: block;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  max-height: 200px;
+}
+
+.add-cart button {
+  border-radius: 50px;
+  height: 40px;
+  padding: 5px 20px;
+  font-size: 1rem;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.25);
+  user-select: none;
+  border: 0;
+  cursor: pointer;
+  background: orange;
+  white-space: nowrap;
+}
+
+.card__buttons {
+  height: 15%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card__button_cart {
+  width: 50%;
+  background: #4169e1;
+}
+
+.card__button_info {
+  width: 50%;
+  background: linear-gradient(360deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+}

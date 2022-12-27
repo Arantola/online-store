@@ -21,10 +21,12 @@
     border-radius: 10px;
     border: 2px solid orange;
 }
+
 .modal-close-container {
     position: absolute;
     width: 60%;
 }
+
 .modal-content h2 {
     margin-bottom: 20px;
 }
@@ -36,6 +38,7 @@
     position: absolute;
     left: 98%;
 }
+
 .close:hover,
 .close:focus {
   color: #000;
@@ -47,6 +50,7 @@
     display: flex;
     margin-bottom: 35px;
 }
+
 .input-error {
     width: 50px;
     padding-left: 50px;
@@ -57,9 +61,11 @@
 .group {
     position: relative;
 }
+
 .group:last-of-type {
     margin-top: 120px;
 }
+
 .group input {
     font-size: 14px;
     padding: 10px 10px 10px 5px;
@@ -70,9 +76,11 @@
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
 }
+
 .group input:focus {
     outline: none;
 }
+
 .group label {
     color: black;
     font-size: 14px;
@@ -85,16 +93,19 @@
     -o-transition: 0.2s ease all;
     transition: 0.2s ease all;
 }
+
 .group input:focus ~ label, .group input:valid ~ label  {
     top: -10px;
     font-size: 12px;
     color: orange;
 }
+
 .group .bar {
     position: relative;
     display: block;
     width: 500px;
 }
+
 .group .bar::before, .group .bar::after {
     content: '';
     height: 2px;
@@ -106,15 +117,19 @@
     -o-transition: 0.2s ease all;
     transition: 0.2s ease all;
 }
+
 .group .bar::before {
     left: 50%;
 }
+
 .group .bar::after {
     right: 50%;
 }
+
 .group input:focus ~ .bar::before, .group input:focus ~ .bar::after {
     width: 50%;
 }
+
 .group .highlight {
     position: absolute;
     height: 60%;
@@ -124,18 +139,22 @@
     pointer-events: none;
     opacity: 0.5;
 }
+
 .group input:focus ~ .highlight {
     -webkit-animation: inputHighlighter 0.3s ease;
             animation: inputHighlighter 0.3s ease;
 }
+
 @-webkit-keyframes inputHighlighter {
     from { background: orange;}
     to { width: 0; background: transparent;}
 }
+
 @keyframes inputHighlighter {
     from { background: orange;}
     to { width: 0; background: transparent;}
 }
+
 .modal-info-container {
     display: flex;
 }
@@ -152,14 +171,17 @@
     align-items: center;
     justify-content: center;
 }
+
 .card-number {
     display: flex;
     padding-bottom: 20px;
 }
+
 .card-num-img {
     width: 50px;
     margin: 0 10px;
 }
+
 .card-number input {
     font-size: 14px;
     padding: 1px 1px 1px 5px;
@@ -168,6 +190,7 @@
     border: none;
     box-sizing: border-box;
 }
+
 .card-number input:focus {
     outline: none;
 }
@@ -175,9 +198,11 @@
 .card-other, .card-other-num {
     display: flex;
 }
+
 .card-other-num:first-of-type {
     margin-right: 10px;
 }
+
 .card-other-num input[type="text"] {
     width: 50px;
 }
@@ -185,6 +210,7 @@
 .card-other-num div {
     margin-right: 5px;
 }
+
 .card-other-num input {
     font-size: 14px;
     padding: 1px 1px 1px 5px;
@@ -193,6 +219,7 @@
     border: none;
     box-sizing: border-box;
 }
+
 .card-other-num input:focus {
     outline: none;
 }
@@ -207,6 +234,7 @@
     color: #FFFFFF;
     text-transform: uppercase;
 }
+
 .order-btn.active {
     background: orange;
     cursor: pointer;
