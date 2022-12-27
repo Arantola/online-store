@@ -186,8 +186,6 @@
     width: 25px;
 }
 
-
-
 .checkbox__counter {
     visibility: hidden;
 }
@@ -196,8 +194,6 @@
 .sort-bar select {
     box-shadow: inset 0 0 14px #0000001a;
 }
-
-
 
 @mixin range-slider($width, $height, $input-top, $input-bg-color, $input-thumb-color, $float:none, $input-height:20px, $input-border-radius:14px) {
     position: relative;

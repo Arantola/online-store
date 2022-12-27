@@ -19,10 +19,6 @@ a {
     text-decoration: none;
 }
 
-button {
-
-}
-
 h1, h3, h2 {
     margin: 0;
 }
@@ -75,7 +71,6 @@ footer img{
 footer .git-info{
     text-align: center;
 }
-
 
 .container {
     margin: 0 auto;
