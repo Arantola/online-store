@@ -11,10 +11,6 @@ import App from "./modules/App";
 const app = new App();
 app.catalogPage.renderPage();
 
-// app.catalogPage.getData(new URL("https://api.boardgameatlas.com/api/game/categories?client_id=XZAmoxZ2qA"));
-
-// setTimeout(() => app.renderCatalog(new URL("https://api.boardgameatlas.com/api/search?name=Catan&client_id=XZAmoxZ2qA")), 3000)
-
 window.addEventListener("popstate", e => {
   alert(`location: ${document.location}, state: ${JSON.stringify(e.state)}`)
   app.checkURL(new URL(String(document.location)));
