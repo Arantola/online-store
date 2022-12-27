@@ -1,5 +1,3 @@
-// import Loader from "./Loader";
-// import Renderer from "./Renderer";
 
 import Cart from "./Cart";
 import Catalog from "./Catalog";
@@ -8,8 +6,6 @@ import Error from "./Error";
 
 class App {
   constructor(
-    // public loader: Loader = new Loader(),
-    // public renderer: Renderer = new Renderer(),
 
     public catalogPage: Catalog = new Catalog(),
     public cartPage: Cart = new Cart(),
@@ -22,11 +18,6 @@ class App {
   renderHeaderFooter() {
     this.totalCost;
   }
-
-  // async renderCatalog(pageURL: URL) {
-  //   console.log(pageURL);
-  //   await this.loader.passDataToRender(pageURL, this.renderer.drawCards);
-  // }
 
   checkURL(pageURL: URL) {
     // Получить pathname

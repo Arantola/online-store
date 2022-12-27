@@ -1,5 +1,4 @@
 import { getElementBySelector } from "./types/types";
-// import { Page } from "./Page";
 
 class Item {
   constructor(
