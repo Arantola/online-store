@@ -4,7 +4,7 @@ import { getElementBySelector } from "./types/types";
 class Item {
   constructor(
     public main: HTMLElement = getElementBySelector("#main"),
-    public template: any = getElementBySelector("#description"),
+    // public template: any = getElementBySelector("#description"),
     public apiUrl: URL = new URL('https://api.boardgameatlas.com/'),
     public pathname = "/api/search",
     public gameID: string = ""
@@ -12,8 +12,8 @@ class Item {
 
   renderPage() {
     this.main.innerHTML = "";
-    const clone = this.template.content.cloneNode(true);
-    this.main.appendChild(clone);
+    // const clone = this.template.content.cloneNode(true);
+    // this.main.appendChild(clone);
     this.addCardInfo();
     this.addListeners();
   }

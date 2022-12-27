@@ -31,18 +31,18 @@ interface IGame {
 }
 
 interface IQueryParams {
-  categories: Array<string> | undefined;
-  publisher: string | undefined;
-  name: string | undefined;
-  min_price: number | undefined;
-  max_price: number | undefined;
-  min_players: number | undefined;
-  max_players: number | undefined;
-  min_playtime: number | undefined;
-  max_playtime: number | undefined;
-  order_by: string | undefined;
-  ascending: boolean | undefined;
-  client_id: string;
+  categories: Array<string | undefined>;
+  publishers: Array<string | undefined>;
+  name: Array<string | undefined>;
+  min_price: Array<number | undefined>;
+  max_price: Array<number | undefined>;
+  min_players: Array<number | undefined>;
+  max_players: Array<number | undefined>;
+  min_playtime: Array<number | undefined>;
+  max_playtime: Array<number | undefined>;
+  order_by: Array<string | undefined>;
+  ascending: Array<string | undefined>;
+  client_id: Array<string | undefined>;
 }
 
 function getElementBySelector<T extends HTMLElement>(
