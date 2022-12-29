@@ -6,28 +6,34 @@ interface IGamesArray {
 interface IGame {
   id: string;
   name: string;
-  categories: Array<any>;
-  description_preview: string;
-  average_user_rating: number;
-
   price: string;
-  price_text: string;
   discount: string;
 
-  thumb_url: string;
-  image_url: string;
-
-  primary_publisher: Array<{
-    id: string;
-    name: string;
-  }>;
+  average_user_rating: number;
+  average_learning_complexity: number;
 
   min_players: number;
   max_players: number;
   max_playtime: number;
   min_playtime: number;
 
-  url: string;
+  art: string;
+  designer: string;
+  categories: Array<string>;
+  publisher: {
+    id: string;
+    name: string;
+  };
+
+  description: string;
+
+  images: {
+    logo: string;
+    box: string;
+    background: string;
+    photo1: string;
+    photo2: string;
+  };
 }
 
 interface IQueryParams {
