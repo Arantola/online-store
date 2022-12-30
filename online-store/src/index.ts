@@ -6,6 +6,7 @@ import "./assets/styles/_cart.css";
 import "./assets/styles/_description.css";
 import "./assets/styles/_all.css";
 import "./assets/styles/_card.css";
+import "./assets/styles/_modal.css";
 import App from "./modules/App";
 import catalog from "./pages/catalog";
 import cart from "./pages/cart";
@@ -102,6 +103,7 @@ getElementBySelector("#cart").addEventListener("click", (e) => {
   rootDiv.innerHTML = "";
   rootDiv.insertAdjacentHTML("afterbegin", routes["/cart"].template);
   pageTitle.innerHTML = routes["/cart"].title;
+  app.cartPage.renderPage();
 });
 
 getElementBySelector("#product").addEventListener("click", (e) => {
