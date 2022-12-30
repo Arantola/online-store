@@ -14,26 +14,26 @@ class Router {
     public productPage: Product,
     private routes: Iroutes = {
       "/catalog": {
-        title: "Catalog | Online-store",
+        title: "Online-store | Catalog",
         template: catalog,
       },
       "/cart": {
-        title: "Cart | Online-store",
+        title: "Online-store | Cart",
         template: cart,
       },
       "/product": {
-        title: "Product | Online-store",
+        title: "Online-store | Product",
         template: product,
       },
       "/404": {
-        title: "404 | Online-store",
+        title: "Online-store | Page not found",
         template: errorPage,
       },
     }
   ) {}
 
   addRoute(route: string) {
-    window.history.pushState({}, route, window.location.origin + route + document.location.search);
+    // window.history.pushState({}, route, window.location.origin + route + document.location.search);
     getElementBySelector("#root").innerHTML = "";
     getElementBySelector("#root").insertAdjacentHTML(
       "afterbegin",
@@ -46,12 +46,18 @@ class Router {
   setRoutes() {
     // Dont work correctly enough:
     // Cases catalog/something or cart/something  must do default but don't
-    // Work with search query params after 404
     switch (window.location.pathname) {
       case "/":
+        window.history.pushState(
+          {},
+          "/catalog",
+          window.location.origin + "/catalog" + document.location.search
+        );
+        this.addRoute("/catalog");
+        this.catalogPage.renderPage();
+        break;
       case "/catalog":
         this.addRoute("/catalog");
-        // Здесь нужно передать query параметры в filter
         this.catalogPage.renderPage();
         break;
       case "/cart":
