@@ -36,6 +36,13 @@ interface IGame {
   };
 }
 
+interface Iroutes {
+  readonly [key: string]: {
+    title: string;
+    template: string;
+  };
+}
+
 interface IQueryParams {
   categories: Array<string | undefined>;
   publishers: Array<string | undefined>;
@@ -61,4 +68,4 @@ function getElementBySelector<T extends HTMLElement>(
   return element;
 }
 
-export { getElementBySelector, IGame, IGamesArray, IQueryParams };
+export { getElementBySelector, IGame, IGamesArray, IQueryParams, Iroutes };

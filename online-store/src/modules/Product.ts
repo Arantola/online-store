@@ -1,20 +1,10 @@
 import { getElementBySelector } from "./types/types";
 
-class Item {
-  constructor(
-    public main: HTMLElement = getElementBySelector("#main"),
-    // public template: any = getElementBySelector("#description"),
-    public apiUrl: URL = new URL('https://api.boardgameatlas.com/'),
-    public pathname = "/api/search",
-    public gameID: string = ""
-  ) {}
+class Product {
+  constructor( public gameID: string = "") {}
 
   renderPage() {
-    this.main.innerHTML = "";
-    // const clone = this.template.content.cloneNode(true);
-    // this.main.appendChild(clone);
-    this.addCardInfo();
-    this.addListeners();
+    return;
   }
 
   addCardInfo(game?: any) {
@@ -34,4 +24,4 @@ class Item {
 
 }
 
-export default Item;
+export default Product;

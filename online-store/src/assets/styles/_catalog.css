@@ -185,9 +185,9 @@
     width: 25px;
 }
 
-.checkbox__counter {
+/* .checkbox__counter {
     visibility: hidden;
-}
+} */
 
 .search-bar input,
 .sort-bar select {

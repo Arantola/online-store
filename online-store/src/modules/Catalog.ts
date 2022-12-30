@@ -1,24 +1,31 @@
 import { getElementBySelector, IGame, IQueryParams } from "./types/types";
 import Filter from "./Filter";
 import QueryParams from "./QueryParams";
+import gamesDataArray from "../data/gamesDataArray";
 
 export default class Catalog {
   constructor(
-    public apiUrl: URL = new URL('https://api.boardgameatlas.com/api/search?limit=100&client_id=XZAmoxZ2qA'),
+    // public apiUrl: URL = new URL('https://api.boardgameatlas.com/api/search?limit=12&categories=jX8asGGR6o&client_id=XZAmoxZ2qA'),
+    public apiUrl: URL = new URL('https://api.boardgameatlas.com/api/game/images?limit=6&game_id=i5Oqu5VZgP&client_id=XZAmoxZ2qA'),
     public queryParams: IQueryParams = new QueryParams(),
-    public filter = new Filter()
+    public gameList = gamesDataArray,
+    public filter = new Filter(),
+    public newGameList: Array<any> = []
   ) {}
 
   renderPage() {
+    this.filter.initialCollection = JSON.stringify(gamesDataArray);
     const main = getElementBySelector("#main");
     main.innerHTML = "";
+    this.filterAndDrawCards();
     // this.renderFilters(main);
-    this.getAndPlaceData(this.apiUrl);
+    // this.getAndPlaceData(this.apiUrl);
+    // this.addPictures();
     this.addListeners();
   }
 
   addListeners() {
-    this.addListenerToFilters(".checkbox_theme", this.queryParams.categories);
+    this.addListenerToFilters(".checkbox__box", this.queryParams.categories);
     this.addListenerToFilters(
       ".checkbox_publisher",
       this.queryParams.publishers
@@ -42,19 +49,60 @@ export default class Catalog {
   }
 
   getAndPlaceData(url: any) {
-    return fetch(url)
-      .then((response: any) => {
-        if (!response.ok) throw new Error("Error: " + ` (${response.status})`);
+    // return fetch(url)
+    //   .then((response: any) => {
+    //     if (!response.ok) throw new Error("Error: " + ` (${response.status})`);
 
-        return response.json();
-      })
-      .then((data: any) => {
-        this.filter.initialCollection = JSON.stringify(data);
-        this.filter.collection = JSON.parse(this.filter.initialCollection);
-        console.log(this.filter.collection);
-        this.filterAndDrawCards();
-      });
+    //     return response.json();
+    //   })
+    //   .then((data: any) => {
+    //     console.log(data);
+        // this.filter.initialCollection = uniqueData;
+        // this.filter.collection = JSON.parse(this.filter.initialCollection);
+        // this.filter.collection = data;
+        // console.log(uniqueData.length, uniqueData);
+
+        // this.logList(data.games);
+        // console.log(this.filter.collection);
+        
+        // this.filterAndDrawCards();
+      // });
+
+
   }
+
+  // addPictures() {
+  //   const partOfGameList: any = this.gameList.slice(0, 50);
+  //   const newGameList: any = [];
+  //   for (const game of partOfGameList) {
+  //     const url = new URL(`https://api.boardgameatlas.com/api/game/images?limit=6&game_id=${game.id}&client_id=XZAmoxZ2qA`)
+  //     this.getData(url, game);
+  //   }
+  //   console.log(this.newGameList);
+  // }
+  // getData(url: URL, game: any){
+  //   return fetch(url)
+  //     .then((response: any) => {
+  //       if (!response.ok) throw new Error("Error: " + ` (${response.status})`);
+  //       return response.json();
+  //     })
+  //     .then((data: any) => {
+  //       const arr = [];
+  //       for (let i = 0; i < 6; i++) {
+  //         const photo3var = {
+  //           medium: "undefined",
+  //           large: "undefined", 
+  //           original: "undefined"
+  //         }
+  //         if (data.images[i].large) photo3var.large = data.images[i].large
+  //         if (data.images[i].medium) photo3var.medium = data.images[i].medium
+  //         if (data.images[i].original) photo3var.original = data.images[i].original
+  //         arr.push(photo3var);
+  //       };
+  //       game.photos = arr;
+  //       this.newGameList.push(game);
+  //     });
+  // }
 
   // addQueryParams() {
   //   for (const parameter in this.queryParams) {
@@ -72,8 +120,8 @@ export default class Catalog {
   filterAndDrawCards() {
     this.filter.filterByQueryParams(this.queryParams);
     if (this.filter.collection) {
-      this.drawCards(this.filter.collection.games);
-      this.refreshTotalGamesFound(this.filter.collection.games.length);
+      this.drawCards(this.filter.collection);
+      this.refreshTotalGamesFound(this.filter.collection.length);
     }
   }
 
@@ -95,11 +143,11 @@ export default class Catalog {
 
         clone.querySelector(".card__link").setAttribute("apiID", item.id);
         clone.querySelector(".card__img").src = `${
-          item.image_url ? item.image_url : "/placeholder.svg"
+          item.images.box ? item.images.box : "/placeholder.svg"
         }`;
         clone.querySelector(".card__img").alt = `${item.name}`;
         clone.querySelector(".card__name").textContent = `${item.name}`;
-        clone.querySelector(".card__price").textContent = `${item.price_text}`;
+        clone.querySelector(".card__price").textContent = `${item.price}`;
 
         catalogGameList.appendChild(clone);
       });
@@ -131,16 +179,33 @@ export default class Catalog {
 
   addListenerToFilters(selector: string, query: Array<string | undefined>) {
     const checkboxes = document.querySelectorAll(selector);
+
     checkboxes.forEach((checkbox: any) => {
       checkbox.addEventListener("change", (e: any) => {
-        const box: any = e.target;
-        if (box.checked) {
-          query.push(box.getAttribute("idapi"));
+        const input: any = getElementBySelector(".checkbox_theme", checkbox);
+        const counter: any = getElementBySelector(".checkbox__counter", checkbox);
+        console.log(counter);
+        counter.innerHTML = this.filter.filterForDisplay(
+          "categories",
+          input.getAttribute("idapi")
+        );
+        if (input.checked) {
+          // query.push(input.getAttribute("idapi"));
+          window.history.pushState({}, "", window.location.origin + "/catalog" + `/search?categories=${input.getAttribute("idapi")}`);
           this.filterAndDrawCards();
+          counter.innerHTML = this.filter.filterForDisplay(
+            "categories",
+            input.getAttribute("idapi")
+          );
           console.log(query);
         } else {
-          this.removeFromQuery(query, box.getAttribute("idapi"));
+          window.history.pushState({}, "", window.location.origin + "/catalog");
+          this.removeFromQuery(query, input.getAttribute("idapi"));
           this.filterAndDrawCards();
+          counter.innerHTML = this.filter.filterForDisplay(
+            "categories",
+            input.getAttribute("idapi")
+          );
           console.log(query);
         }
       });
