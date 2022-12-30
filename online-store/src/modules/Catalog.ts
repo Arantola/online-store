@@ -5,7 +5,6 @@ import gamesDataArray from "../data/gamesDataArray";
 
 export default class Catalog {
   constructor(
-    // public apiUrl: URL = new URL('https://api.boardgameatlas.com/api/search?limit=12&categories=jX8asGGR6o&client_id=XZAmoxZ2qA'),
     public apiUrl: URL = new URL('https://api.boardgameatlas.com/api/game/images?limit=6&game_id=i5Oqu5VZgP&client_id=XZAmoxZ2qA'),
     public queryParams: IQueryParams = new QueryParams(),
     public gameList = gamesDataArray,
@@ -18,9 +17,6 @@ export default class Catalog {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
     this.filterAndDrawCards();
-    // this.renderFilters(main);
-    // this.getAndPlaceData(this.apiUrl);
-    // this.addPictures();
     this.addListeners();
   }
 
@@ -36,86 +32,9 @@ export default class Catalog {
     this.addButtonSaveListener();
   }
 
-  // renderFilters(main: HTMLElement) {
-  //   main.appendChild(
-  //     getElementBySelector<HTMLTemplateElement>(
-  //       "#catalog-filters"
-  //     ).content.cloneNode(true)
-  //   );
-  // }
-
   refreshTotalGamesFound(value: number) {
     getElementBySelector("#total-games-display").innerHTML = String(value);
   }
-
-  getAndPlaceData(url: any) {
-    // return fetch(url)
-    //   .then((response: any) => {
-    //     if (!response.ok) throw new Error("Error: " + ` (${response.status})`);
-
-    //     return response.json();
-    //   })
-    //   .then((data: any) => {
-    //     console.log(data);
-        // this.filter.initialCollection = uniqueData;
-        // this.filter.collection = JSON.parse(this.filter.initialCollection);
-        // this.filter.collection = data;
-        // console.log(uniqueData.length, uniqueData);
-
-        // this.logList(data.games);
-        // console.log(this.filter.collection);
-        
-        // this.filterAndDrawCards();
-      // });
-
-
-  }
-
-  // addPictures() {
-  //   const partOfGameList: any = this.gameList.slice(0, 50);
-  //   const newGameList: any = [];
-  //   for (const game of partOfGameList) {
-  //     const url = new URL(`https://api.boardgameatlas.com/api/game/images?limit=6&game_id=${game.id}&client_id=XZAmoxZ2qA`)
-  //     this.getData(url, game);
-  //   }
-  //   console.log(this.newGameList);
-  // }
-  // getData(url: URL, game: any){
-  //   return fetch(url)
-  //     .then((response: any) => {
-  //       if (!response.ok) throw new Error("Error: " + ` (${response.status})`);
-  //       return response.json();
-  //     })
-  //     .then((data: any) => {
-  //       const arr = [];
-  //       for (let i = 0; i < 6; i++) {
-  //         const photo3var = {
-  //           medium: "undefined",
-  //           large: "undefined", 
-  //           original: "undefined"
-  //         }
-  //         if (data.images[i].large) photo3var.large = data.images[i].large
-  //         if (data.images[i].medium) photo3var.medium = data.images[i].medium
-  //         if (data.images[i].original) photo3var.original = data.images[i].original
-  //         arr.push(photo3var);
-  //       };
-  //       game.photos = arr;
-  //       this.newGameList.push(game);
-  //     });
-  // }
-
-  // addQueryParams() {
-  //   for (const parameter in this.queryParams) {
-  //     if (this.queryParams[parameter as keyof IQueryParams][0] !== undefined) {
-  //       const value = this.queryParams[parameter as keyof IQueryParams].join();
-  //       this.apiUrl.searchParams.append(parameter, String(value));
-  //       // add query parameters to current url
-  //       const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-  //       const newUrl = baseUrl + this.apiUrl.searchParams;
-  //       history.pushState({}, "", newUrl);
-  //     }
-  //   }
-  // }
 
   filterAndDrawCards() {
     this.filter.filterByQueryParams(this.queryParams);
@@ -161,10 +80,8 @@ export default class Catalog {
       cards.forEach((card) => {
         card.addEventListener("click", (e) => {
           const cardID = card.getAttribute("apiID");
-          // console.log(cardID);
           history.pushState({}, null as any, `item/${cardID}`);
           e.preventDefault();
-          // this.setPathname("/api/search");
         });
       });
     }, 2000);
@@ -190,7 +107,6 @@ export default class Catalog {
           input.getAttribute("idapi")
         );
         if (input.checked) {
-          // query.push(input.getAttribute("idapi"));
           window.history.pushState({}, "", window.location.origin + "/catalog" + `/search?categories=${input.getAttribute("idapi")}`);
           this.filterAndDrawCards();
           counter.innerHTML = this.filter.filterForDisplay(
@@ -305,7 +221,6 @@ export default class Catalog {
 
   addButtonResetListener() {
     getElementBySelector(".button_reset").addEventListener("click", (e) => {
-      // Добавить сброс всего выделенного на странице
       e.preventDefault();
     });
   }
