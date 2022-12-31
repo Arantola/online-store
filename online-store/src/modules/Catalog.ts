@@ -1,23 +1,15 @@
-import { getElementBySelector, IGame, IQueryParams } from "./types/types";
+import { getElementBySelector, IGame } from "./types/types";
 import Filter from "./Filter";
-import QueryParams from "./QueryParams";
-import gamesDataArray from "../data/gamesDataArray";
 
 export default class Catalog {
-  constructor(
-    public apiUrl: URL = new URL('https://api.boardgameatlas.com/api/game/images?limit=6&game_id=i5Oqu5VZgP&client_id=XZAmoxZ2qA'),
-    public queryParams: IQueryParams = new QueryParams(),
-    public gameList = gamesDataArray,
-    public filter = new Filter(),
-    public newGameList: Array<any> = []
-  ) {}
+  constructor(public filter: Filter, public queryParams: any) {}
 
   renderPage() {
-    this.filter.initialCollection = JSON.stringify(gamesDataArray);
     const main = getElementBySelector("#main");
     main.innerHTML = "";
     this.filterAndDrawCards();
     this.addListeners();
+    this.queryParams.getQueryFromURL();
   }
 
   addListeners() {
@@ -41,12 +33,6 @@ export default class Catalog {
     if (this.filter.collection) {
       this.drawCards(this.filter.collection);
       this.refreshTotalGamesFound(this.filter.collection.length);
-    }
-  }
-
-  deleteSearchParam() {
-    for (const parameter in this.queryParams) {
-      this.apiUrl.searchParams.delete(parameter);
     }
   }
 
@@ -101,19 +87,27 @@ export default class Catalog {
       checkbox.addEventListener("change", (e: any) => {
         const input: any = getElementBySelector(".checkbox_theme", checkbox);
         const counter: any = getElementBySelector(".checkbox__counter", checkbox);
-        console.log(counter);
         counter.innerHTML = this.filter.filterForDisplay(
           "categories",
           input.getAttribute("idapi")
         );
         if (input.checked) {
-          window.history.pushState({}, "", window.location.origin + "/catalog" + `/search?categories=${input.getAttribute("idapi")}`);
+          const catParams = new URLSearchParams(document.location.search).get("categories");
+          window.history.pushState(
+            {},
+            "",
+            window.location.origin +
+              "/catalog" +
+              `?categories=${
+                catParams ? catParams + "," : ""
+              }${input.getAttribute("idapi")}`
+          );
+
           this.filterAndDrawCards();
           counter.innerHTML = this.filter.filterForDisplay(
             "categories",
             input.getAttribute("idapi")
           );
-          console.log(query);
         } else {
           window.history.pushState({}, "", window.location.origin + "/catalog");
           this.removeFromQuery(query, input.getAttribute("idapi"));
@@ -122,7 +116,6 @@ export default class Catalog {
             "categories",
             input.getAttribute("idapi")
           );
-          console.log(query);
         }
       });
     });
@@ -131,7 +124,6 @@ export default class Catalog {
   addListenerToFiltersOrder() {
     const form: any = document.forms[0]; // обращение к life-коллекции элементов form
     const formSelect: any = form.sortList;
-    // console.log(formSelect.options);
     formSelect.addEventListener("change", () => {
       this.queryParams.ascending = [undefined];
       this.queryParams.order_by = [undefined];

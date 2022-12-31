@@ -1,7 +1,8 @@
-import { getElementBySelector } from "./types/types";
+import Filter from "./Filter";
+import QueryParams from "./QueryParams";
 
 class Product {
-  constructor( public gameID: string = "") {}
+  constructor(public filter: Filter, public queryParams: QueryParams) {}
 
   renderPage() {
     return;

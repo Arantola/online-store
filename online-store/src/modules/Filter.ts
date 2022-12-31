@@ -1,14 +1,14 @@
 import { IGame, IGamesArray, IQueryParams } from "./types/types";
+import gamesDataArray from "../data/gamesDataArray";
 
 export default class Filter {
   constructor(
-    public initialCollection: any = undefined,
+    public initialCollection: any = JSON.stringify(gamesDataArray),
     public collection: any = undefined
   ) {}
 
   public filterByQueryParams(queryParams: IQueryParams) {
     this.collection = JSON.parse(this.initialCollection);
-    console.log(this.collection);
     const query: any = queryParams;
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
@@ -105,7 +105,6 @@ export default class Filter {
 
   private filterByFieldNoRecord(field: string, value: string) {
     const tempCollection = this.collection;
-    console.log(tempCollection);
     const tempLenght = tempCollection.filter((game: IGame) => {
       this.isContainsID(game[field as keyof IGame], value);
     }).length;
@@ -124,8 +123,7 @@ export default class Filter {
 
   private isContainsID(array: any, value: string) {
     return array.find((i: any) => {
-      if (i === value) return true;
-      return false;
+      return i === value;
     });
   }
 

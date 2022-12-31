@@ -33,7 +33,6 @@ class Router {
   ) {}
 
   addRoute(route: string) {
-    // window.history.pushState({}, route, window.location.origin + route + document.location.search);
     getElementBySelector("#root").innerHTML = "";
     getElementBySelector("#root").insertAdjacentHTML(
       "afterbegin",
