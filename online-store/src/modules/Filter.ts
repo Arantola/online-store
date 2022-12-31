@@ -1,9 +1,10 @@
-import { IGame, IGamesArray, IQueryParams } from "./types/types";
+import { IGame, IQueryParams } from "./types/types";
+import gamesDataArray from "../data/gamesDataArray";
 
 export default class Filter {
   constructor(
-    public initialCollection: any = undefined,
-    public collection: IGamesArray | undefined = undefined
+    public initialCollection: string = JSON.stringify(gamesDataArray),
+    public collection?: Array<IGame>
   ) {}
 
   public filterByQueryParams(queryParams: IQueryParams) {
@@ -13,7 +14,6 @@ export default class Filter {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
           case "categories":
-            console.log("categories goes");
             this.filterByFieldWithID(key, query[key].join());
             break;
           case "publishers":
@@ -43,10 +43,11 @@ export default class Filter {
     }
   }
 
+
   // min-max price, players, playtime
   private filterByRange(field: string, value: number, ascending: boolean) {
     if (this.collection) {
-      this.collection.games = this.collection.games.filter((game: IGame) => {
+      this.collection = this.collection.filter((game: IGame) => {
         if (ascending) {
           return Number(game[field as keyof IGame]) >= value;
         } else {
@@ -56,10 +57,19 @@ export default class Filter {
     }
   }
 
+  private filterByFieldNoRecord(field: string, value: string) {
+    const tempCollection = this.collection;
+    const tempLenght = tempCollection?.filter((game: IGame) => {
+      this.isContainsID(game[field as keyof IGame], value);
+    }).length;
+    console.log(tempLenght);
+    return tempLenght;
+  }
+
   // categories and publisher
   private filterByFieldWithID(field: string, value: string) {
     if (this.collection) {
-      this.collection.games = this.collection.games.filter((game: IGame) => {
+      this.collection = this.collection.filter((game: IGame) => {
         return this.isContainsID(game[field as keyof IGame], value);
       });
     }
@@ -67,15 +77,14 @@ export default class Filter {
 
   private isContainsID(array: any, value: string) {
     return array.find((i: any) => {
-      if (i.id === value) return true;
-      return false;
+      return i === value;
     });
   }
 
   // name
   private filterByFieldValue(field: string, value: string) {
     if (this.collection) {
-      this.collection.games = this.collection.games.filter((game: IGame) => {
+      this.collection = this.collection.filter((game: IGame) => {
         return String(game[field as keyof IGame])
           .toLowerCase()
           .includes(value.toLowerCase());
@@ -86,7 +95,7 @@ export default class Filter {
   // price, rank
   private orderBy(field: string, ascending: string) {
     if (this.collection) {
-      return this.collection.games.sort((a: IGame, b: IGame) => {
+      return this.collection.sort((a: IGame, b: IGame) => {
         if (ascending == "true") {
           return Number(a[field as keyof IGame]) >
             Number(b[field as keyof IGame])

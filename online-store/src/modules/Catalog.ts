@@ -1,24 +1,19 @@
-import { getElementBySelector, IGame, IQueryParams } from "./types/types";
+import { getElementBySelector, IGame } from "./types/types";
 import Filter from "./Filter";
-import QueryParams from "./QueryParams";
 
 export default class Catalog {
-  constructor(
-    public apiUrl: URL = new URL('https://api.boardgameatlas.com/api/search?limit=100&client_id=XZAmoxZ2qA'),
-    public queryParams: IQueryParams = new QueryParams(),
-    public filter = new Filter()
-  ) {}
+  constructor(public filter: Filter, public queryParams: any) {}
 
   renderPage() {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
-    this.renderFilters(main);
-    this.getAndPlaceData(this.apiUrl);
+    this.filterAndDrawCards();
     this.addListeners();
+    this.queryParams.getQueryFromURL();
   }
 
   addListeners() {
-    this.addListenerToFilters(".checkbox_theme", this.queryParams.categories);
+    this.addListenerToFilters(".checkbox__box", this.queryParams.categories);
     this.addListenerToFilters(
       ".checkbox_publisher",
       this.queryParams.publishers
@@ -29,57 +24,15 @@ export default class Catalog {
     this.addButtonSaveListener();
   }
 
-  renderFilters(main: HTMLElement) {
-    main.appendChild(
-      getElementBySelector<HTMLTemplateElement>(
-        "#catalog-filters"
-      ).content.cloneNode(true)
-    );
-  }
-
   refreshTotalGamesFound(value: number) {
     getElementBySelector("#total-games-display").innerHTML = String(value);
-  }
-
-  getAndPlaceData(url: any) {
-    return fetch(url)
-      .then((response: any) => {
-        if (!response.ok) throw new Error("Error: " + ` (${response.status})`);
-
-        return response.json();
-      })
-      .then((data: any) => {
-        this.filter.initialCollection = JSON.stringify(data);
-        this.filter.collection = JSON.parse(this.filter.initialCollection);
-        console.log(this.filter.collection);
-        this.filterAndDrawCards();
-      });
-  }
-
-  addQueryParams() {
-    for (const parameter in this.queryParams) {
-      if (this.queryParams[parameter as keyof IQueryParams][0] !== undefined) {
-        const value = this.queryParams[parameter as keyof IQueryParams].join();
-        this.apiUrl.searchParams.append(parameter, String(value));
-        // add query parameters to current url
-        const baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        const newUrl = baseUrl + this.apiUrl.searchParams;
-        history.pushState({}, "", newUrl);
-      }
-    }
   }
 
   filterAndDrawCards() {
     this.filter.filterByQueryParams(this.queryParams);
     if (this.filter.collection) {
-      this.drawCards(this.filter.collection.games);
-      this.refreshTotalGamesFound(this.filter.collection.games.length);
-    }
-  }
-
-  deleteSearchParam() {
-    for (const parameter in this.queryParams) {
-      this.apiUrl.searchParams.delete(parameter);
+      this.drawCards(this.filter.collection);
+      this.refreshTotalGamesFound(this.filter.collection.length);
     }
   }
 
@@ -95,11 +48,11 @@ export default class Catalog {
 
         clone.querySelector(".card__link").setAttribute("apiID", item.id);
         clone.querySelector(".card__img").src = `${
-          item.image_url ? item.image_url : "/placeholder.svg"
+          item.images.box ? item.images.box : "/placeholder.svg"
         }`;
         clone.querySelector(".card__img").alt = `${item.name}`;
         clone.querySelector(".card__name").textContent = `${item.name}`;
-        clone.querySelector(".card__price").textContent = `${item.price_text}`;
+        clone.querySelector(".card__price").textContent = `${item.price}`;
 
         catalogGameList.appendChild(clone);
       });
@@ -113,10 +66,8 @@ export default class Catalog {
       cards.forEach((card) => {
         card.addEventListener("click", (e) => {
           const cardID = card.getAttribute("apiID");
-          // console.log(cardID);
           history.pushState({}, null as any, `item/${cardID}`);
           e.preventDefault();
-          // this.setPathname("/api/search");
         });
       });
     }, 2000);
@@ -131,17 +82,40 @@ export default class Catalog {
 
   addListenerToFilters(selector: string, query: Array<string | undefined>) {
     const checkboxes = document.querySelectorAll(selector);
+
     checkboxes.forEach((checkbox: any) => {
       checkbox.addEventListener("change", (e: any) => {
-        const box: any = e.target;
-        if (box.checked) {
-          query.push(box.getAttribute("idapi"));
+        const input: any = getElementBySelector(".checkbox_theme", checkbox);
+        const counter: any = getElementBySelector(".checkbox__counter", checkbox);
+        counter.innerHTML = this.filter.filterForDisplay(
+          "categories",
+          input.getAttribute("idapi")
+        );
+        if (input.checked) {
+          const catParams = new URLSearchParams(document.location.search).get("categories");
+          window.history.pushState(
+            {},
+            "",
+            window.location.origin +
+              "/catalog" +
+              `?categories=${
+                catParams ? catParams + "," : ""
+              }${input.getAttribute("idapi")}`
+          );
+
           this.filterAndDrawCards();
-          console.log(query);
+          counter.innerHTML = this.filter.filterForDisplay(
+            "categories",
+            input.getAttribute("idapi")
+          );
         } else {
-          this.removeFromQuery(query, box.getAttribute("idapi"));
+          window.history.pushState({}, "", window.location.origin + "/catalog");
+          this.removeFromQuery(query, input.getAttribute("idapi"));
           this.filterAndDrawCards();
-          console.log(query);
+          counter.innerHTML = this.filter.filterForDisplay(
+            "categories",
+            input.getAttribute("idapi")
+          );
         }
       });
     });
@@ -150,7 +124,6 @@ export default class Catalog {
   addListenerToFiltersOrder() {
     const form: any = document.forms[0]; // обращение к life-коллекции элементов form
     const formSelect: any = form.sortList;
-    // console.log(formSelect.options);
     formSelect.addEventListener("change", () => {
       this.queryParams.ascending = [undefined];
       this.queryParams.order_by = [undefined];
@@ -240,7 +213,6 @@ export default class Catalog {
 
   addButtonResetListener() {
     getElementBySelector(".button_reset").addEventListener("click", (e) => {
-      // Добавить сброс всего выделенного на странице
       e.preventDefault();
     });
   }
