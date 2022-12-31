@@ -1,10 +1,10 @@
-import { IGame, IGamesArray, IQueryParams } from "./types/types";
+import { IGame, IQueryParams } from "./types/types";
 import gamesDataArray from "../data/gamesDataArray";
 
 export default class Filter {
   constructor(
-    public initialCollection: any = JSON.stringify(gamesDataArray),
-    public collection: any = undefined
+    public initialCollection: string = JSON.stringify(gamesDataArray),
+    public collection?: Array<IGame>
   ) {}
 
   public filterByQueryParams(queryParams: IQueryParams) {
@@ -14,7 +14,6 @@ export default class Filter {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
           case "categories":
-            console.log("categories goes");
             this.filterByFieldWithID(key, query[key].join());
             break;
           case "publishers":
@@ -44,51 +43,6 @@ export default class Filter {
     }
   }
 
-  public filterForDisplay(key: string, value: string) {
-    switch (key) {
-      case "hBqZ3Ar4RJ":
-        this.filterByFieldNoRecord(key, "hBqZ3Ar4RJ");
-        break;
-      case "KUBCKBkGxV":
-        this.filterByFieldNoRecord(key, "KUBCKBkGxV");
-        break;
-      case "ODWOjWAJj3":
-        this.filterByFieldNoRecord(key, "ODWOjWAJj3");
-        break;
-      // case "min_players":
-      // case "min_playtime":
-      //   this.filterByRange(key, query[key].join(), true);
-      //   break;
-      // case "max_players":
-      // case "max_playtime":
-      //   this.filterByRange(key, query[key].join(), false);
-      //   break;
-      // case "min_price":
-      //   this.filterByRange("price", query[key].join(), true);
-      //   break;
-      // case "max_price":
-      //   this.filterByRange("price", query[key].join(), false);
-      //   break;
-      // case "order_by":
-      //   this.orderBy(query[key].join(), query.ascending.join());
-
-      // "Abstract":"hBqZ3Ar4RJ",
-      // "Adventure": "KUBCKBkGxV",
-      // "Building": "ODWOjWAJj3",
-
-      // "Card-game": "eX8uuNlQkQ",
-      // "Cooperative": "ge8pIhEUGE",
-      // "Deduction": "bCBXJy9qDw",
-
-      // "Economic": "N0TkEGfEsF",
-      // "Fantasy": "ZTneo8TaIO",
-      // "Fighting": "upXZ8vNfNO",
-
-      // "Humor": "TYnxiuiI3X",
-      // "Sci-Fi": "3B3QpKvXD3",
-      // "Wargame": "jX8asGGR6o",
-    }
-  }
 
   // min-max price, players, playtime
   private filterByRange(field: string, value: number, ascending: boolean) {
@@ -105,7 +59,7 @@ export default class Filter {
 
   private filterByFieldNoRecord(field: string, value: string) {
     const tempCollection = this.collection;
-    const tempLenght = tempCollection.filter((game: IGame) => {
+    const tempLenght = tempCollection?.filter((game: IGame) => {
       this.isContainsID(game[field as keyof IGame], value);
     }).length;
     console.log(tempLenght);
