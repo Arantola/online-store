@@ -1,11 +1,13 @@
 import Filter from "./Filter";
-import QueryParams from "./QueryParams";
+import QueryParams from "./Query";
 
 class Product {
   constructor(public filter: Filter, public queryParams: QueryParams) {}
 
   renderPage() {
-    return;
+    const id = String(new URLSearchParams(document.location.search).get("id"));
+    const currentGame: any = this.filter.getSingle(id)[0];
+    console.log(currentGame);
   }
 
   addCardInfo(game?: any) {

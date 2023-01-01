@@ -2,26 +2,25 @@ import Cart from "./Cart";
 import Catalog from "./Catalog";
 import Filter from "./Filter";
 import Product from "./Product";
-import QueryParams from "./QueryParams";
+import Query from "./Query";
 import Router from "./Router";
 import { IGame } from "./types/types";
 
 class App {
   constructor(
-    public filter: Filter | undefined = undefined,
-    public queryParams: QueryParams | undefined = undefined,
-    public catalogPage: Catalog | undefined = undefined,
-    public productPage: Product | undefined = undefined,
-    public cartPage: Cart | undefined = undefined,
     public cart: Array<IGame> = [],
-    public product: IGame | undefined = undefined,
     public totalCost = 0,
-    public router: Router | undefined = undefined
+    public router?: Router,
+    public filter?: Filter,
+    public queryParams?: Query,
+    public catalogPage?: Catalog,
+    public productPage?: Product,
+    public cartPage?: Cart
   ) {}
 
   init() {
     this.filter = new Filter();
-    this.queryParams = new QueryParams();
+    this.queryParams = new Query();
     this.catalogPage = new Catalog(this.filter, this.queryParams);
     this.productPage = new Product(this.filter, this.queryParams);
     this.cartPage = new Cart();

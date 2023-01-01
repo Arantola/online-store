@@ -1,4 +1,4 @@
-import { IGame, IQueryParams } from "./types/types";
+import { IGame, IParams } from "./types/types";
 import gamesDataArray from "../data/gamesDataArray";
 
 export default class Filter {
@@ -7,82 +7,70 @@ export default class Filter {
     public collection?: Array<IGame>
   ) {}
 
-  public filterByQueryParams(queryParams: IQueryParams) {
-    this.collection = JSON.parse(this.initialCollection);
-    const query: any = queryParams;
+  public getSingle(id: string) {
+    return (
+      this.collection?.filter((game: IGame) => {
+        return game.id == id;
+      }) || "error"
+    );
+  }
+
+  public filterByQueryParams(query: IParams) {
+    this.resetColection();
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
           case "categories":
-            this.filterByFieldWithID(key, query[key].join());
-            break;
           case "publishers":
-            this.filterByFieldWithID(key, query[key].join());
-            break;
           case "name":
-            this.filterByFieldValue(key, query[key].join());
+            this.filterByField(key, query[key]);
+            // console.log("filtered by CPN")
             break;
           case "min_players":
           case "min_playtime":
-            this.filterByRange(key, query[key].join(), true);
+            this.filterByRange(key, query[key], true);
+            // console.log("filtered by minPlayerTime")
             break;
           case "max_players":
           case "max_playtime":
-            this.filterByRange(key, query[key].join(), false);
+            this.filterByRange(key, query[key], false);
+            // console.log("filtered by maxPlayerTime")
             break;
           case "min_price":
-            this.filterByRange("price", query[key].join(), true);
+            this.filterByRange("price", query[key], true);
+            // console.log("filtered by minPrice")
             break;
           case "max_price":
-            this.filterByRange("price", query[key].join(), false);
+            this.filterByRange("price", query[key], false);
+            // console.log("filtered by maxPrice")
             break;
           case "order_by":
-            this.orderBy(query[key].join(), query.ascending.join());
+            // console.log("Ordered")
+            this.orderBy(query[key], query.ascending);
         }
       }
     }
   }
 
+  public resetColection() {
+    this.collection = JSON.parse(this.initialCollection);
+  }
 
   // min-max price, players, playtime
-  private filterByRange(field: string, value: number, ascending: boolean) {
+  private filterByRange(field: string, value: string, ascending: boolean) {
     if (this.collection) {
       this.collection = this.collection.filter((game: IGame) => {
         if (ascending) {
-          return Number(game[field as keyof IGame]) >= value;
+          return Number(game[field as keyof IGame]) >= Number(value);
         } else {
-          return Number(game[field as keyof IGame]) <= value;
+          return Number(game[field as keyof IGame]) <= Number(value);
         }
       });
     }
   }
 
-  private filterByFieldNoRecord(field: string, value: string) {
-    const tempCollection = this.collection;
-    const tempLenght = tempCollection?.filter((game: IGame) => {
-      this.isContainsID(game[field as keyof IGame], value);
-    }).length;
-    console.log(tempLenght);
-    return tempLenght;
-  }
-
-  // categories and publisher
-  private filterByFieldWithID(field: string, value: string) {
-    if (this.collection) {
-      this.collection = this.collection.filter((game: IGame) => {
-        return this.isContainsID(game[field as keyof IGame], value);
-      });
-    }
-  }
-
-  private isContainsID(array: any, value: string) {
-    return array.find((i: any) => {
-      return i === value;
-    });
-  }
-
-  // name
-  private filterByFieldValue(field: string, value: string) {
+  // categories, publisher, name
+  private filterByField(field: string, value: string) {
     if (this.collection) {
       this.collection = this.collection.filter((game: IGame) => {
         return String(game[field as keyof IGame])
