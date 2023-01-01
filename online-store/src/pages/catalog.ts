@@ -180,11 +180,11 @@ const catalog = `
         </div>
         <div class="filters__box slider">
             <h3 class="filters__title">Number of players</h3>
-            <span class="slider__data">1 - 20</span>
+            <span class="slider__data">1 - 8</span>
             <div class="slider__double-range">
                 <div class="slider__track"></div>
-                <input class="slider__input" id="players-slider-min" type="range" min="1" max="20" value="1" step="1">
-                <input class="slider__input" id="players-slider-max" type="range" min="1" max="20" value="20" step="1">
+                <input class="slider__input" id="players-slider-min" type="range" min="1" max="8" value="1" step="1">
+                <input class="slider__input" id="players-slider-max" type="range" min="1" max="8" value="8" step="1">
             </div>
         </div>
     </div>

@@ -61,17 +61,12 @@ class Query {
     this.goTowithQuery(String(searchParams));
   }
 
-  setURLSearchFromQuery() {
-    return;
-  }
-
   delParam(field: string, value: string) {
     const searchParams = new URLSearchParams(document.location.search);
     const valueArray = searchParams.get(field)?.split(",");
     searchParams.delete(field);
 
     const i = valueArray?.indexOf(value);
-
     if ((i as number) >= 0) {
       valueArray?.splice(i as number, 1);
     }

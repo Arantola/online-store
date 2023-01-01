@@ -24,28 +24,22 @@ export default class Filter {
           case "publishers":
           case "name":
             this.filterByField(key, query[key]);
-            // console.log("filtered by CPN")
             break;
           case "min_players":
           case "min_playtime":
             this.filterByRange(key, query[key], true);
-            // console.log("filtered by minPlayerTime")
             break;
           case "max_players":
           case "max_playtime":
             this.filterByRange(key, query[key], false);
-            // console.log("filtered by maxPlayerTime")
             break;
           case "min_price":
             this.filterByRange("price", query[key], true);
-            // console.log("filtered by minPrice")
             break;
           case "max_price":
             this.filterByRange("price", query[key], false);
-            // console.log("filtered by maxPrice")
             break;
           case "order_by":
-            // console.log("Ordered")
             this.orderBy(query[key], query.ascending);
         }
       }

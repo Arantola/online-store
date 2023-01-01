@@ -88,27 +88,13 @@ export default class Catalog {
   }
 
   listenOrderFilters() {
-    const form: HTMLFormElement = document.forms[0]; // обращение к life-коллекции элементов form
+    const form: HTMLFormElement = document.forms[0];
     const formSelect: HTMLFormElement = form.sortList;
     formSelect.addEventListener("change", () => {
       const selectedIndex = formSelect.selectedIndex;
-      // formSelect                 форма с именем sortList
-      //.options                    коллекция опций
-      //[selectedIndex]             идекс выбранной опции в options
-      //.dataset                    обращение к data-атрибутам элемента
-      //.ascending);                имя data-атрибута
-      switch (formSelect.value) {
-        case "rank":
-          this.query.params.order_by = "rank";
-          this.query.params.ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
-          this.filterAndDrawCards();
-          break;
-        case "price":
-          this.query.params.order_by = "price";
-          this.query.params.ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
-          this.filterAndDrawCards();
-          break;
-      }
+      this.query.params.order_by = formSelect.value;
+      this.query.params.ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
+      this.filterAndDrawCards();
     });
   }
 
@@ -123,7 +109,7 @@ export default class Catalog {
     });
   }
 
-  getInputValues(parent: HTMLInputElement, x: number) {
+  getInputValues(parent: HTMLInputElement, index: number) {
     const slides = parent.getElementsByTagName("input");
     let slide1 = parseFloat(slides[0].value);
     let slide2 = parseFloat(slides[1].value);
@@ -132,38 +118,26 @@ export default class Catalog {
       [slide1, slide2] = [slide2, slide1];
     }
     const displayElement = parent.getElementsByClassName("slider__data")[0];
-
     displayElement.innerHTML = slide1 + " - " + slide2;
-    switch (x) {
-      case 0:
-        this.query.setParam("min_price", String(slide1));
-        this.query.setParam("max_price", String(slide2));
-        this.filterAndDrawCards();
-        break;
-      case 1:
-        this.query.setParam("min_playtime", String(slide2));
-        this.query.setParam("max_playtime", String(slide2));
-        this.filterAndDrawCards();
-        break;
-      case 2:
-        this.query.setParam("min_players", String(slide2));
-        this.query.setParam("max_players", String(slide2));
-        this.filterAndDrawCards();
-        break;
-    }
+
+    const list = ["price", "playtime", "players"];
+    this.query.setParam(`min_${list[index]}`, String(slide1));
+    this.query.setParam(`max_${list[index]}`, String(slide2));
+
+    this.filterAndDrawCards();
   }
 
   listenRangeInput() {
     const sliderSections = document.getElementsByClassName("slider");
 
-    for (let x = 0; x < sliderSections.length; x++) {
+    for (let index = 0; index < sliderSections.length; index++) {
       const sliders: HTMLCollectionOf<HTMLInputElement> =
-        sliderSections[x].getElementsByTagName("input");
+        sliderSections[index].getElementsByTagName("input");
 
       for (let y = 0; y < sliders.length; y++) {
         if (sliders[y].type === "range") {
           sliders[y].addEventListener("change", () => {
-            this.getInputValues(<HTMLInputElement>sliderSections[x], x);
+            this.getInputValues(<HTMLInputElement>sliderSections[index], index);
           });
         }
       }
