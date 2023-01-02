@@ -9,17 +9,17 @@ interface IGame {
   price: string;
   discount: string;
 
-  average_user_rating: number;
-  average_learning_complexity: number;
+  rank: string | number;
+  average_learning_complexity: string | number;
 
-  min_players: number;
-  max_players: number;
-  max_playtime: number;
-  min_playtime: number;
+  min_players: string | number;
+  max_players: string | number;
+  max_playtime: string | number;
+  min_playtime: string | number;
 
   art: string;
   designer: string;
-  categories: Array<string>;
+  categories: string | string[];
   publisher: {
     id: string;
     name: string;
@@ -43,19 +43,8 @@ interface Iroutes {
   };
 }
 
-interface IQueryParams {
-  categories: Array<string | undefined>;
-  publishers: Array<string | undefined>;
-  name: Array<string | undefined>;
-  min_price: Array<number | undefined>;
-  max_price: Array<number | undefined>;
-  min_players: Array<number | undefined>;
-  max_players: Array<number | undefined>;
-  min_playtime: Array<number | undefined>;
-  max_playtime: Array<number | undefined>;
-  order_by: Array<string | undefined>;
-  ascending: Array<string | undefined>;
-  client_id: Array<string | undefined>;
+interface IParams {
+  [field: string]: string;
 }
 
 function getElementBySelector<T extends HTMLElement>(
@@ -68,4 +57,4 @@ function getElementBySelector<T extends HTMLElement>(
   return element;
 }
 
-export { getElementBySelector, IGame, IGamesArray, IQueryParams, Iroutes };
+export { getElementBySelector, IGame, IGamesArray, IParams, Iroutes };

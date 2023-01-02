@@ -1,5 +1,3 @@
-import { getElementBySelector } from "./modules/types/types";
-
 import "./assets/styles/_reset.css";
 import "./assets/styles/_catalog.css";
 import "./assets/styles/_cart.css";
