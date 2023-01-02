@@ -1,27 +1,27 @@
 import { getElementBySelector, IGame } from "./types/types";
 import Filter from "./Filter";
+import Query from "./Query";
 
 export default class Catalog {
-  constructor(public filter: Filter, public queryParams: any) {}
+  constructor(public filter: Filter, public query: Query) {}
 
   renderPage() {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
+    this.filter.resetColection();
     this.filterAndDrawCards();
+    // this.setFilters();
     this.addListeners();
-    this.queryParams.getQueryFromURL();
+    this.query.getQueryFromURL();
   }
 
   addListeners() {
-    this.addListenerToFilters(".checkbox__box", this.queryParams.categories);
-    this.addListenerToFilters(
-      ".checkbox_publisher",
-      this.queryParams.publishers
-    );
-    this.addListenerToFiltersOrder();
-    this.addListenerToNameInput();
-    this.addListenerToRangeInput();
-    this.addButtonSaveListener();
+    this.listenBoxFilters();
+    this.listenOrderFilters();
+    this.listenNameFilter();
+    this.listenRangeInput();
+    this.listenResetButton();
+    this.listenSaveButton();
   }
 
   refreshTotalGamesFound(value: number) {
@@ -29,7 +29,7 @@ export default class Catalog {
   }
 
   filterAndDrawCards() {
-    this.filter.filterByQueryParams(this.queryParams);
+    this.filter.filterByQueryParams(this.query.params);
     if (this.filter.collection) {
       this.drawCards(this.filter.collection);
       this.refreshTotalGamesFound(this.filter.collection.length);
@@ -37,7 +37,7 @@ export default class Catalog {
   }
 
   drawCards(items: Array<IGame> | undefined) {
-    if (items){
+    if (items) {
       const catalogGameList = getElementBySelector("#catalog-list");
       catalogGameList.innerHTML = "";
       items.forEach((item: IGame) => {
@@ -46,9 +46,11 @@ export default class Catalog {
             "#product-card"
           ).content.cloneNode(true);
 
-        clone.querySelector(".card__link").setAttribute("apiID", item.id);
+        clone.querySelector(".card__link").href = `/product?id=${item.id}`;
         clone.querySelector(".card__img").src = `${
-          item.images.box ? item.images.box : "/placeholder.svg"
+          item.images.box
+            ? item.images.box
+            : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
         }`;
         clone.querySelector(".card__img").alt = `${item.name}`;
         clone.querySelector(".card__name").textContent = `${item.name}`;
@@ -59,114 +61,55 @@ export default class Catalog {
     }
   }
 
-  // Из-за асихронности промиса в запросе, нужно отрисовывать только после рендера
-  addListenerToCards() {
-    setTimeout(() => {
-      const cards = document.querySelectorAll(".item__link");
-      cards.forEach((card) => {
-        card.addEventListener("click", (e) => {
-          const cardID = card.getAttribute("apiID");
-          history.pushState({}, null as any, `item/${cardID}`);
-          e.preventDefault();
-        });
+  listenBoxFilters() {
+    for (const section of [
+      ["#theme-filters", "categories"],
+      ["#publisher-filters", "publishers"],
+    ]) {
+      getElementBySelector(section[0]).addEventListener(
+        "change",
+        (e: Event) => {
+          if ((e.target as HTMLInputElement).checked) {
+            this.query.addParam(
+              section[1],
+              String((e.target as HTMLInputElement).getAttribute("idapi"))
+            );
+            this.filterAndDrawCards();
+          } else {
+            this.query.delParam(
+              section[1],
+              String((e.target as HTMLInputElement).getAttribute("idapi"))
+            );
+            console.log(this.filter.collection);
+            this.filterAndDrawCards();
+        }
       });
-    }, 2000);
-  }
-
-  removeFromQuery(query: Array<string | undefined>, param: string) {
-    const i = query.indexOf(param);
-    if (i !== -1) {
-      query.splice(i, 1);
     }
   }
 
-  addListenerToFilters(selector: string, query: Array<string | undefined>) {
-    const checkboxes = document.querySelectorAll(selector);
-
-    checkboxes.forEach((checkbox: any) => {
-      checkbox.addEventListener("change", (e: any) => {
-        const input: any = getElementBySelector(".checkbox_theme", checkbox);
-        const counter: any = getElementBySelector(".checkbox__counter", checkbox);
-        counter.innerHTML = this.filter.filterForDisplay(
-          "categories",
-          input.getAttribute("idapi")
-        );
-        if (input.checked) {
-          const catParams = new URLSearchParams(document.location.search).get("categories");
-          window.history.pushState(
-            {},
-            "",
-            window.location.origin +
-              "/catalog" +
-              `?categories=${
-                catParams ? catParams + "," : ""
-              }${input.getAttribute("idapi")}`
-          );
-
-          this.filterAndDrawCards();
-          counter.innerHTML = this.filter.filterForDisplay(
-            "categories",
-            input.getAttribute("idapi")
-          );
-        } else {
-          window.history.pushState({}, "", window.location.origin + "/catalog");
-          this.removeFromQuery(query, input.getAttribute("idapi"));
-          this.filterAndDrawCards();
-          counter.innerHTML = this.filter.filterForDisplay(
-            "categories",
-            input.getAttribute("idapi")
-          );
-        }
-      });
-    });
-  }
-
-  addListenerToFiltersOrder() {
-    const form: any = document.forms[0]; // обращение к life-коллекции элементов form
-    const formSelect: any = form.sortList;
+  listenOrderFilters() {
+    const form: HTMLFormElement = document.forms[0];
+    const formSelect: HTMLFormElement = form.sortList;
     formSelect.addEventListener("change", () => {
-      this.queryParams.ascending = [undefined];
-      this.queryParams.order_by = [undefined];
-      const formSelectSelectedIndex = formSelect.selectedIndex;
-      // formSelect                 форма с именем sortList
-      //.options                    коллекция опций
-      //[formSelectSelectedIndex]   идекс выбранной опции в options
-      //.dataset                    обращение к data-атрибутам элемента
-      //.ascending);                имя data-атрибута
-
-      switch (formSelect.value) {
-        case "rank":
-          this.queryParams.order_by = ["rank"];
-          this.queryParams.ascending = [
-            `${formSelect.options[formSelectSelectedIndex].dataset.ascending}`,
-          ];
-          this.filterAndDrawCards();
-          break;
-        case "price":
-          this.queryParams.order_by = ["price"];
-          this.queryParams.ascending = [
-            `${formSelect.options[formSelectSelectedIndex].dataset.ascending}`,
-          ];
-          this.filterAndDrawCards();
-          break;
-      }
+      const selectedIndex = formSelect.selectedIndex;
+      this.query.params.order_by = formSelect.value;
+      this.query.params.ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
+      this.filterAndDrawCards();
     });
   }
 
-  addListenerToNameInput() {
+  listenNameFilter() {
     getElementBySelector("#searchName").addEventListener(
       "keydown",
-      (e: any) => {
-        // KeyboardEvent?
-        if (e.keyCode === 13) {
-          this.queryParams.name = [e.target.value];
-
+      (e: KeyboardEvent) => {
+        if (e.key === "Enter") {
+          this.query.params.name = (e.target as HTMLInputElement).value;
           this.filterAndDrawCards();
         }
     });
   }
 
-  getInputValues(parent: any, x: number) {
+  getInputValues(parent: HTMLInputElement, index: number) {
     const slides = parent.getElementsByTagName("input");
     let slide1 = parseFloat(slides[0].value);
     let slide2 = parseFloat(slides[1].value);
@@ -175,45 +118,47 @@ export default class Catalog {
       [slide1, slide2] = [slide2, slide1];
     }
     const displayElement = parent.getElementsByClassName("slider__data")[0];
-
     displayElement.innerHTML = slide1 + " - " + slide2;
-    if (x == 0) {
-      this.queryParams.min_playtime = [slide1];
-      this.queryParams.max_playtime = [slide2];
-      this.filterAndDrawCards();
-    } else if (x == 1) {
-      this.queryParams.min_players = [slide1];
-      this.queryParams.max_players = [slide2];
-      this.filterAndDrawCards();
-    }
+
+    const list = ["price", "playtime", "players"];
+    this.query.setParam(`min_${list[index]}`, String(slide1));
+    this.query.setParam(`max_${list[index]}`, String(slide2));
+
+    this.filterAndDrawCards();
   }
 
-  addListenerToRangeInput() {
-    // Initialize Sliders
+  listenRangeInput() {
     const sliderSections = document.getElementsByClassName("slider");
 
-    for (let x = 0; x < sliderSections.length; x++) {
-      const sliders: any = sliderSections[x].getElementsByTagName("input");
+    for (let index = 0; index < sliderSections.length; index++) {
+      const sliders: HTMLCollectionOf<HTMLInputElement> =
+        sliderSections[index].getElementsByTagName("input");
 
       for (let y = 0; y < sliders.length; y++) {
         if (sliders[y].type === "range") {
-          sliders[y].addEventListener("change", (e: any) => {
-            this.getInputValues(sliderSections[x], x);
+          sliders[y].addEventListener("change", () => {
+            this.getInputValues(<HTMLInputElement>sliderSections[index], index);
           });
         }
       }
     }
   }
 
-  addButtonSaveListener() {
+  listenSaveButton() {
     getElementBySelector(".button_save").addEventListener("click", (e) => {
       e.preventDefault();
+      navigator.clipboard.writeText(window.location.href);
     });
   }
 
-  addButtonResetListener() {
+  listenResetButton() {
     getElementBySelector(".button_reset").addEventListener("click", (e) => {
       e.preventDefault();
+      window.history.pushState(
+        {},
+        "/catalog",
+        window.location.origin + "/catalog"
+      );
     });
   }
 }

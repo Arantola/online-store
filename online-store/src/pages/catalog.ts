@@ -84,7 +84,7 @@ const catalog = `
         </div>
         <div class="filters__box">
             <h3 class="filters__title">Publishers</h3>
-            <ul class="filter-list">
+            <ul class="filter-list"  id="publisher-filters">
                 <li class="checkbox__box">
                     <input class="checkbox__input checkbox_publisher" id="brand_1" idAPI="fLH8tXTBBp" type="checkbox">
                     <label class="checkbox__label" for="brand_1">Fantasy Flight Games
@@ -160,7 +160,16 @@ const catalog = `
             </ul>
         </div>
 
-        <div class="filters__box">
+        <div class="filters__box slider">
+        <h3 class="filters__title">Price</h3>
+        <span class="slider__data">5 - 300</span>
+        <div class="slider__double-range">
+            <div class="slider__track"></div>
+            <input class="slider__input" id="players-slider-min" type="range" min="5" max="300" value="5" step="5">
+            <input class="slider__input" id="players-slider-max" type="range" min="5" max="300" value="300" step="5">
+        </div>
+    </div>
+        <div class="filters__box slider">
             <h3 class="filters__title">Playtime</h3>
             <span class="slider__data">5 - 120</span>
             <div class="slider__double-range">
@@ -169,13 +178,13 @@ const catalog = `
                 <input class="slider__input" id="time-slider-max" type="range" min="5" max="120" value="120" step="5">
             </div>
         </div>
-        <div class="filters__box">
+        <div class="filters__box slider">
             <h3 class="filters__title">Number of players</h3>
-            <span class="slider__data">1 - 20</span>
+            <span class="slider__data">1 - 8</span>
             <div class="slider__double-range">
                 <div class="slider__track"></div>
-                <input class="slider__input" id="players-slider-min" type="range" min="1" max="20" value="1" step="1">
-                <input class="slider__input" id="players-slider-max" type="range" min="1" max="20" value="20" step="1">
+                <input class="slider__input" id="players-slider-min" type="range" min="1" max="8" value="1" step="1">
+                <input class="slider__input" id="players-slider-max" type="range" min="1" max="8" value="8" step="1">
             </div>
         </div>
     </div>

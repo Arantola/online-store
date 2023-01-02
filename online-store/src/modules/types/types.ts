@@ -9,17 +9,17 @@ interface IGame {
   price: string;
   discount: string;
 
-  average_user_rating: number;
-  average_learning_complexity: number;
+  rank: string | number;
+  average_learning_complexity: string | number;
 
-  min_players: number;
-  max_players: number;
-  max_playtime: number;
-  min_playtime: number;
+  min_players: string | number;
+  max_players: string | number;
+  max_playtime: string | number;
+  min_playtime: string | number;
 
   art: string;
   designer: string;
-  categories: Array<string>;
+  categories: string | string[];
   publisher: {
     id: string;
     name: string;
@@ -43,19 +43,8 @@ interface Iroutes {
   };
 }
 
-interface IQueryParams {
-  categories: string;
-  publishers: string;
-  name: string;
-  min_price: number;
-  max_price: number;
-  min_players: number;
-  max_players: number;
-  min_playtime: number;
-  max_playtime: number;
-  order_by: string;
-  ascending: string;
-  id: string;
+interface IParams {
+  [field: string]: string;
 }
 
 function getElementBySelector<T extends HTMLElement>(
@@ -68,4 +57,4 @@ function getElementBySelector<T extends HTMLElement>(
   return element;
 }
 
-export { getElementBySelector, IGame, IGamesArray, IQueryParams, Iroutes };
+export { getElementBySelector, IGame, IGamesArray, IParams, Iroutes };
