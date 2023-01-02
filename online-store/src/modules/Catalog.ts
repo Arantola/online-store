@@ -8,11 +8,11 @@ export default class Catalog {
   renderPage() {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
-    this.filter.resetColection();
-    this.filterAndDrawCards();
-    // this.setFilters();
     this.addListeners();
+    this.filter.resetColection();
+    // this.setFilters();
     this.query.getQueryFromURL();
+    this.filterAndDrawCards();
   }
 
   addListeners() {
@@ -41,22 +41,48 @@ export default class Catalog {
       const catalogGameList = getElementBySelector("#catalog-list");
       catalogGameList.innerHTML = "";
       items.forEach((item: IGame) => {
-        const clone: any =
-          getElementBySelector<HTMLTemplateElement>(
-            "#product-card"
-          ).content.cloneNode(true);
+        const clone: Node =
+          (
+            document.getElementById("product-card") as HTMLTemplateElement
+          ).content.cloneNode(true) || null;
+        if (clone) {
+          (
+            getElementBySelector(
+              ".card__link",
+              clone as HTMLElement
+            ) as HTMLLinkElement
+          ).href = `/product?id=${item.id}`;
+          (
+            getElementBySelector(
+              ".card__img",
+              clone as HTMLElement
+            ) as HTMLImageElement
+          ).src = `${
+            item.images.box
+              ? item.images.box
+              : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
+          }`;
+          (
+            getElementBySelector(
+              ".card__img",
+              clone as HTMLElement
+            ) as HTMLImageElement
+          ).alt = `${item.name}`;
+          (
+            getElementBySelector(
+              ".card__name",
+              clone as HTMLElement
+            ) as HTMLElement
+          ).textContent = `${item.name}`;
+          (
+            getElementBySelector(
+              ".card__price",
+              clone as HTMLElement
+            ) as HTMLElement
+          ).textContent = `${item.price}`;
 
-        clone.querySelector(".card__link").href = `/product?id=${item.id}`;
-        clone.querySelector(".card__img").src = `${
-          item.images.box
-            ? item.images.box
-            : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
-        }`;
-        clone.querySelector(".card__img").alt = `${item.name}`;
-        clone.querySelector(".card__name").textContent = `${item.name}`;
-        clone.querySelector(".card__price").textContent = `${item.price}`;
-
-        catalogGameList.appendChild(clone);
+          catalogGameList.appendChild(clone);
+        }
       });
     }
   }
@@ -74,15 +100,13 @@ export default class Catalog {
               section[1],
               String((e.target as HTMLInputElement).getAttribute("idapi"))
             );
-            this.filterAndDrawCards();
           } else {
             this.query.delParam(
               section[1],
               String((e.target as HTMLInputElement).getAttribute("idapi"))
             );
-            console.log(this.filter.collection);
-            this.filterAndDrawCards();
-        }
+          }
+          this.filterAndDrawCards();
       });
     }
   }
@@ -159,6 +183,8 @@ export default class Catalog {
         "/catalog",
         window.location.origin + "/catalog"
       );
+      this.query.getQueryFromURL();
+      this.filterAndDrawCards();
     });
   }
 }

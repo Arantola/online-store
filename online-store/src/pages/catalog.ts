@@ -9,73 +9,67 @@ const catalog = `
             <h3 class="filters__title">Theme</h3>
             <ul class="filters__list" id="theme-filters">
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_1" idAPI="hBqZ3Ar4RJ" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_1" idAPI="abstract" type="checkbox">
                     <label class="checkbox__label" for="theme_1">Abstract
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_2" idAPI="KUBCKBkGxV" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_2" idAPI="adventure" type="checkbox">
                     <label class="checkbox__label" for="theme_2">Adventure
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_3" idAPI="ODWOjWAJj3" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_3" idAPI="building" type="checkbox">
                     <label class="checkbox__label" for="theme_3">Building
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_4" idAPI="eX8uuNlQkQ" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_4" idAPI="card-game" type="checkbox">
                     <label class="checkbox__label" for="theme_4">Card-game
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_5" idAPI="ge8pIhEUGE" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_5" idAPI="cooperative" type="checkbox">
                     <label class="checkbox__label" for="theme_5">Cooperative
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_6" idAPI="bCBXJy9qDw" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_6" idAPI="deduction" type="checkbox">
                     <label class="checkbox__label" for="theme_6">Deduction
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_7" idAPI="N0TkEGfEsF" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_7" idAPI="economic" type="checkbox">
                     <label class="checkbox__label" for="theme_7">Economic
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_8" idAPI="ZTneo8TaIO" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_8" idAPI="fantasy" type="checkbox">
                     <label class="checkbox__label" for="theme_8">Fantasy
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_9" idAPI="upXZ8vNfNO" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_9" idAPI="fighting" type="checkbox">
                     <label class="checkbox__label" for="theme_9">Fighting
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_10" idAPI="TYnxiuiI3X" type="checkbox">
-                    <label class="checkbox__label" for="theme_10">Humor
-                        <span class="checkbox__counter">23</span>
-                    </label>
-                </li>
-                <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_11" idAPI="3B3QpKvXD3" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_11" idAPI="sci-fi" type="checkbox">
                     <label class="checkbox__label" for="theme_11">Sci-Fi
                         <span class="checkbox__counter">23</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_theme" id="theme_12" idAPI="jX8asGGR6o" type="checkbox">
+                    <input class="checkbox__input checkbox_theme" id="theme_12" idAPI="wargame" type="checkbox">
                     <label class="checkbox__label" for="theme_12">Wargame
                         <span class="checkbox__counter">23</span>
                     </label>
@@ -86,74 +80,44 @@ const catalog = `
             <h3 class="filters__title">Publishers</h3>
             <ul class="filter-list"  id="publisher-filters">
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_1" idAPI="fLH8tXTBBp" type="checkbox">
-                    <label class="checkbox__label" for="brand_1">Fantasy Flight Games
+                    <input class="checkbox__input checkbox_publisher" id="brand_1" idAPI="Stonemaier-Games" type="checkbox">
+                    <label class="checkbox__label" for="brand_1">Stonemaier Games
                         <span class="checkbox__counter">11</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_2" idAPI="IirRC59g8r" type="checkbox">
-                    <label class="checkbox__label" for="brand_2">Hasbro
+                    <input class="checkbox__input checkbox_publisher" id="brand_2" idAPI="Space-Cowboys" type="checkbox">
+                    <label class="checkbox__label" for="brand_2">Space Cowboys
                         <span class="checkbox__counter">11</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_3" idAPI="LjmghcBsOU" type="checkbox">
-                    <label class="checkbox__label" for="brand_3">Wizards of the Coast
+                    <input class="checkbox__input checkbox_publisher" id="brand_3" idAPI="IELLO" type="checkbox">
+                    <label class="checkbox__label" for="brand_3">IELLO
                         <span class="checkbox__counter">11</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_4" idAPI="1LE7oe5KVZ" type="checkbox">
-                    <label class="checkbox__label" for="brand_4">Asmodee
+                    <input class="checkbox__input checkbox_publisher" id="brand_4" idAPI="Feuerland-Spiele" type="checkbox">
+                    <label class="checkbox__label" for="brand_4">Feuerland Spiele
                         <span class="checkbox__counter">11</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_5" idAPI="u02tuZCku5" type="checkbox">
-                    <label class="checkbox__label" for="brand_5">Eagle-Gryphon Games
+                    <input class="checkbox__input checkbox_publisher" id="brand_5" idAPI="Repos-Production" type="checkbox">
+                    <label class="checkbox__label" for="brand_5">Repos Production
                         <span class="checkbox__counter">11</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_6" idAPI="BrfTva4mEF" type="checkbox">
+                    <input class="checkbox__input checkbox_publisher" id="brand_6" idAPI="Rio-Grande-Games" type="checkbox">
                     <label class="checkbox__label" for="brand_6">Rio Grande Games
                         <span class="checkbox__counter">11</span>
                     </label>
                 </li>
                 <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_7" idAPI="UPqP0MXLqj" type="checkbox">
-                    <label class="checkbox__label" for="brand_7">Z-Man Games, Inc.
-                        <span class="checkbox__counter">11</span>
-                    </label>
-                </li>
-                <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_8" idAPI="m4T08lQftL" type="checkbox">
-                    <label class="checkbox__label" for="brand_8">Alderac Entertainment Group
-                        <span class="checkbox__counter">11</span>
-                    </label>
-                </li>
-                <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_9" idAPI="Qx6KrgnjCA" type="checkbox">
-                    <label class="checkbox__label" for="brand_9">IELLO
-                        <span class="checkbox__counter">11</span>
-                    </label>
-                </li>
-                <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_10" idAPI="OQJtEkBNQV" type="checkbox">
-                    <label class="checkbox__label" for="brand_10">Queen Games
-                        <span class="checkbox__counter">11</span>
-                    </label>
-                </li>
-                <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_11" idAPI="YnNKwCizDo" type="checkbox">
-                    <label class="checkbox__label" for="brand_11">Portal Games
-                        <span class="checkbox__counter">11</span>
-                    </label>
-                </li>
-                <li class="checkbox__box">
-                    <input class="checkbox__input checkbox_publisher" id="brand_12" idAPI="fp9ajXmUFW" type="checkbox">
-                    <label class="checkbox__label" for="brand_12">Stronghold Games
+                    <input class="checkbox__input checkbox_publisher" id="brand_7" idAPI="Z-Man-Games" type="checkbox">
+                    <label class="checkbox__label" for="brand_7">Z-Man Games
                         <span class="checkbox__counter">11</span>
                     </label>
                 </li>
@@ -165,8 +129,8 @@ const catalog = `
         <span class="slider__data">5 - 300</span>
         <div class="slider__double-range">
             <div class="slider__track"></div>
-            <input class="slider__input" id="players-slider-min" type="range" min="5" max="300" value="5" step="5">
-            <input class="slider__input" id="players-slider-max" type="range" min="5" max="300" value="300" step="5">
+            <input class="slider__input" id="players-slider-min" type="range" min="5" max="250" value="5" step="5">
+            <input class="slider__input" id="players-slider-max" type="range" min="5" max="250" value="250" step="5">
         </div>
     </div>
         <div class="filters__box slider">

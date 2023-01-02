@@ -8,8 +8,9 @@ export default class Filter {
   ) {}
 
   public getSingle(id: string) {
+    const tempCollection = JSON.parse(this.initialCollection);
     return (
-      this.collection?.filter((game: IGame) => {
+      tempCollection?.filter((game: IGame) => {
         return game.id == id;
       }) || "error"
     );
@@ -78,17 +79,9 @@ export default class Filter {
   private orderBy(field: string, ascending: string) {
     if (this.collection) {
       return this.collection.sort((a: IGame, b: IGame) => {
-        if (ascending == "true") {
-          return Number(a[field as keyof IGame]) >
-            Number(b[field as keyof IGame])
-            ? 1
-            : -1;
-        } else {
-          return Number(a[field as keyof IGame]) <
-            Number(b[field as keyof IGame])
-            ? 1
-            : -1;
-        }
+        const keyA = +a[field as keyof IGame];
+        const keyB = +b[field as keyof IGame];
+        return ascending == "true" ? keyA - keyB : keyB - keyA;
       });
     }
   }

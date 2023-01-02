@@ -27,6 +27,8 @@ class Query {
     for (const key of Object.keys(this.params)) {
       if (Object.prototype.hasOwnProperty.call(paramsObj, key)) {
         this.params[key] = paramsObj[key];
+      } else {
+        this.params[key] = "";
       }
     }
   }
@@ -45,7 +47,7 @@ class Query {
   addParam(field: string, value: string) {
     const searchParams = new URLSearchParams(document.location.search);
     const newValue = searchParams.get(field)
-      ? searchParams.get(field) + `,${value}`
+      ? searchParams.get(field) + `${decodeURIComponent("%2C")}${value}`
       : value;
     searchParams.delete(field);
     searchParams.append(field, newValue);
@@ -74,7 +76,7 @@ class Query {
     if (valueArray?.length != 0) {
       searchParams.append(field, (valueArray as Array<string>).join());
     }
-
+    // this.params[field as keyof typeof this.params] = valueArray?.join(",");
     this.goTowithQuery(String(searchParams));
   }
 }
