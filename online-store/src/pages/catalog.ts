@@ -1,4 +1,5 @@
 const catalog = `
+<div class="banner"></div>
 <div class="container">
     <div class="filters">
         <div class="filters__title">
