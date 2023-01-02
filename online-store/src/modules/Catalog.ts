@@ -116,8 +116,9 @@ export default class Catalog {
     const formSelect: HTMLFormElement = form.sortList;
     formSelect.addEventListener("change", () => {
       const selectedIndex = formSelect.selectedIndex;
-      this.query.params.order_by = formSelect.value;
-      this.query.params.ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
+      const ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
+      this.query.setParam("order_by", formSelect.value);
+      this.query.setParam("ascending", ascending);
       this.filterAndDrawCards();
     });
   }
@@ -127,7 +128,7 @@ export default class Catalog {
       "keydown",
       (e: KeyboardEvent) => {
         if (e.key === "Enter") {
-          this.query.params.name = (e.target as HTMLInputElement).value;
+          this.query.setParam("name", (e.target as HTMLInputElement).value);
           this.filterAndDrawCards();
         }
     });
