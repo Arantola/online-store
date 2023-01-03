@@ -198,11 +198,7 @@ function Validation() {
       if (Number(parts[0]) > 12) {
         parts.splice(0, 1);
       }
-      // if(parts[1] > 32) {
-      //   parts.splice(1,1)
-      // }
       if (parts.join("").length == 4) {
-        console.log(123);
         valData = true;
       } else {
         valData = false;
@@ -260,24 +256,30 @@ function Validation() {
 
   const cardNumber = <HTMLInputElement>document.getElementById("cardNumber");
   cardNumber?.addEventListener("input", () => {
-    // console.log(cardNumber.value);
+
     const v = cardNumber.value.replace(/[^0-9.]+/g, "");
     cardNumber.value = v;
     const matches = v.match(/\d{1,4}/g);
     if (matches) cardNumber.value = matches.join(" ");
-    if (cardNumber.value.length === 19) {
-      for (let i = 0; i < cardimg.length; i++) {
-        const re = new RegExp(cardimg[i].regex);
-        if (cardNumber.value.match(re) != null) {
-          console.log(cardimg[i].cardtype);
-          const cardImg = document.querySelector<HTMLElement>(".card-num-img");
-          if (cardImg) {
-            cardImg.remove();
-            cardNumber.insertAdjacentHTML(
-              "beforebegin",
-              `<img class="card-num-img" src=${cardimg[i].img} alt=${cardimg[i].cardtype}>`
-            );
-          }
+    for (let i = 0; i < cardimg.length; i++) {
+      const re = new RegExp(cardimg[i].regex);
+      const cardImg = document.querySelector<HTMLElement>(".card-num-img");
+      if (cardNumber.value.match(re) != null) {
+        if (cardImg) {
+          cardImg.remove();
+          cardNumber.insertAdjacentHTML(
+            "beforebegin",
+            `<img class="card-num-img" src=${cardimg[i].img} alt=${cardimg[i].cardtype}>`
+          );
+        }
+        break;
+      } else {
+        if (cardImg) {
+          cardImg.remove();
+          cardNumber.insertAdjacentHTML(
+            "beforebegin",
+            `<img class="card-num-img" src="https://static.thenounproject.com/png/524369-200.png" alt="unknown">`
+          );
         }
       }
     }

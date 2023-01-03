@@ -45,9 +45,12 @@ const config = {
         type: "asset",
       },
       {
-        test: /\.(?:ico|png|jpg|jpeg|svg)$/i,
-        type: 'asset/inline'
-    },
+        test: /\.(png|jpg|jpeg|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+      },
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],

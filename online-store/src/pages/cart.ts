@@ -1,3 +1,5 @@
+import red from "../assets/images/red-dragon.jpg";
+
 const cart = `
 <div class="modal-container">
             <div class="modal-content">
@@ -82,7 +84,7 @@ const cart = `
                         <div class="cart-item">
                             <div class="item-id">1</div>
                             <div class="item-info">
-                                <img src="../../assets/images/red-dragon.jpg" alt="game name">
+                                <img src="${red}" alt="game name">
                                 <div class="item-description">
                                     <h3 class="name">Bobi story</h3>
                                     <hr>
