@@ -9,7 +9,6 @@ export default class Catalog {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
     this.addListeners();
-    this.filter.resetColection();
     // this.setFilters();
     this.query.getQueryFromURL();
     this.filterAndDrawCards();
@@ -22,6 +21,7 @@ export default class Catalog {
     this.listenRangeInput();
     this.listenResetButton();
     this.listenSaveButton();
+    this.listenTitlesRoll();
   }
 
   refreshTotalGamesFound(value: number) {
@@ -29,10 +29,10 @@ export default class Catalog {
   }
 
   filterAndDrawCards() {
-    this.filter.filterByQueryParams(this.query.params);
-    if (this.filter.collection) {
-      this.drawCards(this.filter.collection);
-      this.refreshTotalGamesFound(this.filter.collection.length);
+    const collection = this.filter.filterByQueryParams(this.query.params);
+    if (collection) {
+      this.drawCards(collection);
+      this.refreshTotalGamesFound(collection.length);
     }
   }
 
@@ -187,5 +187,20 @@ export default class Catalog {
       this.query.getQueryFromURL();
       this.filterAndDrawCards();
     });
+  }
+
+  listenTitlesRoll() {
+    document.querySelectorAll(".filters__box").forEach((box) => {
+      getElementBySelector(
+        ".filters__title",
+        box as HTMLElement
+      ).addEventListener("click", (e) => {
+        getElementBySelector(
+          ".filters__title",
+          box as HTMLElement
+        ).classList.toggle("roll-up")
+        getElementBySelector(".filters__list", box as HTMLElement).classList.toggle("none");
+      });
+    })
   }
 }

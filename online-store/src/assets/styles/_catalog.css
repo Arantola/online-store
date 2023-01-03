@@ -11,6 +11,7 @@
     display: flex;
     justify-content: center;
     flex-grow: 1;
+    position: relative;
     margin-bottom: 5px;
     padding: 4px 8px 5px;
     border-top-left-radius: 4px;
@@ -21,12 +22,39 @@
     text-align: center;
 }
 
+.filters__title::after{
+    position: absolute;
+    content: "";
+    top: 13px;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    transition: 0.3s;
+    transform: rotate(45deg);
+    border-bottom: 3px #fff solid;
+    border-right: 3px #fff solid;
+}
+
+.no-roll::after{
+    display: none;
+}
+
+.roll-up::after {
+    transition: 0.3s;
+    transform: rotate(-135deg);
+}
+
 .filters__list {
     display: flex;
     flex-direction: column;
     overflow: hidden;
     overflow-y: auto;
-    /* height: 520px; */
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.none {
+    display: none;
 }
 
 .checkbox__box {

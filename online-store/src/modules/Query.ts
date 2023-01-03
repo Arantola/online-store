@@ -9,6 +9,7 @@ class Query {
       order_by: "",
       ascending: "",
       id: "",
+      view: "", // for different cards format
       min_price: "1",
       max_price: "300",
       min_players: "1",
@@ -33,13 +34,13 @@ class Query {
     }
   }
 
-  goTowithQuery(searchParams: string) {
+  goTowithQuery(searchParams: URLSearchParams | string) {
     window.history.pushState(
       {},
       "/catalog",
       window.location.origin +
         "/catalog" +
-        `${searchParams ? "?" + searchParams : ""}`
+        `${searchParams ? "?" + String(searchParams).replace(/%2C/g, ",") : ""}`
     );
     this.getQueryFromURL();
   }
@@ -47,12 +48,12 @@ class Query {
   addParam(field: string, value: string) {
     const searchParams = new URLSearchParams(document.location.search);
     const newValue = searchParams.get(field)
-      ? searchParams.get(field) + `${decodeURIComponent("%2C")}${value}`
+      ? searchParams.get(field) + `,${value}`
       : value;
     searchParams.delete(field);
     searchParams.append(field, newValue);
 
-    this.goTowithQuery(String(searchParams));
+    this.goTowithQuery(searchParams);
   }
 
   setParam(field: string, value: string) {
@@ -60,7 +61,7 @@ class Query {
     searchParams.delete(field);
     searchParams.append(field, value);
 
-    this.goTowithQuery(String(searchParams));
+    this.goTowithQuery(searchParams);
   }
 
   delParam(field: string, value: string) {
@@ -76,8 +77,8 @@ class Query {
     if (valueArray?.length != 0) {
       searchParams.append(field, (valueArray as Array<string>).join());
     }
-    // this.params[field as keyof typeof this.params] = valueArray?.join(",");
-    this.goTowithQuery(String(searchParams));
+
+    this.goTowithQuery(searchParams);
   }
 }
 export default Query;
