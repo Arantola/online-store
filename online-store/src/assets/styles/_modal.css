@@ -36,7 +36,7 @@
     font-size: 28px;
     font-weight: bold;
     position: absolute;
-    left: 98%;
+    left: 90%;
 }
 
 .close:hover,
@@ -168,7 +168,7 @@
     padding: 30px;
     border-radius: 10px;
     width: 300px;
-    height: 100px;
+    height: 170px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -183,6 +183,7 @@
 .card-num-img {
     width: 50px;
     margin: 0 10px;
+    height: 45px;
 }
 
 .card-number input {
@@ -192,6 +193,8 @@
     width: 150px;
     border: none;
     box-sizing: border-box;
+    height: 30px;
+    margin: auto;
 }
 
 .card-number input:focus {
