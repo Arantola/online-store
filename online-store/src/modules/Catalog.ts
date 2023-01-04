@@ -26,6 +26,7 @@ export default class Catalog {
     this.listenSaveButton();
     this.listenTitlesRoll();
     this.listenViewBar();
+    this.listenCartButtons();
   }
 
   refreshTotalGamesFound(value: number) {
@@ -95,7 +96,7 @@ export default class Catalog {
           ).innerText = `${item.description}`;
 
           if (this.query.params.view == "list") {
-            getElementBySelector(".card__link", clone).classList.add("card_wide");
+            getElementBySelector(".card", clone).classList.add("card_wide");
             getElementBySelector(".card__img", clone).classList.add("card__img_wide");
             getElementBySelector(".card__img_logo", clone).style.display = "block";
             getElementBySelector(".card__img_background", clone).style.display = "block";
@@ -103,6 +104,7 @@ export default class Catalog {
             getElementBySelector(".card__info", clone).classList.add("card__info_wide");
             getElementBySelector(".card__name", clone).classList.add("card__name_wide");
             getElementBySelector(".card__description", clone).style.display = "block";
+            getElementBySelector(".card__button_cart", clone).classList.add("card__button_cart_wide");
           }
 
           // check if item in cart
@@ -263,16 +265,21 @@ export default class Catalog {
   }
 
   listenCartButtons() {
-    getElementBySelector("#catalog-list").addEventListener("click", (e) => {
-      e.preventDefault();
+    const catalogList = getElementBySelector("#catalog-list");
+    console.log("function set on", catalogList);
+    catalogList.addEventListener("click", (e) => {
+      console.log("click field before if", e.target);
       if (
         e.target instanceof HTMLButtonElement &&
         e.target.classList.contains("card__button_cart")
       ) {
-        e.stopImmediatePropagation();
-        if (!localStorage.getItem("cart")) {
-          localStorage.setItem("cart", localStorage.getItem("cart") + `, ${e.target.id}`);
-        }
+        e.preventDefault();
+        console.log("click button", localStorage.getItem("cart"));
+        const tempCart = localStorage.getItem("cart");
+        tempCart
+          ? localStorage.setItem("cart", tempCart + `, ${e.target.id}`)
+          : localStorage.setItem("cart", `${e.target.id}`);
+
         this.filterAndDrawCards();
       }
     });
