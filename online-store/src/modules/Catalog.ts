@@ -288,7 +288,7 @@ export default class Catalog {
   listenViewBar() {
     getElementBySelector(".view-bar").addEventListener("click", (e) => {
       e.preventDefault();
-      if (e.target instanceof HTMLButtonElement) {
+      if (e.target instanceof HTMLDivElement) {
         if (
           e.target.classList.contains("view-card") &&
           this.query.params.view === "list"
