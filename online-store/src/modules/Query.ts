@@ -5,17 +5,17 @@ class Query {
     public params: IParams = {
       categories: "",
       publishers: "",
-      name: "",
+      input: "",
       order_by: "",
       ascending: "",
       id: "",
       view: "", // for different cards format
-      min_price: "1",
-      max_price: "300",
+      min_price: "5",
+      max_price: "250",
       min_players: "1",
-      max_players: "50",
+      max_players: "8",
       min_playtime: "5",
-      max_playtime: "180",
+      max_playtime: "120",
     }
   ) {}
 
@@ -40,7 +40,10 @@ class Query {
       "/catalog",
       window.location.origin +
         "/catalog" +
-        `${searchParams ? "?" + String(searchParams).replace(/%2C/g, ",") : ""}`
+        `${String(searchParams)
+            ? "?" + String(searchParams).replace(/%2C/g, ",")
+            : ""
+        }`
     );
     this.getQueryFromURL();
   }

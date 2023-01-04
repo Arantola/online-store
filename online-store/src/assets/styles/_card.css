@@ -63,3 +63,14 @@
   width: 50%;
   background: linear-gradient(360deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
 }
+
+.in-cart {
+  box-shadow: inset 0 0 100px 1px rgba(255, 166, 0, 0.388);
+}
+
+.in-cart:hover,
+.in-cart:focus {
+  color: #231f20;
+  box-shadow: inset 0 0 100px 1px rgba(255, 166, 0, 0.388);
+  background-image: linear-gradient(180deg,white 0%,#f7f7f7 100%);
+}

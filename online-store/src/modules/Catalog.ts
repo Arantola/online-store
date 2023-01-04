@@ -1,4 +1,4 @@
-import { getElementBySelector, IGame } from "./types/types";
+import { getElementBySelector, IGame, IParams } from "./types/types";
 import Filter from "./Filter";
 import Query from "./Query";
 
@@ -8,16 +8,19 @@ export default class Catalog {
   renderPage() {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
-    this.addListeners();
-    // this.setFilters();
+    if (!localStorage.getItem("cart")) {
+      localStorage.setItem("cart", "VibNUMwsqr, 4rn2FX1Eon");
+    }
     this.query.getQueryFromURL();
+    this.addListeners();
+    this.setFilters(this.query.params);
     this.filterAndDrawCards();
   }
 
   addListeners() {
     this.listenBoxFilters();
     this.listenOrderFilters();
-    this.listenNameFilter();
+    this.listenInputFilter();
     this.listenRangeInput();
     this.listenResetButton();
     this.listenSaveButton();
@@ -26,6 +29,12 @@ export default class Catalog {
 
   refreshTotalGamesFound(value: number) {
     getElementBySelector("#total-games-display").innerHTML = String(value);
+    if (value == 0) {
+      getElementBySelector("#catalog-list").insertAdjacentHTML(
+        "afterbegin",
+        `<div class="not-found">Found nothing. Try to change search parameters</div>`
+      );
+    }
   }
 
   filterAndDrawCards() {
@@ -81,6 +90,15 @@ export default class Catalog {
             ) as HTMLElement
           ).textContent = `${item.price}`;
 
+          // check if item in cart
+          const cart: string = localStorage.getItem("cart") as string;
+          if (cart.includes(item.id)) {
+            getElementBySelector(
+              ".card__link",
+              clone as HTMLElement
+            ).classList.add("in-cart");
+          }
+
           catalogGameList.appendChild(clone);
         }
       });
@@ -123,12 +141,12 @@ export default class Catalog {
     });
   }
 
-  listenNameFilter() {
-    getElementBySelector("#searchName").addEventListener(
+  listenInputFilter() {
+    getElementBySelector("#search").addEventListener(
       "keydown",
       (e: KeyboardEvent) => {
         if (e.key === "Enter") {
-          this.query.setParam("name", (e.target as HTMLInputElement).value);
+          this.query.setParam("input", (e.target as HTMLInputElement).value);
           this.filterAndDrawCards();
         }
     });
@@ -152,6 +170,15 @@ export default class Catalog {
     this.filterAndDrawCards();
   }
 
+  setInputValues(parent: HTMLInputElement, index: number) {
+    const slides = parent.getElementsByTagName("input");
+    const list = ["price", "playtime", "players"];
+    slides[0].value = this.query.params[`min_${list[index]}`];
+    slides[1].value = this.query.params[`max_${list[index]}`];
+    console.log(slides[0].value);
+    console.log(slides[1].value);
+  }
+
   listenRangeInput() {
     const sliderSections = document.getElementsByClassName("slider");
 
@@ -164,6 +191,10 @@ export default class Catalog {
           sliders[y].addEventListener("change", () => {
             this.getInputValues(<HTMLInputElement>sliderSections[index], index);
           });
+          sliders[y].addEventListener("onpopstate", () => {
+            console.log("function works!");
+            this.setInputValues(<HTMLInputElement>sliderSections[index], index);
+          });
         }
       }
     }
@@ -172,7 +203,14 @@ export default class Catalog {
   listenSaveButton() {
     getElementBySelector(".button_save").addEventListener("click", (e) => {
       e.preventDefault();
+      const button = e.target as HTMLButtonElement;
       navigator.clipboard.writeText(window.location.href);
+      button.textContent = "Link saved!";
+      button.disabled = true;
+      setTimeout(() => {
+        button.textContent = "Get link";
+        button.disabled = false;
+      }, 2000);
     });
   }
 
@@ -185,6 +223,7 @@ export default class Catalog {
         window.location.origin + "/catalog"
       );
       this.query.getQueryFromURL();
+      this.setFilters(this.query.params);
       this.filterAndDrawCards();
     });
   }
@@ -202,5 +241,47 @@ export default class Catalog {
         getElementBySelector(".filters__list", box as HTMLElement).classList.toggle("none");
       });
     })
+  }
+
+  setFilters(params: IParams) {
+
+    let sortOption = 0;
+    switch (params.order_by) {
+      case "price":
+        sortOption = params.ascending === "true" ? 1 : 2;
+        break;
+      case "rank":
+        sortOption = params.ascending === "true" ? 3 : 4;
+        break;
+    }
+    (getElementBySelector("#sort-list") as HTMLSelectElement).selectedIndex =
+      sortOption;
+
+    (getElementBySelector("#search") as HTMLInputElement).value = params.input;
+
+    for (const filter of ["categories", "publishers"]) {
+      document.querySelectorAll(`.checkbox_${filter}`).forEach((box) => {
+        for (const value of params[filter].split(",")) {
+          if (box.getAttribute("idAPI") == value) {
+            (box as HTMLInputElement).checked = true;
+          } else {
+            (box as HTMLInputElement).checked = false;
+          }
+        }
+      });
+    }
+
+    // console.log(params);
+    // console.log(getElementBySelector("#min-price"));
+    // (getElementBySelector("#min-price") as HTMLInputElement).value = "50";
+    //   // params.min_price;
+    // (getElementBySelector("#max-price") as HTMLInputElement).value = params.min_price;
+
+    // (getElementBySelector("#min-time") as HTMLInputElement).value = params.min_playtime;
+    // (getElementBySelector("#max-time") as HTMLInputElement).value = params.min_playtime;
+
+    // (getElementBySelector("#min-players") as HTMLInputElement).value = params.min_players;
+    // (getElementBySelector("#max-players") as HTMLInputElement).value = params.min_players;
+
   }
 }

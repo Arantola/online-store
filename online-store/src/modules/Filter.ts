@@ -20,9 +20,11 @@ export default class Filter {
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
+          case "input":
+            collection = this.filterByInput(collection, query[key]);
+            break;
           case "categories":
           case "publishers":
-          case "name":
             collection = this.filterByField(collection, key, query[key]);
             break;
           case "min_players":
@@ -64,7 +66,7 @@ export default class Filter {
     });
   }
 
-  // categories, publisher, name
+  // categories, publisher
   private filterByField(
     collection: Array<IGame>,
     field: string,
@@ -77,6 +79,14 @@ export default class Filter {
     });
   }
 
+  // input
+  private filterByInput(collection: Array<IGame>, value: string) {
+    const rgx = new RegExp(value, "i");
+    return collection.filter((item) => {
+      return rgx.test(JSON.stringify(Object.values(item)));
+    });
+  }
+
   // price, rank
   private orderBy(collection: Array<IGame>, field: string, ascending: string) {
     return collection.sort((a: IGame, b: IGame) => {
@@ -85,5 +95,4 @@ export default class Filter {
       return ascending == "true" ? keyA - keyB : keyB - keyA;
     });
   }
-
 }
