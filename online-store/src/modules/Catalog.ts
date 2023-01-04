@@ -9,7 +9,7 @@ export default class Catalog {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
     if (!localStorage.getItem("cart")) {
-      localStorage.setItem("cart", "VibNUMwsqr, 4rn2FX1Eon");
+      localStorage.setItem("cart", JSON.stringify({}));
     }
     this.query.getQueryFromURL();
     this.addListeners();
@@ -266,34 +266,66 @@ export default class Catalog {
 
   listenCartButtons() {
     const catalogList = getElementBySelector("#catalog-list");
-    console.log("function set on", catalogList);
     catalogList.addEventListener("click", (e) => {
-      console.log("click field before if", e.target);
       if (
         e.target instanceof HTMLButtonElement &&
         e.target.classList.contains("card__button_cart")
       ) {
         e.preventDefault();
-        console.log("click button", localStorage.getItem("cart"));
-        const tempCart = localStorage.getItem("cart");
-        tempCart
-          ? localStorage.setItem("cart", tempCart + `, ${e.target.id}`)
-          : localStorage.setItem("cart", `${e.target.id}`);
-
-        this.filterAndDrawCards();
+        e.target.classList.contains("card__button_in-cart")
+          ? this.delfromCart(e.target.id)
+          : this.addtoCart(e.target.id);
       }
     });
   }
 
+  delfromCart(id: string) {
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    delete curCart[`${id}`];
+    localStorage.setItem("cart", JSON.stringify(curCart));
+
+    this.filterAndDrawCards();
+  }
+
+  addtoCart(id: string) {
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    curCart[`${id}`] = 1;
+    localStorage.setItem("cart", JSON.stringify(curCart));
+
+    this.filterAndDrawCards();
+  }
+  // addToCart() {
+  //   if (!localStorage.getItem("cart")) {
+  //     const newCart = [{ id: target.id, count: 1 }];
+  //     localStorage.setItem("cart", JSON.stringify(newCart));
+  //   } else {
+  //     // Array<{id: string, count: number}>
+  //     const curCart = JSON.parse(localStorage.getItem("cart") as string);
+  //     for (const item of curCart) {
+  //       if (item.id !== target.id) {
+  //         curCart.push({ id: target.id, count: 1 });
+  //       } else {
+          
+  //       }
+  //     }
+  //   }
+
+  //   cart.set(e.target.id, 1);
+  //   localStorage.setItem("cart", JSON.stringify(cart));
+  // }
+
   listenViewBar() {
+    console.log("function works");
     getElementBySelector(".view-bar").addEventListener("click", (e) => {
       e.preventDefault();
+      console.log("target is", e.target);
       if (e.target instanceof HTMLDivElement) {
         if (
           e.target.classList.contains("view-card") &&
           this.query.params.view === "list"
         ) {
           this.query.setParam("view", "card");
+          console.log("click");
           e.target.style.background = "orange";
           getElementBySelector(".view-list").style.background = "#231f20";
           this.filterAndDrawCards();
