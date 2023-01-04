@@ -105,7 +105,7 @@ function Validation() {
     const v = value;
     const parts = v.split(" ");
     const note = document.querySelectorAll<HTMLElement>(".input-error")[0];
-    if (parts[0].length <= 3 || parts[1].length <= 3) {
+    if (parts[0].length < 3 || parts[1].length < 3) {
       note.style.display = "block";
       valName = false;
     } else {
@@ -119,7 +119,7 @@ function Validation() {
   function inpPhone_format(value: string) {
     const v = value;
     const note = document.querySelectorAll<HTMLElement>(".input-error")[1];
-    if (v.length <= 9) {
+    if (v.length < 9) {
       note.style.display = "block";
       valPhone = false;
     } else {
@@ -137,7 +137,7 @@ function Validation() {
     const v = value;
     const parts = v.split(" ");
     const note = document.querySelectorAll<HTMLElement>(".input-error")[2];
-    if (parts[0].length <= 5 || parts[1].length <= 5 || parts[2].length <= 5) {
+    if (parts[0].length < 5 || parts[1].length < 5 || parts[2].length < 5) {
       note.style.display = "block";
       valAddress = false;
     } else {
@@ -189,7 +189,7 @@ function Validation() {
   function cardData_format(value: string) {
     const v = value.replace(/[^0-9]/gi, "");
     const matches = v.match(/\d{2,4}/g);
-    const match = matches && matches[0] || '';
+    const match = (matches && matches[0]) || "";
     const parts = [];
     for (let i = 0, len = match.length; i < len; i += 2) {
       parts.push(match.substring(i, i + 2));
@@ -198,7 +198,7 @@ function Validation() {
       if (Number(parts[0]) > 12) {
         parts.splice(0, 1);
       }
-      if (parts.join("").length == 4) {
+      if (parts.join("").length === 4) {
         valData = true;
       } else {
         valData = false;
@@ -211,7 +211,7 @@ function Validation() {
   }
 
   function cardSecurity_format(value: string) {
-    if (value.length == 3) {
+    if (value.length === 3) {
       valSecurity = true;
     } else {
       valSecurity = false;
