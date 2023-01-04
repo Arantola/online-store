@@ -40,6 +40,8 @@ class Router {
     );
     getElementBySelector("#page-title").innerHTML =
       this.routes[route as keyof typeof this.routes].title;
+    getElementBySelector("#main-title").innerHTML =
+      this.routes[route as keyof typeof this.routes].title.split("|")[1];
   }
 
   setRoutes() {

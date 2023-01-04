@@ -5,16 +5,17 @@ class Query {
     public params: IParams = {
       categories: "",
       publishers: "",
-      name: "",
+      input: "",
       order_by: "",
       ascending: "",
       id: "",
-      min_price: "1",
-      max_price: "300",
+      view: "card",
+      min_price: "5",
+      max_price: "250",
       min_players: "1",
-      max_players: "50",
+      max_players: "8",
       min_playtime: "5",
-      max_playtime: "180",
+      max_playtime: "150",
     }
   ) {}
 
@@ -27,17 +28,25 @@ class Query {
     for (const key of Object.keys(this.params)) {
       if (Object.prototype.hasOwnProperty.call(paramsObj, key)) {
         this.params[key] = paramsObj[key];
+      } else {
+        if (
+          "categories, publishers, input, order_by, ascending, id".includes(key)
+        )
+          this.params[key] = "";
       }
     }
   }
 
-  goTowithQuery(searchParams: string) {
+  goTowithQuery(searchParams: URLSearchParams | string) {
     window.history.pushState(
       {},
       "/catalog",
       window.location.origin +
         "/catalog" +
-        `${searchParams ? "?" + searchParams : ""}`
+        `${String(searchParams)
+            ? "?" + String(searchParams).replace(/%2C/g, ",")
+            : ""
+        }`
     );
     this.getQueryFromURL();
   }
@@ -50,7 +59,7 @@ class Query {
     searchParams.delete(field);
     searchParams.append(field, newValue);
 
-    this.goTowithQuery(String(searchParams));
+    this.goTowithQuery(searchParams);
   }
 
   setParam(field: string, value: string) {
@@ -58,7 +67,7 @@ class Query {
     searchParams.delete(field);
     searchParams.append(field, value);
 
-    this.goTowithQuery(String(searchParams));
+    this.goTowithQuery(searchParams);
   }
 
   delParam(field: string, value: string) {
@@ -75,7 +84,7 @@ class Query {
       searchParams.append(field, (valueArray as Array<string>).join());
     }
 
-    this.goTowithQuery(String(searchParams));
+    this.goTowithQuery(searchParams);
   }
 }
 export default Query;

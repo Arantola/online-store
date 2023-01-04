@@ -24,9 +24,30 @@
                     </div>
                 </div>
             </header>
+            
             <div class="content">
-                <div id="root"></div>
+                <div class="banner">
+                    <div class="container">
+                        <h1 class="banner__name" id="main-title">Catalog</h1>
+                    </div>
+                    <div class="banner__line">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1880 58" width="100%">
+                            <path d="M0 58.7V33.4L285.9 0l202.4 29.7L674 1.9l421.5 42.7 195-40.8L1478 37.1l200.6-14.9 133.7 33.4 67.9-7.4v10.4H0z" fill="#f7f7f7">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="container" id="root"></div>
                 <main id="main"></main>
+            </div>
+
+            <div class="bottom__wrapper">
+                <div class="banner__line">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1880 58" width="100%">
+                        <path d="M0 58.7V33.4L285.9 0l202.4 29.7L674 1.9l421.5 42.7 195-40.8L1478 37.1l200.6-14.9 133.7 33.4 67.9-7.4v10.4H0z" fill="#231f20">
+                        </path>
+                    </svg>
+                </div>
             </div>
             <footer>
                 <div class="container">
@@ -71,14 +92,16 @@
 
         <template id="product-card">
             <a class="card card__link" href="/" id="">
-                <div class="card__info">
-                    <div class="card__img-wrapper"><img class="card__img" src="" alt=""><img class="card__img_alt" src="" alt=""></div>
-                    <div class="card__name"></div>
-                    <div class="card__price"></div>
+                <div class="card__img-wrapper">
+                    <img class="card__img_background" src="" alt="">
+                    <img class="card__img" src="" alt="">
+                    <img class="card__img_logo" src="" alt="">
                 </div>
-                <div class="card__buttons">
-                    <button class="card__button_cart button">Add to cart</button>
-                    <button class="card__button_info button">More info</button>
+                <div class="card__info">
+                    <div class="card__name"></div>
+                    <div class="card__description"></div>
+                    <div class="card__price"></div>
+                    <button class="card__button_cart">Add to cart</button>
                 </div>
             </a>
         </template>
