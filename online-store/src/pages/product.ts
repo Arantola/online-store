@@ -1,4 +1,13 @@
 const product = `
+<div class="modal-container">
+    <div class="modal-content">
+        <div class="modal-close-container">
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-img">
+        </div>
+    </div>
+</div>
 <div id="container-items" class="container">
                         <div class="breadcrumb">
                             <div><a href="../main/index.html">Store</a></div>

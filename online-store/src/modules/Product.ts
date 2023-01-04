@@ -9,6 +9,7 @@ class Product {
     const currentGame: any = this.filter.getSingle(id)[0];
     console.log(currentGame);
     this.addCardInfo(currentGame);
+    this.ImgExpansion();
   }
 
   addCardInfo(game?: any) {
@@ -86,6 +87,39 @@ class Product {
       // Делаем запрос на сервер
       // Добавляем информацию в поля
     }
+  }
+
+  ImgExpansion() {
+    const modal = document.querySelector<HTMLElement>(".modal-container");
+    const openImg = document.querySelector<HTMLElement>(".all-img");
+    const span = document.querySelector<HTMLElement>(".close");
+
+    if (openImg != null) {
+      openImg.addEventListener("click", (e: Event) => {
+        console.log(e);
+        const urlImg = e.target as HTMLImageElement;
+        const modalImg = document.querySelector<HTMLElement>(".modal-img");
+        console.log(urlImg);
+        if (modal != null) {
+          modal.style.display = "block";
+          if (modalImg != undefined) modalImg.innerHTML = `<img src="${urlImg.src}" alt="${urlImg.alt}">`;
+        }
+      });
+    }
+
+
+    if (span != null) {
+      span.onclick = function () {
+        if (modal != null) {
+          modal.style.display = "none";
+        }
+      };
+    }
+    window.onclick = function (event) {
+      if (event.target == modal && modal != null) {
+        modal.style.display = "none";
+      }
+    };
   }
 
   addListeners() {

@@ -92,3 +92,10 @@
     color: #FFFFFF;
     text-transform: uppercase;
 }
+.modal-img {
+    width: 500px;
+    margin: auto;
+}
+.modal-img img{
+    width: 100%;
+}
