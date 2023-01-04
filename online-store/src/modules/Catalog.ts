@@ -14,6 +14,8 @@ export default class Catalog {
     this.query.getQueryFromURL();
     this.addListeners();
     this.setFilters(this.query.params);
+    this.filter.updateCartDisplay();
+    this.filter.updateTotalCost();
     this.filterAndDrawCards();
   }
 
@@ -272,47 +274,18 @@ export default class Catalog {
         e.target.classList.contains("card__button_cart")
       ) {
         e.preventDefault();
+        const curCart = JSON.parse(localStorage.getItem("cart") as string);
         e.target.classList.contains("card__button_in-cart")
-          ? this.delfromCart(e.target.id)
-          : this.addtoCart(e.target.id);
+          ? delete curCart[`${e.target.id}`]
+          : (curCart[`${e.target.id}`] = 1);
+        localStorage.setItem("cart", JSON.stringify(curCart));
+
+        this.filter.updateCartDisplay();
+        this.filter.updateTotalCost();
+        this.filterAndDrawCards();
       }
     });
   }
-
-  delfromCart(id: string) {
-    const curCart = JSON.parse(localStorage.getItem("cart") as string);
-    delete curCart[`${id}`];
-    localStorage.setItem("cart", JSON.stringify(curCart));
-
-    this.filterAndDrawCards();
-  }
-
-  addtoCart(id: string) {
-    const curCart = JSON.parse(localStorage.getItem("cart") as string);
-    curCart[`${id}`] = 1;
-    localStorage.setItem("cart", JSON.stringify(curCart));
-
-    this.filterAndDrawCards();
-  }
-  // addToCart() {
-  //   if (!localStorage.getItem("cart")) {
-  //     const newCart = [{ id: target.id, count: 1 }];
-  //     localStorage.setItem("cart", JSON.stringify(newCart));
-  //   } else {
-  //     // Array<{id: string, count: number}>
-  //     const curCart = JSON.parse(localStorage.getItem("cart") as string);
-  //     for (const item of curCart) {
-  //       if (item.id !== target.id) {
-  //         curCart.push({ id: target.id, count: 1 });
-  //       } else {
-          
-  //       }
-  //     }
-  //   }
-
-  //   cart.set(e.target.id, 1);
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  // }
 
   listenViewBar() {
     console.log("function works");
@@ -371,6 +344,8 @@ export default class Catalog {
 
     const view = this.query.params.view;
     getElementBySelector(`.view-${view}`).style.background = "orange";
+
+    // Input range dont set in right position after reload page
 
     // console.log(params);
     // console.log(getElementBySelector("#min-price"));

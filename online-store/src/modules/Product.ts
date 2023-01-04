@@ -8,6 +8,8 @@ class Product {
     const id = String(new URLSearchParams(document.location.search).get("id"));
     const currentGame: any = this.filter.getSingle(id)[0];
     console.log(currentGame);
+    this.filter.updateCartDisplay();
+    this.filter.updateTotalCost();
   }
 
   addCardInfo(game?: any) {

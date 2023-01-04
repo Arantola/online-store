@@ -1,5 +1,6 @@
 import { IGame, IParams } from "./types/types";
 import gamesDataArray from "../data/gamesDataArray";
+import { getElementBySelector } from "./types/types";
 
 export default class Filter {
   constructor(
@@ -13,6 +14,28 @@ export default class Filter {
     return tempCollection?.filter((game: IGame) => {
       return game.id == id;
     });
+  }
+
+  public getCart() {
+    const tempCollection = JSON.parse(this.initialCollection);
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    return tempCollection.filter((game: IGame) => {
+      return Object.keys(curCart).includes(game.id);
+    });
+  }
+
+  public updateCartDisplay() {
+    getElementBySelector(".cart__display").innerText = this.getCart().length;
+  }
+
+  public updateTotalCost() {
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    const cost = this.getCart().reduce(
+        (acc: number, game: IGame) => acc + +game.price * +curCart[game.id],
+        0
+      )
+      .toFixed(2);
+    getElementBySelector(".total-cost__display").innerText = cost;
   }
 
   public filterByQueryParams(query: IParams) {

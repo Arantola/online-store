@@ -372,3 +372,20 @@ section.range-slider {
 .view-list {
     /* background: url(../icons/list.svg); */
 }
+
+    /* Temporary return */
+.view-card::after {
+    content: "";
+    width: 11px;
+    height: 15px;
+    border: 2px solid #fff;
+    border-radius: 1px;
+}
+
+.view-list::after {
+    content: "";
+    width: 16px;
+    height: 10px;
+    border-top: 3px solid #fff;
+    border-bottom: 3px solid #fff;
+}
