@@ -49,7 +49,7 @@ interface IParams {
 
 function getElementBySelector<T extends HTMLElement>(
   selector: string,
-  parent: HTMLElement | HTMLInputElement | Document = document
+  parent: HTMLElement | HTMLInputElement | DocumentFragment | Document = document
 ): T {
   const element: T | null = parent.querySelector(selector);
   if (element === null)

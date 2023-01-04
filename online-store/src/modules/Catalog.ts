@@ -25,6 +25,7 @@ export default class Catalog {
     this.listenResetButton();
     this.listenSaveButton();
     this.listenTitlesRoll();
+    this.listenViewBar();
   }
 
   refreshTotalGamesFound(value: number) {
@@ -45,58 +46,71 @@ export default class Catalog {
     }
   }
 
-  drawCards(items: Array<IGame> | undefined) {
+  drawCards(items: Array<IGame>) {
     if (items) {
       const catalogGameList = getElementBySelector("#catalog-list");
       catalogGameList.innerHTML = "";
+      if (this.query.params.view == "list") {
+        catalogGameList.classList.add("list_flex");
+      } else {
+        catalogGameList.classList.remove("list_flex");
+      }
       items.forEach((item: IGame) => {
         const clone: Node =
           (
             document.getElementById("product-card") as HTMLTemplateElement
           ).content.cloneNode(true) || null;
-        if (clone) {
+
+        if (clone instanceof DocumentFragment) {
           (
-            getElementBySelector(
-              ".card__link",
-              clone as HTMLElement
-            ) as HTMLLinkElement
+            getElementBySelector(".card__link", clone) as HTMLLinkElement
           ).href = `/product?id=${item.id}`;
           (
-            getElementBySelector(
-              ".card__img",
-              clone as HTMLElement
-            ) as HTMLImageElement
+            getElementBySelector(".card__img", clone) as HTMLImageElement
           ).src = `${
             item.images.box
               ? item.images.box
               : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
           }`;
           (
-            getElementBySelector(
-              ".card__img",
-              clone as HTMLElement
-            ) as HTMLImageElement
+            getElementBySelector(".card__img_logo", clone) as HTMLImageElement
+          ).src = item.images.logo;
+          (
+            getElementBySelector(".card__img_background", clone) as HTMLImageElement
+          ).src = `${item.images.background}`;
+          (
+            getElementBySelector(".card__img", clone) as HTMLImageElement
           ).alt = `${item.name}`;
           (
-            getElementBySelector(
-              ".card__name",
-              clone as HTMLElement
-            ) as HTMLElement
+            getElementBySelector(".card__name", clone) as HTMLElement
           ).textContent = `${item.name}`;
           (
-            getElementBySelector(
-              ".card__price",
-              clone as HTMLElement
-            ) as HTMLElement
-          ).textContent = `${item.price}`;
+            getElementBySelector(".card__price", clone) as HTMLElement
+          ).textContent = `${item.price} $`;
+          (
+          getElementBySelector(".card__button_cart", clone) as HTMLButtonElement
+          ).id = `${item.id}`;
+          (
+            getElementBySelector(".card__description", clone) as HTMLElement
+          ).innerText = `${item.description}`;
+
+          if (this.query.params.view == "list") {
+            getElementBySelector(".card__link", clone).classList.add("card_wide");
+            getElementBySelector(".card__img", clone).classList.add("card__img_wide");
+            getElementBySelector(".card__img_logo", clone).style.display = "block";
+            getElementBySelector(".card__img_background", clone).style.display = "block";
+            getElementBySelector(".card__img-wrapper", clone).classList.add("card__img-wrapper_wide");
+            getElementBySelector(".card__info", clone).classList.add("card__info_wide");
+            getElementBySelector(".card__name", clone).classList.add("card__name_wide");
+            getElementBySelector(".card__description", clone).style.display = "block";
+          }
 
           // check if item in cart
           const cart: string = localStorage.getItem("cart") as string;
           if (cart.includes(item.id)) {
-            getElementBySelector(
-              ".card__link",
-              clone as HTMLElement
-            ).classList.add("in-cart");
+            getElementBySelector(".card__link", clone).classList.add("card_in-cart");
+            getElementBySelector(".card__button_cart", clone).classList.add("card__button_in-cart");
+            getElementBySelector(".card__button_cart", clone).innerText = "Added";
           }
 
           catalogGameList.appendChild(clone);
@@ -146,10 +160,15 @@ export default class Catalog {
       "keydown",
       (e: KeyboardEvent) => {
         if (e.key === "Enter") {
-          this.query.setParam("input", (e.target as HTMLInputElement).value);
+          if ((e.target as HTMLInputElement).value == "") {
+            this.query.delParam("input", (e.target as HTMLInputElement).value);
+          } else {
+            this.query.setParam("input", (e.target as HTMLInputElement).value);
+          }
           this.filterAndDrawCards();
         }
-    });
+      }
+    );
   }
 
   getInputValues(parent: HTMLInputElement, index: number) {
@@ -243,8 +262,48 @@ export default class Catalog {
     })
   }
 
-  setFilters(params: IParams) {
+  listenCartButtons() {
+    getElementBySelector("#catalog-list").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (
+        e.target instanceof HTMLButtonElement &&
+        e.target.classList.contains("card__button_cart")
+      ) {
+        e.stopImmediatePropagation();
+        if (!localStorage.getItem("cart")) {
+          localStorage.setItem("cart", localStorage.getItem("cart") + `, ${e.target.id}`);
+        }
+        this.filterAndDrawCards();
+      }
+    });
+  }
 
+  listenViewBar() {
+    getElementBySelector(".view-bar").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (e.target instanceof HTMLButtonElement) {
+        if (
+          e.target.classList.contains("view-card") &&
+          this.query.params.view === "list"
+        ) {
+          this.query.setParam("view", "card");
+          e.target.style.background = "orange";
+          getElementBySelector(".view-list").style.background = "#231f20";
+          this.filterAndDrawCards();
+        } else if (
+          e.target.classList.contains("view-list") &&
+          this.query.params.view === "card"
+        ) {
+          this.query.setParam("view", "list");
+          e.target.style.background = "orange";
+          getElementBySelector(".view-card").style.background = "#231f20";
+          this.filterAndDrawCards();
+        }
+      }
+    });
+  }
+
+  setFilters(params: IParams) {
     let sortOption = 0;
     switch (params.order_by) {
       case "price":
@@ -270,6 +329,9 @@ export default class Catalog {
         }
       });
     }
+
+    const view = this.query.params.view;
+    getElementBySelector(`.view-${view}`).style.background = "orange";
 
     // console.log(params);
     // console.log(getElementBySelector("#min-price"));

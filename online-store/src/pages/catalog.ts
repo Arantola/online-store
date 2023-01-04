@@ -138,11 +138,11 @@ const catalog = `
         <div class="filters__box slider">
             <h3 class="filters__title">Playtime</h3>
         <div class="filters__list">
-            <span class="slider__data">5 - 120</span>
+            <span class="slider__data">5 - 150</span>
             <div class="slider__double-range">
                 <div class="slider__track"></div>
-                <input class="slider__input" id="min-time" type="range" min="5" max="120" value="5" step="5">
-                <input class="slider__input" id="max-time" type="range" min="5" max="120" value="120" step="5">
+                <input class="slider__input" id="min-time" type="range" min="5" max="150" value="5" step="5">
+                <input class="slider__input" id="max-time" type="range" min="5" max="150" value="150" step="5">
         </div>
             </div>
         </div>
@@ -175,8 +175,8 @@ const catalog = `
                 <input type="search" name="" id="search" placeholder="Search product">
             </div>
             <div class="view-bar">
-                <div class="view-card"><img src="../../assets/icons/cards.svg" alt="cards"></div>
-                <div class="view-list"><img src="../../assets/icons/list.svg" alt="list"></div>
+                <button class="view-card"></button>
+                <button class="view-list"></button>
             </div>
         </div>
         <div class="products__list" id="catalog-list">

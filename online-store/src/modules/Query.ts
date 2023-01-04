@@ -9,13 +9,13 @@ class Query {
       order_by: "",
       ascending: "",
       id: "",
-      view: "", // for different cards format
+      view: "card",
       min_price: "5",
       max_price: "250",
       min_players: "1",
       max_players: "8",
       min_playtime: "5",
-      max_playtime: "120",
+      max_playtime: "150",
     }
   ) {}
 
@@ -29,7 +29,10 @@ class Query {
       if (Object.prototype.hasOwnProperty.call(paramsObj, key)) {
         this.params[key] = paramsObj[key];
       } else {
-        this.params[key] = "";
+        if (
+          "categories, publishers, input, order_by, ascending, id".includes(key)
+        )
+          this.params[key] = "";
       }
     }
   }
