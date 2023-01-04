@@ -1,4 +1,8 @@
+import cards from "../assets/icons/cards.svg";
+import list from "../assets/icons/list.svg";
+
 const catalog = `
+<div class="banner"></div>
 <div class="container">
     <div class="filters">
         <div class="filters__title no-roll">
@@ -175,8 +179,8 @@ const catalog = `
                 <input type="search" name="" id="search" placeholder="Search product">
             </div>
             <div class="view-bar">
-                <button class="view-card"></button>
-                <button class="view-list"></button>
+                <div class="view-card"><img src="${cards}" alt="cards"></div>
+                <div class="view-list"><img src="${list}" alt="list"></div>
             </div>
         </div>
         <div class="products__list" id="catalog-list">

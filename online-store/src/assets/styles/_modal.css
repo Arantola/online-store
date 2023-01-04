@@ -36,7 +36,7 @@
     font-size: 28px;
     font-weight: bold;
     position: absolute;
-    left: 98%;
+    left: 90%;
 }
 
 .close:hover,
@@ -60,6 +60,7 @@
 
 .group {
     position: relative;
+    width: 100%;
 }
 
 .group:last-of-type {
@@ -70,7 +71,7 @@
     font-size: 14px;
     padding: 10px 10px 10px 5px;
     display: block;
-    width: 500px;
+    width: 100%;
     border: none;
     border-bottom: 1px solid black;
     -webkit-box-sizing: border-box;
@@ -103,7 +104,7 @@
 .group .bar {
     position: relative;
     display: block;
-    width: 500px;
+    width: 100%;
 }
 
 .group .bar::before, .group .bar::after {
@@ -158,14 +159,16 @@
 .modal-info-container {
     display: flex;
 }
-
+.info-container {
+    flex: 0 0 25vw;
+}
 .card-data-container {
     margin:auto;
     background: #c4c4c4;
     padding: 30px;
     border-radius: 10px;
     width: 300px;
-    height: 100px;
+    height: 170px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -180,6 +183,7 @@
 .card-num-img {
     width: 50px;
     margin: 0 10px;
+    height: 45px;
 }
 
 .card-number input {
@@ -189,6 +193,8 @@
     width: 150px;
     border: none;
     box-sizing: border-box;
+    height: 30px;
+    margin: auto;
 }
 
 .card-number input:focus {

@@ -1,4 +1,4 @@
-.container {
+#container-items {
     display: block;
 }
 
@@ -8,18 +8,25 @@
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
-    margin: 3% auto;
+    /* margin: 3% auto; */
+    padding: 3% 0;
 }
 
 .item {
-    border: 1px solid orange;
+    background: linear-gradient( rgba(0, 0, 0, 0.80) 100%, rgba(0, 0, 0, 0.5)100%),url('../images/leder-hero-root.webp');
     padding: 20px;
+    color: #FFFFFF;
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
 }
 
 .name {
     text-align: center;
-    font-size: 25px;
-    margin-bottom: 20px;
+}
+.name img {
+    height: 25vw;
+    margin: -4vw 0
 }
 
 .item-info {
@@ -38,22 +45,35 @@
     height: 50px;
 }
 
+.characteristic {
+    margin: 0 auto;
+}
+
 .detail {
     display: table-row;
     height: 10px;
+    font-size: 20px;
 }
 
 .detail:nth-child(2n+1) {
-    background-color: rgb(190, 190, 190);
+    background-color: rgb(128, 128, 128);
 }
 
 .detail div{
     display: table-cell;
     padding: 5px;
 }
-
+.product-text {
+    font-size: 16px;
+}
+.product-text h3{
+    font-size: 22px;
+}
 .pay-block {
+    margin-top: 10px;
     text-align: center;
+    display: flex;
+    gap: 5vw;
 }
 
 .pay-block button {
@@ -66,12 +86,4 @@
     font-size: 16px;
     color: #FFFFFF;
     text-transform: uppercase;
-}
-
-.pay-block .price {
-    margin-bottom: 20px;
-}
-
-.pay-block button:first-of-type {
-    margin-bottom: 30px;
 }

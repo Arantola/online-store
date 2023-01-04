@@ -360,27 +360,11 @@ section.range-slider {
     align-items: center;
     width: 30px;
     height: 30px;
-    background: #231f20;
+    background: orange;
     color: #fff;
     border-radius: 2px;
 }
 
 .view-card {
     margin-right: 10px;
-}
-
-.view-card::after {
-    content: "";
-    width: 11px;
-    height: 15px;
-    border: 2px solid #fff;
-    border-radius: 1px;
-}
-
-.view-list::after {
-    content: "";
-    width: 16px;
-    height: 10px;
-    border-top: 3px solid #fff;
-    border-bottom: 3px solid #fff;
 }
