@@ -1,9 +1,6 @@
 .card {
   position: relative;
-  width: 23%;
   max-width: 230px;
-  /* margin: 1%; */
-  /* padding-top: 10px; */
   height: 300px;
   text-align: center;
   overflow: hidden;

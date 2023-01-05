@@ -129,14 +129,14 @@ const catalog = `
         </div>
 
         <div class="filters__box slider">
-        <h3 class="filters__title">Price</h3>
+            <h3 class="filters__title">Price</h3>
         <div class="filters__list">
-        <span class="slider__data">5 - 300</span>
-        <div class="slider__double-range">
-            <div class="slider__track"></div>
-            <input class="slider__input" id="min-price" type="range" min="5" max="250" value="5" step="5">
-            <input class="slider__input" id="max-price" type="range" min="5" max="250" value="250" step="5">
-        </div>
+            <span class="slider__data">5 - 300</span>
+            <div class="slider__double-range">
+                <div class="slider__track"></div>
+                <input class="slider__input" id="min-price" type="range" min="5" max="250" value="5" step="5">
+                <input class="slider__input" id="max-price" type="range" min="5" max="250" value="250" step="5">
+            </div>
         </div>
     </div>
         <div class="filters__box slider">

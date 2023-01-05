@@ -13,7 +13,7 @@ export default class Catalog {
     }
     this.query.getQueryFromURL();
     this.addListeners();
-    this.setFilters(this.query.params);
+    this.setFilters(this.query.params, false);
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
     this.filterAndDrawCards();
@@ -175,7 +175,7 @@ export default class Catalog {
     );
   }
 
-  getInputValues(parent: HTMLInputElement, index: number) {
+  getInputValues(parent: HTMLElement, index: number) {
     const slides = parent.getElementsByTagName("input");
     let slide1 = parseFloat(slides[0].value);
     let slide2 = parseFloat(slides[1].value);
@@ -190,33 +190,29 @@ export default class Catalog {
     this.query.setParam(`min_${list[index]}`, String(slide1));
     this.query.setParam(`max_${list[index]}`, String(slide2));
 
+
     this.filterAndDrawCards();
   }
 
-  setInputValues(parent: HTMLInputElement, index: number) {
+  setInputValues(parent: HTMLElement, index: number) {
     const slides = parent.getElementsByTagName("input");
     const list = ["price", "playtime", "players"];
-    slides[0].value = this.query.params[`min_${list[index]}`];
-    slides[1].value = this.query.params[`max_${list[index]}`];
-    console.log(slides[0].value);
-    console.log(slides[1].value);
+    slides[0].setAttribute("value", this.query.params[`min_${list[index]}`]);
+    slides[1].setAttribute("value", this.query.params[`max_${list[index]}`]);
+    this.getInputValues(parent, index);
   }
 
-  listenRangeInput() {
-    const sliderSections = document.getElementsByClassName("slider");
+  sliderSections = document.getElementsByClassName("slider");
 
-    for (let index = 0; index < sliderSections.length; index++) {
+  listenRangeInput() {
+    for (let index = 0; index < this.sliderSections.length; index++) {
       const sliders: HTMLCollectionOf<HTMLInputElement> =
-        sliderSections[index].getElementsByTagName("input");
+        this.sliderSections[index].getElementsByTagName("input");
 
       for (let y = 0; y < sliders.length; y++) {
         if (sliders[y].type === "range") {
           sliders[y].addEventListener("change", () => {
-            this.getInputValues(<HTMLInputElement>sliderSections[index], index);
-          });
-          sliders[y].addEventListener("onpopstate", () => {
-            console.log("function works!");
-            this.setInputValues(<HTMLInputElement>sliderSections[index], index);
+            this.getInputValues(<HTMLInputElement>this.sliderSections[index], index);
           });
         }
       }
@@ -246,7 +242,7 @@ export default class Catalog {
         window.location.origin + "/catalog"
       );
       this.query.getQueryFromURL();
-      this.setFilters(this.query.params);
+      this.setFilters(this.query.params, true);
       this.filterAndDrawCards();
     });
   }
@@ -315,7 +311,7 @@ export default class Catalog {
     });
   }
 
-  setFilters(params: IParams) {
+  setFilters(params: IParams, flag: boolean) {
     let sortOption = 0;
     switch (params.order_by) {
       case "price":
@@ -345,19 +341,11 @@ export default class Catalog {
     const view = this.query.params.view;
     getElementBySelector(`.view-${view}`).style.background = "orange";
 
-    // Input range dont set in right position after reload page
-
-    // console.log(params);
-    // console.log(getElementBySelector("#min-price"));
-    // (getElementBySelector("#min-price") as HTMLInputElement).value = "50";
-    //   // params.min_price;
-    // (getElementBySelector("#max-price") as HTMLInputElement).value = params.min_price;
-
-    // (getElementBySelector("#min-time") as HTMLInputElement).value = params.min_playtime;
-    // (getElementBySelector("#max-time") as HTMLInputElement).value = params.min_playtime;
-
-    // (getElementBySelector("#min-players") as HTMLInputElement).value = params.min_players;
-    // (getElementBySelector("#max-players") as HTMLInputElement).value = params.min_players;
+    if (flag) {
+      this.setInputValues(this.sliderSections[0] as HTMLElement, 0);
+      this.setInputValues(this.sliderSections[1] as HTMLElement, 1);
+      this.setInputValues(this.sliderSections[2] as HTMLElement, 2);
+    }
 
   }
 }
