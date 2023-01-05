@@ -190,7 +190,6 @@ export default class Catalog {
     this.query.setParam(`min_${list[index]}`, String(slide1));
     this.query.setParam(`max_${list[index]}`, String(slide2));
 
-
     this.filterAndDrawCards();
   }
 

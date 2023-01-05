@@ -40,6 +40,7 @@ export default class Filter {
 
   public filterByQueryParams(query: IParams) {
     let collection = JSON.parse(this.initialCollection);
+    // console.log(query);
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
@@ -96,9 +97,9 @@ export default class Filter {
     value: string
   ) {
     return collection.filter((game: IGame) => {
-      return String(game[field as keyof IGame])
-        .toLowerCase()
-        .includes(value.toLowerCase());
+      for (const cat of (game[field as keyof IGame] as string).split(",")) {
+        return value.includes(cat);
+      }
     });
   }
 

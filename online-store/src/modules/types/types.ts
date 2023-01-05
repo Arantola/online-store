@@ -19,7 +19,7 @@ interface IGame {
 
   art: string;
   designer: string;
-  categories: string | string[];
+  categories: string;
   publisher: {
     id: string;
     name: string;
