@@ -10,6 +10,8 @@ class Product {
     console.log(currentGame);
     this.addCardInfo(currentGame);
     this.ImgExpansion();
+    this.filter.updateCartDisplay();
+    this.filter.updateTotalCost();
   }
 
   addCardInfo(game?: any) {

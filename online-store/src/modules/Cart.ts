@@ -1,11 +1,14 @@
+import Filter from "./Filter";
 import { getElementBySelector } from "./types/types";
 
 export default class Cart {
-  constructor(public cart = []) {}
+  constructor(public filter: Filter) {}
 
   renderPage() {
     CreateModal();
     Validation();
+    this.filter.updateCartDisplay();
+    this.filter.updateTotalCost();
   }
 }
 

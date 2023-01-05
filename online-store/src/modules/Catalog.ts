@@ -9,11 +9,13 @@ export default class Catalog {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
     if (!localStorage.getItem("cart")) {
-      localStorage.setItem("cart", "VibNUMwsqr, 4rn2FX1Eon");
+      localStorage.setItem("cart", JSON.stringify({}));
     }
     this.query.getQueryFromURL();
     this.addListeners();
     this.setFilters(this.query.params);
+    this.filter.updateCartDisplay();
+    this.filter.updateTotalCost();
     this.filterAndDrawCards();
   }
 
@@ -26,6 +28,7 @@ export default class Catalog {
     this.listenSaveButton();
     this.listenTitlesRoll();
     this.listenViewBar();
+    this.listenCartButtons();
   }
 
   refreshTotalGamesFound(value: number) {
@@ -95,7 +98,7 @@ export default class Catalog {
           ).innerText = `${item.description}`;
 
           if (this.query.params.view == "list") {
-            getElementBySelector(".card__link", clone).classList.add("card_wide");
+            getElementBySelector(".card", clone).classList.add("card_wide");
             getElementBySelector(".card__img", clone).classList.add("card__img_wide");
             getElementBySelector(".card__img_logo", clone).style.display = "block";
             getElementBySelector(".card__img_background", clone).style.display = "block";
@@ -103,6 +106,7 @@ export default class Catalog {
             getElementBySelector(".card__info", clone).classList.add("card__info_wide");
             getElementBySelector(".card__name", clone).classList.add("card__name_wide");
             getElementBySelector(".card__description", clone).style.display = "block";
+            getElementBySelector(".card__button_cart", clone).classList.add("card__button_cart_wide");
           }
 
           // check if item in cart
@@ -263,30 +267,38 @@ export default class Catalog {
   }
 
   listenCartButtons() {
-    getElementBySelector("#catalog-list").addEventListener("click", (e) => {
-      e.preventDefault();
+    const catalogList = getElementBySelector("#catalog-list");
+    catalogList.addEventListener("click", (e) => {
       if (
         e.target instanceof HTMLButtonElement &&
         e.target.classList.contains("card__button_cart")
       ) {
-        e.stopImmediatePropagation();
-        if (!localStorage.getItem("cart")) {
-          localStorage.setItem("cart", localStorage.getItem("cart") + `, ${e.target.id}`);
-        }
+        e.preventDefault();
+        const curCart = JSON.parse(localStorage.getItem("cart") as string);
+        e.target.classList.contains("card__button_in-cart")
+          ? delete curCart[`${e.target.id}`]
+          : (curCart[`${e.target.id}`] = 1);
+        localStorage.setItem("cart", JSON.stringify(curCart));
+
+        this.filter.updateCartDisplay();
+        this.filter.updateTotalCost();
         this.filterAndDrawCards();
       }
     });
   }
 
   listenViewBar() {
+    console.log("function works");
     getElementBySelector(".view-bar").addEventListener("click", (e) => {
       e.preventDefault();
-      if (e.target instanceof HTMLButtonElement) {
+      console.log("target is", e.target);
+      if (e.target instanceof HTMLDivElement) {
         if (
           e.target.classList.contains("view-card") &&
           this.query.params.view === "list"
         ) {
           this.query.setParam("view", "card");
+          console.log("click");
           e.target.style.background = "orange";
           getElementBySelector(".view-list").style.background = "#231f20";
           this.filterAndDrawCards();
@@ -332,6 +344,8 @@ export default class Catalog {
 
     const view = this.query.params.view;
     getElementBySelector(`.view-${view}`).style.background = "orange";
+
+    // Input range dont set in right position after reload page
 
     // console.log(params);
     // console.log(getElementBySelector("#min-price"));

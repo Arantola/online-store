@@ -337,10 +337,9 @@ section.range-slider {
 }
 
 .not-found {
-    margin-top: 50px;
     align-self: center;
     width: 100%;
-    height: 200px;
+    height: 300px;
     background-color: #fff;
     display: flex;
     justify-content: center;
@@ -360,11 +359,33 @@ section.range-slider {
     align-items: center;
     width: 30px;
     height: 30px;
-    background: orange;
+    background: #231f20;
     color: #fff;
     border-radius: 2px;
 }
 
 .view-card {
     margin-right: 10px;
+    /* background: url(../icons/cards.svg) center center; */
+}
+
+.view-list {
+    /* background: url(../icons/list.svg); */
+}
+
+    /* Temporary return */
+.view-card::after {
+    content: "";
+    width: 11px;
+    height: 15px;
+    border: 2px solid #fff;
+    border-radius: 1px;
+}
+
+.view-list::after {
+    content: "";
+    width: 16px;
+    height: 10px;
+    border-top: 3px solid #fff;
+    border-bottom: 3px solid #fff;
 }

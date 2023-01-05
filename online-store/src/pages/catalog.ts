@@ -176,11 +176,11 @@ const catalog = `
             </form>
             <div class="total-found"> Found: <span id="total-games-display">0</span></div>
             <div class="search-bar">
-                <input type="search" name="" id="search" placeholder="Search product">
+                <input type="search" name="" id="search" placeholder=" Search product">
             </div>
             <div class="view-bar">
-                <div class="view-card"><img src="${cards}" alt="cards"></div>
-                <div class="view-list"><img src="${list}" alt="list"></div>
+                <div class="view-card"></div>
+                <div class="view-list"></div>
             </div>
         </div>
         <div class="products__list" id="catalog-list">

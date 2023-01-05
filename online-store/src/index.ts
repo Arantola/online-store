@@ -1,4 +1,5 @@
 import "./assets/styles/_reset.css";
+import "./assets/styles/_404.css";
 import "./assets/styles/_catalog.css";
 import "./assets/styles/_cart.css";
 import "./assets/styles/_description.css";

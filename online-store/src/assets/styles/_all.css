@@ -36,10 +36,6 @@ h1, h3, h2 {
     background-size: contain;
 }
 
-main {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
 
 footer {
     flex: 0 0 auto;
@@ -155,4 +151,21 @@ footer .container {
 
 .hidden {
     visibility: hidden;
+}
+
+.header__cart{
+    position: relative;
+}
+
+.cart__display {
+    position: absolute;
+    top: 0;
+    left: -30px;
+    display: block;
+    justify-items: center;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    background: orange;
+    border-radius: 50%;
 }

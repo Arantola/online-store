@@ -14,12 +14,12 @@
                     <div class="logo">
                         <a href="/catalog" pathname="/catalog" id="catalog"><h1>LOGO</h1></a>
                     </div>
-                    <a href="/404" pathname="/error" id="error">Error page</a>
                     <div class="total-cost">
-                        <span class="total-cost-info">Total cost: 1412$</span>
+                        <span class="total-cost-info">Total cost: <span class="total-cost__display">1412</span>$</span>
                     </div>
-                    <div class="cart">
+                    <div class="header__cart">
                         <a class="cart__link" href="/cart" pathname="/cart" id="cart">Cart</a>
+                        <div class="cart__display"></div>
                     </div>
                 </div>
             </header>
@@ -56,7 +56,7 @@
                     <div class="git-info">
                         <p>Created by
                             <a href="https://github.com/MonstersBY">MonstersBY</a> and 
-                            <a href="https://github.com/MonstersBY">Arantola</a>
+                            <a href="https://github.com/Arantola">Arantola</a>
                             in 2022-2023
                         </p>
                     </div>
@@ -90,19 +90,21 @@
         </template>
 
         <template id="product-card">
-            <a class="card card__link" href="/" id="">
-                <div class="card__img-wrapper">
-                    <img class="card__img_background" src="" alt="">
-                    <img class="card__img" src="" alt="">
-                    <img class="card__img_logo" src="" alt="">
-                </div>
-                <div class="card__info">
-                    <div class="card__name"></div>
-                    <div class="card__description"></div>
-                    <div class="card__price"></div>
-                    <button class="card__button_cart">Add to cart</button>
-                </div>
-            </a>
+            <div class="card">
+                <a href="/" class="card__link">
+                    <div class="card__img-wrapper">
+                        <img class="card__img_background" src="" alt="">
+                        <img class="card__img" src="" alt="">
+                        <img class="card__img_logo" src="" alt="">
+                    </div>
+                    <div class="card__info">
+                        <div class="card__name"></div>
+                        <div class="card__description"></div>
+                        <div class="card__price"></div>
+                    </div>
+                </a>
+                <button class="card__button_cart">Add to cart</button>
+            </div>
         </template>
 
     </body>
