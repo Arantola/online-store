@@ -13,7 +13,7 @@ export default class Catalog {
     }
     this.query.getQueryFromURL();
     this.addListeners();
-    this.setFilters(this.query.params, false);
+    this.setFilters(this.query.params);
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
     this.filterAndDrawCards();
@@ -46,6 +46,7 @@ export default class Catalog {
     if (collection) {
       this.drawCards(collection);
       this.refreshTotalGamesFound(collection.length);
+      this.setPreviewCount();
     }
   }
 
@@ -240,8 +241,9 @@ export default class Catalog {
         "/catalog",
         window.location.origin + "/catalog"
       );
+      this.query.setDefault();
       this.query.getQueryFromURL();
-      this.setFilters(this.query.params, true);
+      this.setFilters(this.query.params);
       this.filterAndDrawCards();
     });
   }
@@ -283,17 +285,14 @@ export default class Catalog {
   }
 
   listenViewBar() {
-    console.log("function works");
     getElementBySelector(".view-bar").addEventListener("click", (e) => {
       e.preventDefault();
-      console.log("target is", e.target);
       if (e.target instanceof HTMLDivElement) {
         if (
           e.target.classList.contains("view-card") &&
           this.query.params.view === "list"
         ) {
           this.query.setParam("view", "card");
-          console.log("click");
           e.target.style.background = "orange";
           getElementBySelector(".view-list").style.background = "#231f20";
           this.filterAndDrawCards();
@@ -310,7 +309,7 @@ export default class Catalog {
     });
   }
 
-  setFilters(params: IParams, flag: boolean) {
+  setFilters(params: IParams) {
     let sortOption = 0;
     switch (params.order_by) {
       case "price":
@@ -326,7 +325,7 @@ export default class Catalog {
     (getElementBySelector("#search") as HTMLInputElement).value = params.input;
 
     for (const filter of ["categories", "publishers"]) {
-      document.querySelectorAll(`.checkbox_${filter}`).forEach((box) => {
+      document.querySelectorAll(`.input_${filter}`).forEach((box) => {
         for (const value of params[filter].split(",")) {
           if (box.getAttribute("idAPI") == value) {
             (box as HTMLInputElement).checked = true;
@@ -340,11 +339,31 @@ export default class Catalog {
     const view = this.query.params.view;
     getElementBySelector(`.view-${view}`).style.background = "orange";
 
-    if (flag) {
-      this.setInputValues(this.sliderSections[0] as HTMLElement, 0);
-      this.setInputValues(this.sliderSections[1] as HTMLElement, 1);
-      this.setInputValues(this.sliderSections[2] as HTMLElement, 2);
-    }
+    this.setInputValues(this.sliderSections[0] as HTMLElement, 0);
+    this.setInputValues(this.sliderSections[1] as HTMLElement, 1);
+    this.setInputValues(this.sliderSections[2] as HTMLElement, 2);
+  }
 
+  setPreviewCount() {
+    for (const section of ["categories", "publishers"]) {
+      document
+        .querySelectorAll(`.checkbox_${section}`)
+        .forEach((box: Element) => {
+          const span = getElementBySelector(
+            ".checkbox__counter",
+            box as HTMLElement
+          );
+          const txt = document.createTextNode(
+            String(
+              this.filter.filterForPreview(
+                section,
+                this.query.params.categories + "," + box.getAttribute("id")
+              )
+            )
+          );
+          span.innerHTML = "";
+          span.appendChild(txt);
+        });
+    }
   }
 }
