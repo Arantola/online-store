@@ -135,7 +135,7 @@ const cart = `
             <div class="summary-data">
                 <div class="sum-res"><h2>Result</h2></div>
                 <div class="sum-desc">
-                    <div class="total">302$</div>
+                    <div class="total"><span class="total-cost__cart">302</span>$</div>
                     <input type="text" name="" id="promocode" placeholder="Enter promo code">
                     <button class="act-promo">Activate promo code</button>
                     <button id="buyBtn" class="buy">buy now</button>

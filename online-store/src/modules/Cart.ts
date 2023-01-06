@@ -1,5 +1,5 @@
 import Filter from "./Filter";
-import { getElementBySelector } from "./types/types";
+import { getElementBySelector, IGame } from "./types/types";
 
 export default class Cart {
   constructor(public filter: Filter) {}
@@ -9,6 +9,8 @@ export default class Cart {
     Validation();
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
+    this.filter.cartTotalCost();
+    promoCode(this.filter.cartTotalCost());
   }
 }
 
@@ -308,4 +310,9 @@ function Validation() {
     const v = cardSecurity.value.replace(/[^0-9.]+/g, "");
     cardSecurity.value = v;
   });
+}
+
+
+function promoCode(value: string) {
+  console.log(typeof value);
 }

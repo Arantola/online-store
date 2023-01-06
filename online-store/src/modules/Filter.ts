@@ -38,6 +38,18 @@ export default class Filter {
     getElementBySelector(".total-cost__display").innerText = cost;
   }
 
+  public cartTotalCost() {
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    const cost = this.getCart()
+      .reduce(
+        (acc: number, game: IGame) => acc + +game.price * +curCart[game.id],
+        0
+      )
+      .toFixed(2);
+    getElementBySelector(".total-cost__cart").innerText = cost;
+    return cost;
+  }
+
   public filterByQueryParams(query: IParams) {
     let collection = JSON.parse(this.initialCollection);
     for (const key in query) {
