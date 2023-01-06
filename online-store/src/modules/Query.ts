@@ -28,7 +28,7 @@ class Query {
       order_by: "",
       ascending: "",
       id: "",
-      view: "card",
+      view: this.params.view,
       min_price: "5",
       max_price: "250",
       min_players: "1",

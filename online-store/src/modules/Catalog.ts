@@ -6,10 +6,10 @@ export default class Catalog {
   constructor(public filter: Filter, public query: Query) {}
 
   renderPage() {
-    const main = getElementBySelector("#main");
-    main.innerHTML = "";
+    // const main = getElementBySelector("#main");
+    // main.innerHTML = "";
     if (!localStorage.getItem("cart")) {
-      localStorage.setItem("cart", JSON.stringify({}));
+      localStorage.setItem("cart", "{}");
     }
     this.query.getQueryFromURL();
     this.addListeners();
@@ -355,10 +355,10 @@ export default class Catalog {
           );
           const txt = document.createTextNode(
             String(
-              this.filter.filterForPreview(
-                section,
-                this.query.params.categories + "," + box.getAttribute("id")
-              )
+              this.filter.filterByQueryParams(
+                this.query.params,
+                `${section}, ${box.getAttribute("id")}`
+              ).length
             )
           );
           span.innerHTML = "";

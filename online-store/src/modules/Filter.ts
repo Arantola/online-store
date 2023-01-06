@@ -37,8 +37,15 @@ export default class Filter {
     getElementBySelector(".total-cost__display").innerText = cost;
   }
 
-  public filterByQueryParams(query: IParams) {
+  public filterByQueryParams(currentQuery: IParams, additional = "") {
+    const query = JSON.parse(JSON.stringify(currentQuery));
     let collection = JSON.parse(this.initialCollection);
+    if (additional) {
+      const field = additional.split(",")[0];
+      const value = additional.split(",")[1];
+      query[field] = currentQuery[field] + "," + value;
+      console.log(query[field]);
+    }
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
@@ -68,13 +75,7 @@ export default class Filter {
         }
       }
     }
-    this.collection = collection;
-    return this.filterByPage(collection, query.view, query.page);
-  }
-
-  private filterByPage(collection: Array<IGame>, mode: string ,page: string) {
-    const count = mode === "list" ? 4 : 16;
-    return collection.slice(+page, +page + +count);
+    return collection;
   }
 
   // min-max price, players, playtime
@@ -104,23 +105,6 @@ export default class Filter {
       }
       return flag;
     });
-  }
-
-  public filterForPreview(field: string, value: string) {
-    let expectCollection = JSON.parse(this.initialCollection);
-    const currentCollection = this.collection || JSON.parse(this.initialCollection);
-    // console.log("Текущая коллекция: ", currentCollection);
-    expectCollection = this.filterByField(expectCollection, field, value);
-    // console.log("Ожидаемая коллекция: ", expectCollection);
-    this.mergeByProperty(currentCollection, expectCollection, "id");
-    // currentCollection?.map((game: IGame) => JSON.stringify(game));
-    // expectCollection.map((game: IGame) => JSON.stringify(game));
-    // console.log(value)
-    // console.log(currentCollection)
-    // console.log(expectCollection)
-    // return expectCollection.length - (currentCollection?.length as number)
-    console.log(value);
-    return expectCollection.length;
   }
 
   private mergeByProperty = (
