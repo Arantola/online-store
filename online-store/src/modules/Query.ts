@@ -16,8 +16,27 @@ class Query {
       max_players: "8",
       min_playtime: "5",
       max_playtime: "150",
+      page: "0",
     }
   ) {}
+
+  setDefault() {
+    this.params = {
+      categories: "",
+      publishers: "",
+      input: "",
+      order_by: "",
+      ascending: "",
+      id: "",
+      view: "card",
+      min_price: "5",
+      max_price: "250",
+      min_players: "1",
+      max_players: "8",
+      min_playtime: "5",
+      max_playtime: "150",
+    };
+  }
 
   getQueryFromURL() {
     const params = new URLSearchParams(window.location.search);
