@@ -1,11 +1,16 @@
-import { getElementBySelector } from "./types/types";
+import Filter from "./Filter";
+import { getElementBySelector, IGame } from "./types/types";
 
 export default class Cart {
-  constructor(public cart = []) {}
+  constructor(public filter: Filter) {}
 
   renderPage() {
     CreateModal();
     Validation();
+    this.filter.updateCartDisplay();
+    this.filter.updateTotalCost();
+    this.filter.cartTotalCost();
+    promoCode(this.filter.cartTotalCost());
   }
 }
 
@@ -305,4 +310,9 @@ function Validation() {
     const v = cardSecurity.value.replace(/[^0-9.]+/g, "");
     cardSecurity.value = v;
   });
+}
+
+
+function promoCode(value: string) {
+  console.log(typeof value);
 }

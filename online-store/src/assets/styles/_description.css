@@ -23,6 +23,8 @@
 
 .name {
     text-align: center;
+    width: 25vw;
+    margin: auto;
 }
 .name img {
     height: 25vw;
@@ -39,10 +41,13 @@
     width: 300px;
     height: 300px;
 }
-
+.small-img {
+    display: flex;
+    margin: 15px 0 0;
+}
 .small-img img {
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 75px;
 }
 
 .characteristic {
@@ -86,4 +91,11 @@
     font-size: 16px;
     color: #FFFFFF;
     text-transform: uppercase;
+}
+.modal-img {
+    width: 500px;
+    margin: auto;
+}
+.modal-img img{
+    width: 100%;
 }

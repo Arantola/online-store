@@ -14,29 +14,49 @@
                     <div class="logo">
                         <a href="/catalog" pathname="/catalog" id="catalog"><h1>LOGO</h1></a>
                     </div>
-                    <a href="/product" pathname="/product" id="product">Product page</a>
-                    <a href="/404" pathname="/error" id="error">Error page</a>
                     <div class="total-cost">
-                        <span class="total-cost-info">Total cost: 1412$</span>
+                        <span class="total-cost-info">Total cost: <span class="total-cost__display">1412</span>$</span>
                     </div>
-                    <div class="cart">
+                    <div class="header__cart">
                         <a class="cart__link" href="/cart" pathname="/cart" id="cart">Cart</a>
+                        <div class="cart__display"></div>
                     </div>
                 </div>
             </header>
+            
             <div class="content">
-                <div id="root"></div>
+                <div class="banner">
+                    <div class="container">
+                        <h1 class="banner__name" id="main-title">Catalog</h1>
+                    </div>
+                    <div class="banner__line">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1880 58" width="100%">
+                            <path d="M0 58.7V33.4L285.9 0l202.4 29.7L674 1.9l421.5 42.7 195-40.8L1478 37.1l200.6-14.9 133.7 33.4 67.9-7.4v10.4H0z" fill="#f7f7f7">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="container" id="root"></div>
                 <main id="main"></main>
+            </div>
+
+            <div class="bottom__wrapper">
+                <div class="banner__line">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1880 58" width="100%">
+                        <path d="M0 58.7V33.4L285.9 0l202.4 29.7L674 1.9l421.5 42.7 195-40.8L1478 37.1l200.6-14.9 133.7 33.4 67.9-7.4v10.4H0z" fill="#231f20">
+                        </path>
+                    </svg>
+                </div>
             </div>
             <footer>
                 <div class="container">
                     <div class="RSSchool">
-                        <a class="link_RSSchool" href="https://rs.school/js/"><img src="./assets/icons/rs_school_js.svg" alt="RS-logo"></a>
+                        <a class="link_RSSchool" href="https://rs.school/js/"><img src="./assets/icons/rs_school_js.svg" alt="RS-logo" /></a>
                     </div>
                     <div class="git-info">
                         <p>Created by
                             <a href="https://github.com/MonstersBY">MonstersBY</a> and 
-                            <a href="https://github.com/MonstersBY">Arantola</a>
+                            <a href="https://github.com/Arantola">Arantola</a>
                             in 2022-2023
                         </p>
                     </div>
@@ -70,17 +90,21 @@
         </template>
 
         <template id="product-card">
-            <a class="card card__link" href="/" id="">
-                <div class="card__info">
-                    <div class="card__img-wrapper"><img class="card__img" src="" alt=""><img class="card__img_alt" src="" alt=""></div>
-                    <div class="card__name"></div>
-                    <div class="card__price"></div>
-                </div>
-                <div class="card__buttons">
-                    <button class="card__button_cart button">Add to cart</button>
-                    <button class="card__button_info button">More info</button>
-                </div>
-            </a>
+            <div class="card">
+                <a href="/" class="card__link">
+                    <div class="card__img-wrapper">
+                        <img class="card__img_background" src="" alt="">
+                        <img class="card__img" src="" alt="">
+                        <img class="card__img_logo" src="" alt="">
+                    </div>
+                    <div class="card__info">
+                        <div class="card__name"></div>
+                        <div class="card__description"></div>
+                        <div class="card__price"></div>
+                    </div>
+                </a>
+                <button class="card__button_cart">Add to cart</button>
+            </div>
         </template>
 
     </body>

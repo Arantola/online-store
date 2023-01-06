@@ -1,4 +1,4 @@
-import { getElementBySelector, IGame } from "./types/types";
+import { getElementBySelector, IGame, IParams } from "./types/types";
 import Filter from "./Filter";
 import Query from "./Query";
 
@@ -8,55 +8,117 @@ export default class Catalog {
   renderPage() {
     const main = getElementBySelector("#main");
     main.innerHTML = "";
-    this.filter.resetColection();
-    this.filterAndDrawCards();
-    // this.setFilters();
-    this.addListeners();
+    if (!localStorage.getItem("cart")) {
+      localStorage.setItem("cart", JSON.stringify({}));
+    }
     this.query.getQueryFromURL();
+    this.addListeners();
+    this.setFilters(this.query.params);
+    this.filter.updateCartDisplay();
+    this.filter.updateTotalCost();
+    this.filterAndDrawCards();
   }
 
   addListeners() {
     this.listenBoxFilters();
     this.listenOrderFilters();
-    this.listenNameFilter();
+    this.listenInputFilter();
     this.listenRangeInput();
     this.listenResetButton();
     this.listenSaveButton();
+    this.listenTitlesRoll();
+    this.listenViewBar();
+    this.listenCartButtons();
   }
 
   refreshTotalGamesFound(value: number) {
     getElementBySelector("#total-games-display").innerHTML = String(value);
-  }
-
-  filterAndDrawCards() {
-    this.filter.filterByQueryParams(this.query.params);
-    if (this.filter.collection) {
-      this.drawCards(this.filter.collection);
-      this.refreshTotalGamesFound(this.filter.collection.length);
+    if (value == 0) {
+      getElementBySelector("#catalog-list").insertAdjacentHTML(
+        "afterbegin",
+        `<div class="not-found">Found nothing. Try to change search parameters</div>`
+      );
     }
   }
 
-  drawCards(items: Array<IGame> | undefined) {
+  filterAndDrawCards() {
+    const collection = this.filter.filterByQueryParams(this.query.params);
+    if (collection) {
+      this.drawCards(collection);
+      this.refreshTotalGamesFound(collection.length);
+    }
+  }
+
+  drawCards(items: Array<IGame>) {
     if (items) {
       const catalogGameList = getElementBySelector("#catalog-list");
       catalogGameList.innerHTML = "";
+      if (this.query.params.view == "list") {
+        catalogGameList.classList.add("list_flex");
+      } else {
+        catalogGameList.classList.remove("list_flex");
+      }
       items.forEach((item: IGame) => {
-        const clone: any =
-          getElementBySelector<HTMLTemplateElement>(
-            "#product-card"
-          ).content.cloneNode(true);
+        const clone: Node =
+          (
+            document.getElementById("product-card") as HTMLTemplateElement
+          ).content.cloneNode(true) || null;
 
-        clone.querySelector(".card__link").href = `/product?id=${item.id}`;
-        clone.querySelector(".card__img").src = `${
-          item.images.box
-            ? item.images.box
-            : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
-        }`;
-        clone.querySelector(".card__img").alt = `${item.name}`;
-        clone.querySelector(".card__name").textContent = `${item.name}`;
-        clone.querySelector(".card__price").textContent = `${item.price}`;
+        if (clone instanceof DocumentFragment) {
+          (
+            getElementBySelector(".card__link", clone) as HTMLLinkElement
+          ).href = `/product?id=${item.id}`;
+          (
+            getElementBySelector(".card__img", clone) as HTMLImageElement
+          ).src = `${
+            item.images.box
+              ? item.images.box
+              : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
+          }`;
+          (
+            getElementBySelector(".card__img_logo", clone) as HTMLImageElement
+          ).src = item.images.logo;
+          (
+            getElementBySelector(".card__img_background", clone) as HTMLImageElement
+          ).src = `${item.images.background}`;
+          (
+            getElementBySelector(".card__img", clone) as HTMLImageElement
+          ).alt = `${item.name}`;
+          (
+            getElementBySelector(".card__name", clone) as HTMLElement
+          ).textContent = `${item.name}`;
+          (
+            getElementBySelector(".card__price", clone) as HTMLElement
+          ).textContent = `${item.price} $`;
+          (
+          getElementBySelector(".card__button_cart", clone) as HTMLButtonElement
+          ).id = `${item.id}`;
+          (
+            getElementBySelector(".card__description", clone) as HTMLElement
+          ).innerText = `${item.description}`;
 
-        catalogGameList.appendChild(clone);
+          if (this.query.params.view == "list") {
+            getElementBySelector(".card", clone).classList.add("card_wide");
+            getElementBySelector(".card__img", clone).classList.add("card__img_wide");
+            getElementBySelector(".card__img_logo", clone).style.display = "block";
+            getElementBySelector(".card__img_background", clone).style.display = "block";
+            getElementBySelector(".card__img-wrapper", clone).classList.add("card__img-wrapper_wide");
+            getElementBySelector(".card__info", clone).classList.add("card__info_wide");
+            getElementBySelector(".card__name", clone).classList.add("card__name_wide");
+            getElementBySelector(".card__description", clone).style.display = "block";
+            getElementBySelector(".card__button_cart", clone).classList.add("card__button_cart_wide");
+          }
+
+          // check if item in cart
+          const cart: string = localStorage.getItem("cart") as string;
+          if (cart.includes(item.id)) {
+            getElementBySelector(".card__link", clone).classList.add("card_in-cart");
+            getElementBySelector(".card__button_cart", clone).classList.add("card__button_in-cart");
+            getElementBySelector(".card__button_cart", clone).innerText = "Added";
+          }
+
+          catalogGameList.appendChild(clone);
+        }
       });
     }
   }
@@ -74,15 +136,13 @@ export default class Catalog {
               section[1],
               String((e.target as HTMLInputElement).getAttribute("idapi"))
             );
-            this.filterAndDrawCards();
           } else {
             this.query.delParam(
               section[1],
               String((e.target as HTMLInputElement).getAttribute("idapi"))
             );
-            console.log(this.filter.collection);
-            this.filterAndDrawCards();
-        }
+          }
+          this.filterAndDrawCards();
       });
     }
   }
@@ -92,21 +152,27 @@ export default class Catalog {
     const formSelect: HTMLFormElement = form.sortList;
     formSelect.addEventListener("change", () => {
       const selectedIndex = formSelect.selectedIndex;
-      this.query.params.order_by = formSelect.value;
-      this.query.params.ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
+      const ascending = `${formSelect.options[selectedIndex].dataset.ascending}`;
+      this.query.setParam("order_by", formSelect.value);
+      this.query.setParam("ascending", ascending);
       this.filterAndDrawCards();
     });
   }
 
-  listenNameFilter() {
-    getElementBySelector("#searchName").addEventListener(
+  listenInputFilter() {
+    getElementBySelector("#search").addEventListener(
       "keydown",
       (e: KeyboardEvent) => {
         if (e.key === "Enter") {
-          this.query.params.name = (e.target as HTMLInputElement).value;
+          if ((e.target as HTMLInputElement).value == "") {
+            this.query.delParam("input", (e.target as HTMLInputElement).value);
+          } else {
+            this.query.setParam("input", (e.target as HTMLInputElement).value);
+          }
           this.filterAndDrawCards();
         }
-    });
+      }
+    );
   }
 
   getInputValues(parent: HTMLInputElement, index: number) {
@@ -127,6 +193,15 @@ export default class Catalog {
     this.filterAndDrawCards();
   }
 
+  setInputValues(parent: HTMLInputElement, index: number) {
+    const slides = parent.getElementsByTagName("input");
+    const list = ["price", "playtime", "players"];
+    slides[0].value = this.query.params[`min_${list[index]}`];
+    slides[1].value = this.query.params[`max_${list[index]}`];
+    console.log(slides[0].value);
+    console.log(slides[1].value);
+  }
+
   listenRangeInput() {
     const sliderSections = document.getElementsByClassName("slider");
 
@@ -139,6 +214,10 @@ export default class Catalog {
           sliders[y].addEventListener("change", () => {
             this.getInputValues(<HTMLInputElement>sliderSections[index], index);
           });
+          sliders[y].addEventListener("onpopstate", () => {
+            console.log("function works!");
+            this.setInputValues(<HTMLInputElement>sliderSections[index], index);
+          });
         }
       }
     }
@@ -147,7 +226,14 @@ export default class Catalog {
   listenSaveButton() {
     getElementBySelector(".button_save").addEventListener("click", (e) => {
       e.preventDefault();
+      const button = e.target as HTMLButtonElement;
       navigator.clipboard.writeText(window.location.href);
+      button.textContent = "Link saved!";
+      button.disabled = true;
+      setTimeout(() => {
+        button.textContent = "Get link";
+        button.disabled = false;
+      }, 2000);
     });
   }
 
@@ -159,6 +245,119 @@ export default class Catalog {
         "/catalog",
         window.location.origin + "/catalog"
       );
+      this.query.getQueryFromURL();
+      this.setFilters(this.query.params);
+      this.filterAndDrawCards();
     });
+  }
+
+  listenTitlesRoll() {
+    document.querySelectorAll(".filters__box").forEach((box) => {
+      getElementBySelector(
+        ".filters__title",
+        box as HTMLElement
+      ).addEventListener("click", (e) => {
+        getElementBySelector(
+          ".filters__title",
+          box as HTMLElement
+        ).classList.toggle("roll-up")
+        getElementBySelector(".filters__list", box as HTMLElement).classList.toggle("none");
+      });
+    })
+  }
+
+  listenCartButtons() {
+    const catalogList = getElementBySelector("#catalog-list");
+    catalogList.addEventListener("click", (e) => {
+      if (
+        e.target instanceof HTMLButtonElement &&
+        e.target.classList.contains("card__button_cart")
+      ) {
+        e.preventDefault();
+        const curCart = JSON.parse(localStorage.getItem("cart") as string);
+        e.target.classList.contains("card__button_in-cart")
+          ? delete curCart[`${e.target.id}`]
+          : (curCart[`${e.target.id}`] = 1);
+        localStorage.setItem("cart", JSON.stringify(curCart));
+
+        this.filter.updateCartDisplay();
+        this.filter.updateTotalCost();
+        this.filterAndDrawCards();
+      }
+    });
+  }
+
+  listenViewBar() {
+    console.log("function works");
+    getElementBySelector(".view-bar").addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log("target is", e.target);
+      if (e.target instanceof HTMLDivElement) {
+        if (
+          e.target.classList.contains("view-card") &&
+          this.query.params.view === "list"
+        ) {
+          this.query.setParam("view", "card");
+          console.log("click");
+          e.target.style.background = "orange";
+          getElementBySelector(".view-list").style.background = "#231f20";
+          this.filterAndDrawCards();
+        } else if (
+          e.target.classList.contains("view-list") &&
+          this.query.params.view === "card"
+        ) {
+          this.query.setParam("view", "list");
+          e.target.style.background = "orange";
+          getElementBySelector(".view-card").style.background = "#231f20";
+          this.filterAndDrawCards();
+        }
+      }
+    });
+  }
+
+  setFilters(params: IParams) {
+    let sortOption = 0;
+    switch (params.order_by) {
+      case "price":
+        sortOption = params.ascending === "true" ? 1 : 2;
+        break;
+      case "rank":
+        sortOption = params.ascending === "true" ? 3 : 4;
+        break;
+    }
+    (getElementBySelector("#sort-list") as HTMLSelectElement).selectedIndex =
+      sortOption;
+
+    (getElementBySelector("#search") as HTMLInputElement).value = params.input;
+
+    for (const filter of ["categories", "publishers"]) {
+      document.querySelectorAll(`.checkbox_${filter}`).forEach((box) => {
+        for (const value of params[filter].split(",")) {
+          if (box.getAttribute("idAPI") == value) {
+            (box as HTMLInputElement).checked = true;
+          } else {
+            (box as HTMLInputElement).checked = false;
+          }
+        }
+      });
+    }
+
+    const view = this.query.params.view;
+    getElementBySelector(`.view-${view}`).style.background = "orange";
+
+    // Input range dont set in right position after reload page
+
+    // console.log(params);
+    // console.log(getElementBySelector("#min-price"));
+    // (getElementBySelector("#min-price") as HTMLInputElement).value = "50";
+    //   // params.min_price;
+    // (getElementBySelector("#max-price") as HTMLInputElement).value = params.min_price;
+
+    // (getElementBySelector("#min-time") as HTMLInputElement).value = params.min_playtime;
+    // (getElementBySelector("#max-time") as HTMLInputElement).value = params.min_playtime;
+
+    // (getElementBySelector("#min-players") as HTMLInputElement).value = params.min_players;
+    // (getElementBySelector("#max-players") as HTMLInputElement).value = params.min_players;
+
   }
 }
