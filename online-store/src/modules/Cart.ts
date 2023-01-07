@@ -14,34 +14,42 @@ export default class Cart {
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
     this.drawCards(this.getOnePageCollection());
-    this.listenInputinterface(
-      "#page-number-interface",
-      "#page-number",
-      this.pageCount
-    );
-    this.listenInputinterface(
-      "#on-page-interface",
-      "#on-page",
-      this.itemsOnPage
-    );
+    this.listenPageNumber();
+    this.listenOnPageCount();
   }
 
-  listenInputinterface(
-    parentSelector: string,
-    displaySelector: string,
-    param: number
-  ) {
-    const pageInterface = getElementBySelector(parentSelector);
-    const display = getElementBySelector(displaySelector, pageInterface);
-    let current = +display.innerText;
+  // combine with listenOnPageCount() DRY
+  listenPageNumber() {
+    const pageInterface = getElementBySelector("#page-number-interface");
+    const display = getElementBySelector("#page-number", pageInterface);
+    let currentPage = +display.innerText;
 
     pageInterface.addEventListener("click", (e) => {
       if (e.target instanceof HTMLButtonElement) {
         if (e.target.getAttribute("name") === "less") {
-          display.innerText = `${current === 1 ? 1 : --current}`;
+          display.innerText = `${currentPage === 1 ? 1 : --currentPage}`;
         }
         if (e.target.getAttribute("name") === "more") {
-          display.innerText = `${current === param ? param : ++current}`;
+          display.innerText = `${currentPage === this.pageCount ? this.pageCount : ++currentPage}`;
+        }
+      }
+      this.drawCards(this.getOnePageCollection());
+    });
+  }
+
+  // combine with listenPageNumber() DRY
+  listenOnPageCount() {
+    const onPageInterface = getElementBySelector("#on-page-interface");
+    const display = getElementBySelector("#on-page", onPageInterface);
+    let currentOnPage = +display.innerText;
+
+    onPageInterface.addEventListener("click", (e) => {
+      if (e.target instanceof HTMLButtonElement) {
+        if (e.target.getAttribute("name") === "less") {
+          display.innerText = `${currentOnPage === 1 ? 1 : --currentOnPage}`;
+        }
+        if (e.target.getAttribute("name") === "more") {
+          display.innerText = `${currentOnPage === this.itemsOnPage ? this.itemsOnPage : ++currentOnPage}`;
         }
       }
       this.drawCards(this.getOnePageCollection());
@@ -125,7 +133,7 @@ export default class Cart {
 
             cartList.appendChild(card);
           }
-        };
+        }
       });
     }
   }
