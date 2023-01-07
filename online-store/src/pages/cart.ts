@@ -72,14 +72,25 @@ const cart = `
             <div class="cart-lists">
                 <div class="cart-info">
                     <div>Product in cart</div>
-                    <div class="cart-page">
+                    <div class="cart-page" id="page-number-interface">
                         <span>PAGE:</span>
-                        <button><</button>
-                        <span>1</span>
-                        <button>></button>
+                        <div class="display-and-buttons">
+                            <button class="button_cart-input" name="less"><</button>
+                            <span id="page-number">1</span>
+                            <button class="button_cart-input" name="more">></button>
+                        </div>
+                    </div>
+                    <div class="cart-page"  id="on-page-interface">
+                        <span>On page:</span>
+                        <div class="display-and-buttons">
+                            <button class="button_cart-input" name="less"><</button>
+                            <span id="on-page">5</span>
+                            <button class="button_cart-input" name="more">></button>
+                        </div>
                     </div>
                 </div>
-                <div class="cart-items">
+                <div class="cart-items" id="cart-items">
+
                     <div class="cart-item-container">
                         <div class="cart-item">
                             <div class="item-id">1</div>
@@ -105,6 +116,7 @@ const cart = `
                             </div>
                         </div>
                     </div>
+
                     <div class="cart-item-container">
                         <div class="cart-item">
                             <div class="item-id">2</div>

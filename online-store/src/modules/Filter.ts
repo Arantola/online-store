@@ -44,7 +44,6 @@ export default class Filter {
       const field = additional.split(",")[0];
       const value = additional.split(",")[1];
       query[field] = currentQuery[field] + "," + value;
-      console.log(query[field]);
     }
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {

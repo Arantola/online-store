@@ -6,8 +6,8 @@ export default class Catalog {
   constructor(public filter: Filter, public query: Query) {}
 
   renderPage() {
-    // const main = getElementBySelector("#main");
-    // main.innerHTML = "";
+    const main = getElementBySelector("#main");
+    main.innerHTML = "";
     if (!localStorage.getItem("cart")) {
       localStorage.setItem("cart", "{}");
     }
@@ -95,6 +95,9 @@ export default class Catalog {
           getElementBySelector(".card__button_cart", clone) as HTMLButtonElement
           ).id = `${item.id}`;
           (
+            getElementBySelector(".card__button_cart", clone) as HTMLButtonElement
+          ).innerText = "Add to cart";
+          (
             getElementBySelector(".card__description", clone) as HTMLElement
           ).innerText = `${item.description}`;
 
@@ -180,6 +183,8 @@ export default class Catalog {
     const slides = parent.getElementsByTagName("input");
     let slide1 = parseFloat(slides[0].value);
     let slide2 = parseFloat(slides[1].value);
+     // slides[0].value = (slides[0].getAttribute("value") as string);
+    // slides[1].value = (slides[1].getAttribute("value") as string);
 
     if (slide1 > slide2) {
       [slide1, slide2] = [slide2, slide1];
@@ -188,17 +193,19 @@ export default class Catalog {
     displayElement.innerHTML = slide1 + " - " + slide2;
 
     const list = ["price", "playtime", "players"];
+    console.log(String(slide1));
+    console.log(String(slide2));
     this.query.setParam(`min_${list[index]}`, String(slide1));
     this.query.setParam(`max_${list[index]}`, String(slide2));
 
     this.filterAndDrawCards();
   }
 
-  setInputValues(parent: HTMLElement, index: number) {
+  setInputValues(parent: HTMLElement, index: number, params: IParams) {
     const slides = parent.getElementsByTagName("input");
     const list = ["price", "playtime", "players"];
-    slides[0].setAttribute("value", this.query.params[`min_${list[index]}`]);
-    slides[1].setAttribute("value", this.query.params[`max_${list[index]}`]);
+    slides[0].setAttribute("value", params[`min_${list[index]}`]);
+    slides[1].setAttribute("value", params[`max_${list[index]}`]);
     this.getInputValues(parent, index);
   }
 
@@ -242,7 +249,9 @@ export default class Catalog {
         window.location.origin + "/catalog"
       );
       this.query.setDefault();
+      // console.log(this.query.params);
       this.query.getQueryFromURL();
+      console.log(this.query.params);
       this.setFilters(this.query.params);
       this.filterAndDrawCards();
     });
@@ -309,7 +318,15 @@ export default class Catalog {
     });
   }
 
-  setFilters(params: IParams) {
+  setFilters(currentQuery: IParams) {
+    const params = JSON.parse(JSON.stringify(currentQuery));
+    params.min_price = "5";
+    params.max_price = "250";
+    params.min_players = "1";
+    params.max_players = "8";
+    params.min_playtime = "5";
+    params.max_playtime = "150";
+    console.log("We goin to", params);
     let sortOption = 0;
     switch (params.order_by) {
       case "price":
@@ -326,11 +343,10 @@ export default class Catalog {
 
     for (const filter of ["categories", "publishers"]) {
       document.querySelectorAll(`.input_${filter}`).forEach((box) => {
+        (box as HTMLInputElement).checked = false;
         for (const value of params[filter].split(",")) {
           if (box.getAttribute("idAPI") == value) {
             (box as HTMLInputElement).checked = true;
-          } else {
-            (box as HTMLInputElement).checked = false;
           }
         }
       });
@@ -339,9 +355,9 @@ export default class Catalog {
     const view = this.query.params.view;
     getElementBySelector(`.view-${view}`).style.background = "orange";
 
-    this.setInputValues(this.sliderSections[0] as HTMLElement, 0);
-    this.setInputValues(this.sliderSections[1] as HTMLElement, 1);
-    this.setInputValues(this.sliderSections[2] as HTMLElement, 2);
+    this.setInputValues(this.sliderSections[0] as HTMLElement, 0, params);
+    this.setInputValues(this.sliderSections[1] as HTMLElement, 1, params);
+    this.setInputValues(this.sliderSections[2] as HTMLElement, 2, params);
   }
 
   setPreviewCount() {

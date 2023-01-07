@@ -21,21 +21,12 @@ class Query {
   ) {}
 
   setDefault() {
-    this.params = {
-      categories: "",
-      publishers: "",
-      input: "",
-      order_by: "",
-      ascending: "",
-      id: "",
-      view: this.params.view,
-      min_price: "5",
-      max_price: "250",
-      min_players: "1",
-      max_players: "8",
-      min_playtime: "5",
-      max_playtime: "150",
-    };
+    this.setParam("min_price", "5");
+    this.setParam("max_price", "250");
+    this.setParam("min_players", "1");
+    this.setParam("max_players", "8");
+    this.setParam("min_playtime", "5");
+    this.setParam("max_playtime", "150");
   }
 
   getQueryFromURL() {

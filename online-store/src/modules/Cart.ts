@@ -1,14 +1,133 @@
 import Filter from "./Filter";
-import { getElementBySelector } from "./types/types";
+import { getElementBySelector, IGame } from "./types/types";
 
 export default class Cart {
-  constructor(public filter: Filter) {}
+  constructor(
+    public filter: Filter,
+    private pageCount = 5,
+    private itemsOnPage = 5
+  ) {}
 
   renderPage() {
     CreateModal();
     Validation();
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
+    this.drawCards(this.getOnePageCollection());
+    this.listenInputinterface(
+      "#page-number-interface",
+      "#page-number",
+      this.pageCount
+    );
+    this.listenInputinterface(
+      "#on-page-interface",
+      "#on-page",
+      this.itemsOnPage
+    );
+  }
+
+  listenInputinterface(
+    parentSelector: string,
+    displaySelector: string,
+    param: number
+  ) {
+    const pageInterface = getElementBySelector(parentSelector);
+    const display = getElementBySelector(displaySelector, pageInterface);
+    let current = +display.innerText;
+
+    pageInterface.addEventListener("click", (e) => {
+      if (e.target instanceof HTMLButtonElement) {
+        if (e.target.getAttribute("name") === "less") {
+          display.innerText = `${current === 1 ? 1 : --current}`;
+        }
+        if (e.target.getAttribute("name") === "more") {
+          display.innerText = `${current === param ? param : ++current}`;
+        }
+      }
+      this.drawCards(this.getOnePageCollection());
+    });
+  }
+
+  getOnePageCollection() {
+    const items: Array<IGame> = this.filter.getCart();
+
+    const currentPage = +(getElementBySelector("#page-number") as HTMLSpanElement).innerText
+    const onPage = +(getElementBySelector("#on-page") as HTMLSpanElement).innerText
+
+    return items.slice(currentPage * onPage - onPage, currentPage * onPage);
+  }
+
+  drawCards(collection: Array<IGame>) {
+    if (collection) {
+      const cartList = getElementBySelector("#cart-items");
+      cartList.innerHTML = "";
+
+      collection.forEach((item: IGame) => {
+        const outer: Node = getElementBySelector("#card-interface-for-cart");
+
+        if (outer instanceof HTMLTemplateElement) {
+          const card = document.importNode(outer.content, true);
+
+          // Example
+          // var outer = document.querySelector('#outer');
+          // var outerClone = document.importNode(outer.content, true);
+          // var check = outerClone.querySelector('template');
+          // var innerClone = document.importNode(check.content,true);
+          // outerClone.appendChild(innerClone);
+          // var tDiv = document.querySelector('#temp');
+          // tDiv.appendChild(outerClone);
+
+          if (card instanceof DocumentFragment) {
+            (
+              getElementBySelector(".card__link", card) as HTMLLinkElement
+            ).href = `/product?id=${item.id}`;
+            (
+              getElementBySelector(".card__img", card) as HTMLImageElement
+            ).src = `${
+              item.images.box
+                ? item.images.box
+                : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
+            }`;
+            (
+              getElementBySelector(".card__img_logo", card) as HTMLImageElement
+            ).src = item.images.logo;
+            (
+              getElementBySelector(".card__img_background", card) as HTMLImageElement
+            ).src = `${item.images.background}`;
+            (
+              getElementBySelector(".card__img", card) as HTMLImageElement
+            ).alt = `${item.name}`;
+            (
+              getElementBySelector(".card__name", card) as HTMLElement
+            ).textContent = `${item.name}`;
+            (
+              getElementBySelector(".card__price", card) as HTMLElement
+            ).textContent = `${item.price} $`;
+            (
+            getElementBySelector(".card__button_cart", card) as HTMLButtonElement
+            ).id = `${item.id}`;
+            (
+              getElementBySelector(".card__button_cart", card) as HTMLButtonElement
+            ).innerText = "Add to cart";
+            (
+              getElementBySelector(".card__description", card) as HTMLElement
+            ).innerText = `${item.description}`;
+
+            getElementBySelector(".card", card).classList.add("card_wide");
+            getElementBySelector(".card__img", card).classList.add("card__img_wide");
+            getElementBySelector(".card__img_logo", card).style.display = "block";
+            getElementBySelector(".card__img_background", card).style.display = "block";
+            getElementBySelector(".card__img-wrapper", card).classList.add("card__img-wrapper_wide");
+            getElementBySelector(".card__info", card).classList.add("card__info_wide");
+            getElementBySelector(".card__name", card).classList.add("card__name_wide");
+            getElementBySelector(".card__description", card).style.display = "block";
+            getElementBySelector(".card__button_cart", card).classList.add("card__button_cart_wide");
+
+            cartList.appendChild(card);
+          }
+        };
+      });
+    }
   }
 }
 
