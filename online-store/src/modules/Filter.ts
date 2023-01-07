@@ -9,8 +9,7 @@ export default class Filter {
   ) {}
 
   public getSingle(id: string) {
-    const tempCollection =
-      this.collection || JSON.parse(this.initialCollection);
+    const tempCollection = JSON.parse(this.initialCollection);
     return tempCollection?.filter((game: IGame) => {
       return game.id == id;
     });
@@ -82,7 +81,12 @@ export default class Filter {
       }
     }
     this.collection = collection;
-    return collection;
+    return this.filterByPage(collection, query.view, query.page);
+  }
+
+  private filterByPage(collection: Array<IGame>, mode: string ,page: string) {
+    const count = mode === "list" ? 4 : 16;
+    return collection.slice(+page, +page + +count);
   }
 
   // min-max price, players, playtime
@@ -102,17 +106,52 @@ export default class Filter {
   }
 
   // categories, publisher
-  private filterByField(
-    collection: Array<IGame>,
-    field: string,
-    value: string
-  ) {
+  public filterByField(collection: Array<IGame>, field: string, value: string) {
     return collection.filter((game: IGame) => {
-      return String(game[field as keyof IGame])
-        .toLowerCase()
-        .includes(value.toLowerCase());
+      let flag = false;
+      for (const cat of (game[field as keyof IGame] as string).split(",")) {
+        if (value.includes(cat.trim())) {
+          flag = true;
+        }
+      }
+      return flag;
     });
   }
+
+  public filterForPreview(field: string, value: string) {
+    let expectCollection = JSON.parse(this.initialCollection);
+    const currentCollection = this.collection || JSON.parse(this.initialCollection);
+    // console.log("Текущая коллекция: ", currentCollection);
+    expectCollection = this.filterByField(expectCollection, field, value);
+    // console.log("Ожидаемая коллекция: ", expectCollection);
+    this.mergeByProperty(currentCollection, expectCollection, "id");
+    // currentCollection?.map((game: IGame) => JSON.stringify(game));
+    // expectCollection.map((game: IGame) => JSON.stringify(game));
+    // console.log(value)
+    // console.log(currentCollection)
+    // console.log(expectCollection)
+    // return expectCollection.length - (currentCollection?.length as number)
+    console.log(value);
+    return expectCollection.length;
+  }
+
+  private mergeByProperty = (
+    target: Array<IGame>,
+    source: Array<IGame>,
+    field: string
+  ) => {
+    source.forEach((sourceElement) => {
+      const targetElement = target.find((targetElement) => {
+        return (
+          sourceElement[field as keyof typeof sourceElement] ===
+          targetElement[field as keyof typeof targetElement]
+        );
+      });
+      targetElement
+        ? Object.assign(targetElement, sourceElement)
+        : target.push(sourceElement);
+    });
+  };
 
   // input
   private filterByInput(collection: Array<IGame>, value: string) {

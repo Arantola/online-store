@@ -1,5 +1,11 @@
 import Filter from "./Filter";
-import { getElementBySelector, IGame } from "./types/types";
+import { getElementBySelector } from "./types/types";
+
+interface Promo {
+  name: string;
+  discount: number;
+  used: boolean;
+}
 
 export default class Cart {
   constructor(public filter: Filter) {}
@@ -10,6 +16,7 @@ export default class Cart {
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
     this.filter.cartTotalCost();
+    TotalProduct();
     promoCode(this.filter.cartTotalCost());
   }
 }
@@ -39,6 +46,7 @@ function CreateModal() {
     }
   };
 }
+
 function Validation() {
   const cardimg = [
     {
@@ -238,6 +246,8 @@ function Validation() {
         valSecurity
       ) {
         btn.classList.add("active");
+        localStorage.setItem("cart", "{}");
+        window.location.href = "/catalog";
       } else {
         btn.classList.remove("active");
       }
@@ -312,7 +322,94 @@ function Validation() {
   });
 }
 
+function TotalProduct() {
+  const curCart = JSON.parse(localStorage.getItem("cart") as string);
+  const count = Object.keys(curCart).length;
+  getElementBySelector(".total-product").innerText = String(count);
+}
 
 function promoCode(value: string) {
-  console.log(typeof value);
+  const promo: Promo[] = [
+    {
+      name: "sell",
+      discount: 15,
+      used: false,
+    },
+    {
+      name: "RSS",
+      discount: 10,
+      used: false,
+    },
+  ];
+  
+  const promBtn = document.querySelector<HTMLElement>(".act-promo");
+  const usedPromoDiv = document.querySelector<HTMLElement>(".used-promo");
+  const text = <HTMLInputElement>document.getElementById("promocode");
+
+  if (promBtn != null && usedPromoDiv != null) {
+    text.addEventListener("input", () => {
+      for (let i = 0; i < promo.length; i++) {
+        if (text.value === promo[i].name) {
+          promBtn.classList.add("active");
+          break;
+        } else {
+          promBtn.classList.remove("active");
+        }
+      }
+    });
+
+    promBtn.onclick = function () {
+      if (Number(value) > 0) {
+        for (let i = 0; i < promo.length; i++) {
+          if (text.value === promo[i].name && !promo[i].used) {
+            promo[i].used = true;
+            const createPromo = `<div class="used-promo__info">Used ${promo[i].name}:<br> discount ${promo[i].discount} <button class="btn-del">del</button></div>`;
+            usedPromoDiv.insertAdjacentHTML("beforeend", createPromo);
+            getElementBySelector(".total").style.textDecoration =
+              "line-through";
+            getElementBySelector(".total-discount").style.display = "block";
+            getElementBySelector(".total-dicount-cost__cart").innerText =
+              String(countDisc(Number(value), promo));
+            text.value = "";
+          }
+        }
+      }
+    };
+
+    const containerPromo = document.querySelector<HTMLElement>(".used-promo");
+    containerPromo?.addEventListener("click", function (evt) {
+      if (
+        evt.target != null &&
+        (evt.target as HTMLElement).className == "btn-del"
+      ) {
+        console.log((evt.target as HTMLElement).parentElement);
+        const inText = String(
+          (evt.target as HTMLElement).parentElement?.textContent
+        );
+        for (let i = 0; i < promo.length; i++) {
+          if (promo[i].name == inText.substring(5, 5 + promo[i].name.length)) {
+            promo[i].used = false;
+            console.log(promo[i].name);
+            (evt.target as HTMLElement).parentElement?.remove();
+            getElementBySelector(".total-dicount-cost__cart").innerText =
+              String(countDisc(Number(value), promo));
+            if (countDisc(Number(value), promo) === Number(value)) {
+              getElementBySelector(".total").style.textDecoration ="none";
+              getElementBySelector(".total-discount").style.display = "none";
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+function countDisc(value: number, promo: Promo[]) {
+  let allDis = 0;
+  for (let i = 0; i < promo.length; i++) {
+    if (promo[i].used){
+      allDis += promo[i].discount;
+    }
+  }
+  return Math.round((value - (value / 100) * allDis) * 100) / 100;
 }

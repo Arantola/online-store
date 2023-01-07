@@ -6,6 +6,7 @@
     width: 70%;
     border: 1px solid orange;
     border-radius: 10px;
+    height: fit-content;
 }
 
 .cart-info {
@@ -23,7 +24,7 @@
     color: #fff;
     border: 0;
     cursor: pointer;
-    background: #ef6747;
+    background: orange;
     white-space: nowrap;
 }
 
@@ -63,7 +64,7 @@
 
 .stock-info {
     text-align: center;
-    width: 30%;
+    width: 40%;
 }
 
 .item-num {
@@ -78,12 +79,12 @@
     color: #fff;
     border: 0;
     cursor: pointer;
-    background: #ef6747;
+    background: orange;
     white-space: nowrap;
 }
 
 .summary-data {
-    width: 22%;
+    width: 25%;
     border: 1px solid orange;
     border-radius: 10px;
     text-align: center;
@@ -95,6 +96,15 @@
 }
 
 .sum-desc .total {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+.sum-desc .total-discount {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    display: none;
+}
+.sum-desc .used-promo {
     font-size: 1.3em;
     margin-bottom: 20px;
 }
@@ -110,9 +120,13 @@
     margin-bottom: 20px;
 }
 
+.sum-desc .promo-name {
+    margin-bottom: 10px;
+}
+
 .sum-desc button {
     cursor: pointer;
-    background: orange;
+    background: rgb(121, 121, 121);
     border: none;
     width: 100%;
     height: 54px;
@@ -120,6 +134,29 @@
     font-size: 16px;
     color: #FFFFFF;
     text-transform: uppercase;
+}
+.sum-desc button.active {
+    background: orange;
+}
+.sum-desc button.active:hover {
+    background: rgb(255, 187, 60);
+}
+.sum-desc .used-promo__info {
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+    margin-bottom: 10px;
+}
+.sum-desc .used-promo__info:last-child {
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+.sum-desc .btn-del {
+    background: red;
+    width: auto;
+    border-radius: 100%;
+    margin-left: 10px;
 }
 
 .sum-desc .act-promo {
