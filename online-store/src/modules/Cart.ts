@@ -407,9 +407,22 @@ function promoCode(value: string) {
 function countDisc(value: number, promo: Promo[]) {
   let allDis = 0;
   for (let i = 0; i < promo.length; i++) {
-    if (promo[i].used){
+    if (promo[i].used) {
       allDis += promo[i].discount;
     }
   }
   return Math.round((value - (value / 100) * allDis) * 100) / 100;
 }
+// const math = {
+//   sum: function (x: number, y: number) {
+//     return x + y;
+//   },
+// };
+// export function countDiscasd(value: number, promo: boolean) {
+//   let allDis = 0;
+//   if (promo) {
+//     allDis += 10;
+//   }
+//   return Math.round((value - (value / 100) * allDis) * 100) / 100;
+// }
+// module.exports = countDisc;
