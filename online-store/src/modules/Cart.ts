@@ -9,7 +9,6 @@ interface Promo {
 
 export default class Cart {
   constructor(public filter: Filter) {}
-
   renderPage() {
     CreateModal();
     Validation();
@@ -26,22 +25,23 @@ function CreateModal() {
   const btn = document.getElementById("buyBtn");
   const span = document.querySelector<HTMLElement>(".close");
 
+  if (localStorage.getItem("modal") == "true") {
+    if (modal) modal.style.display = "block";
+    localStorage.setItem("modal", "{}");
+  }
+
   if (btn != null) {
     btn.onclick = function () {
-      if (modal != null) {
-        modal.style.display = "block";
-      }
+      if (modal) modal.style.display = "block";
     };
   }
   if (span != null) {
     span.onclick = function () {
-      if (modal != null) {
-        modal.style.display = "none";
-      }
+      if (modal) modal.style.display = "none";
     };
   }
   window.onclick = function (event) {
-    if (event.target == modal && modal != null) {
+    if (event.target == modal && modal) {
       modal.style.display = "none";
     }
   };
@@ -150,12 +150,12 @@ function Validation() {
     const v = value;
     const parts = v.split(" ");
     const note = document.querySelectorAll<HTMLElement>(".input-error")[2];
-    if (parts[0].length < 5 || parts[1].length < 5 || parts[2].length < 5) {
-      note.style.display = "block";
-      valAddress = false;
-    } else {
+    if (checkString(parts)) {
       note.style.display = "none";
       valAddress = true;
+    } else {
+      note.style.display = "block";
+      valAddress = false;
     }
     btnActive();
     return value;
@@ -247,7 +247,11 @@ function Validation() {
       ) {
         btn.classList.add("active");
         localStorage.setItem("cart", "{}");
-        window.location.href = "/catalog";
+        const tyText = document.querySelector<HTMLElement>(".modal-content");
+        if (tyText) {
+          tyText.innerHTML = "order is processed";
+          setTimeout(() => (window.location.href = "/catalog"), 3000);
+        }
       } else {
         btn.classList.remove("active");
       }
@@ -271,7 +275,6 @@ function Validation() {
 
   const cardNumber = <HTMLInputElement>document.getElementById("cardNumber");
   cardNumber?.addEventListener("input", () => {
-
     const v = cardNumber.value.replace(/[^0-9.]+/g, "");
     cardNumber.value = v;
     const matches = v.match(/\d{1,4}/g);
@@ -341,7 +344,6 @@ function promoCode(value: string) {
       used: false,
     },
   ];
-  
   const promBtn = document.querySelector<HTMLElement>(".act-promo");
   const usedPromoDiv = document.querySelector<HTMLElement>(".used-promo");
   const text = <HTMLInputElement>document.getElementById("promocode");
@@ -382,19 +384,17 @@ function promoCode(value: string) {
         evt.target != null &&
         (evt.target as HTMLElement).className == "btn-del"
       ) {
-        console.log((evt.target as HTMLElement).parentElement);
         const inText = String(
           (evt.target as HTMLElement).parentElement?.textContent
         );
         for (let i = 0; i < promo.length; i++) {
           if (promo[i].name == inText.substring(5, 5 + promo[i].name.length)) {
             promo[i].used = false;
-            console.log(promo[i].name);
             (evt.target as HTMLElement).parentElement?.remove();
             getElementBySelector(".total-dicount-cost__cart").innerText =
               String(countDisc(Number(value), promo));
             if (countDisc(Number(value), promo) === Number(value)) {
-              getElementBySelector(".total").style.textDecoration ="none";
+              getElementBySelector(".total").style.textDecoration = "none";
               getElementBySelector(".total-discount").style.display = "none";
             }
           }
@@ -407,9 +407,26 @@ function promoCode(value: string) {
 function countDisc(value: number, promo: Promo[]) {
   let allDis = 0;
   for (let i = 0; i < promo.length; i++) {
-    if (promo[i].used){
+    if (promo[i].used) {
       allDis += promo[i].discount;
     }
   }
+  return CalculateDisc(value, allDis);
+}
+function CalculateDisc(value: number, allDis: number) {
   return Math.round((value - (value / 100) * allDis) * 100) / 100;
 }
+function checkString(parts: string[]) {
+  let count = 0;
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length >= 5) {
+      count += 1;
+    }
+  }
+  if (parts.length == count && parts.length >= 3) {
+    return true;
+  }
+  return false;
+}
+
+export { CalculateDisc, checkString };
