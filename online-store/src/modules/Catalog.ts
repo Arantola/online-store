@@ -309,7 +309,25 @@ export default class Catalog {
     });
   }
 
-  setFilters(params: IParams) {
+  setFilters(currentQuery: IParams, reset = false) {
+    const defaultParams = {
+      categories: "",
+      publishers: "",
+      input: "",
+      order_by: "",
+      ascending: "",
+      id: "",
+      view: "card",
+      min_price: "5",
+      max_price: "250",
+      min_players: "1",
+      max_players: "8",
+      min_playtime: "5",
+      max_playtime: "150",
+      page: "0",
+    }
+    const params = reset ? defaultParams : currentQuery ;
+
     let sortOption = 0;
     switch (params.order_by) {
       case "price":
