@@ -1,5 +1,6 @@
 import Filter from "./Filter";
-import { getElementBySelector } from "./types/types";
+import Query from "./Query";
+import { getElementBySelector, IGame } from "./types/types";
 
 interface Promo {
   name: string;
@@ -8,16 +9,169 @@ interface Promo {
 }
 
 export default class Cart {
-  constructor(public filter: Filter) {}
+  constructor(public filter: Filter, public query: Query) {}
 
   renderPage() {
     CreateModal();
     Validation();
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
-    this.filter.cartTotalCost();
-    TotalProduct();
-    promoCode(this.filter.cartTotalCost());
+
+    this.query.getQueryFromURL();
+    this.setPageCount();
+    this.setCurrentPageDisplay();
+    this.setOnPageDisplay();
+    this.listenPageNumber();
+    this.listenOnPageCount();
+    this.drawCards(this.getOnePageCollection());
+  }
+
+  setPageCount() {
+    const length = this.filter.getCart().length;
+    this.query.params.pages = String(
+      Math.ceil(length / +this.query.params.items)
+    );
+  }
+
+  setCurrentPageDisplay() {
+    getElementBySelector("#page-number").innerText = this.query.params.page;
+  }
+
+  setOnPageDisplay() {
+    getElementBySelector("#on-page").innerText = this.query.params.items;
+  }
+
+  listenPageNumber() {
+    getElementBySelector("#page-number-interface").addEventListener(
+      "click",
+      (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          if (e.target.getAttribute("name") === "less") {
+            if (+this.query.params.page > 1) {
+              this.query.setParam("page", `${+this.query.params.page - 1}`);
+              this.setCurrentPageDisplay();
+            }
+          }
+          if (e.target.getAttribute("name") === "more") {
+            if (+this.query.params.page < +this.query.params.pages) {
+              this.query.setParam("page", `${+this.query.params.page + 1}`);
+              this.setCurrentPageDisplay();
+            }
+          }
+        }
+        this.drawCards(this.getOnePageCollection());
+      }
+    );
+  }
+
+  listenOnPageCount() {
+    getElementBySelector("#on-page-interface").addEventListener(
+      "click",
+      (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          if (e.target.getAttribute("name") === "less") {
+            if (+this.query.params.items > 1) {
+              this.query.setParam("items", `${+this.query.params.items - 1}`);
+              this.setOnPageDisplay();
+            }
+          }
+          if (e.target.getAttribute("name") === "more") {
+            if (+this.query.params.items < this.filter.getCart().length) {
+              this.query.setParam("items", `${+this.query.params.items + 1}`);
+              this.setOnPageDisplay();
+            }
+          }
+          this.setPageCount();
+
+          this.query.setParam("page", this.query.params.pages);
+          getElementBySelector("#page-number").innerText =
+            this.query.params.pages;
+        }
+        this.drawCards(this.getOnePageCollection());
+      }
+    );
+  }
+
+  getOnePageCollection() {
+    const items: Array<IGame> = this.filter.getCart();
+    const currentPage = +this.query.params.page;
+    const onPage = +this.query.params.items;
+    return items.slice(currentPage * onPage - onPage, currentPage * onPage);
+  }
+
+  drawCards(collection: Array<IGame>) {
+    const cartList = getElementBySelector("#cart-items");
+    cartList.innerHTML = "";
+    if (collection.length === 0) {
+      cartList.classList.add("cart_no-items");
+    } else {
+      cartList.classList.remove("cart_no-items");
+      collection.forEach((item: IGame) => {
+        const outer: Node = getElementBySelector("#card-interface-for-cart");
+
+        if (outer instanceof HTMLTemplateElement) {
+          const card = document.importNode(outer.content, true);
+
+          // Example
+          // var outer = document.querySelector('#outer');
+          // var outerClone = document.importNode(outer.content, true);
+          // var check = outerClone.querySelector('template');
+          // var innerClone = document.importNode(check.content,true);
+          // outerClone.appendChild(innerClone);
+          // var tDiv = document.querySelector('#temp');
+          // tDiv.appendChild(outerClone);
+
+          if (card instanceof DocumentFragment) {
+            (
+              getElementBySelector(".card__link", card) as HTMLLinkElement
+            ).href = `/product?id=${item.id}`;
+            (
+              getElementBySelector(".card__img", card) as HTMLImageElement
+            ).src = `${
+              item.images.box
+                ? item.images.box
+                : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
+            }`;
+            (
+              getElementBySelector(".card__img_logo", card) as HTMLImageElement
+            ).src = item.images.logo;
+            (
+              getElementBySelector(".card__img_background", card) as HTMLImageElement
+            ).src = `${item.images.background}`;
+            (
+              getElementBySelector(".card__img", card) as HTMLImageElement
+            ).alt = `${item.name}`;
+            (
+              getElementBySelector(".card__name", card) as HTMLElement
+            ).textContent = `${item.name}`;
+            (
+              getElementBySelector(".card__price", card) as HTMLElement
+            ).textContent = `${item.price} $`;
+            (
+            getElementBySelector(".card__button_cart", card) as HTMLButtonElement
+            ).id = `${item.id}`;
+            (
+              getElementBySelector(".card__button_cart", card) as HTMLButtonElement
+            ).innerText = "Add to cart";
+            (
+              getElementBySelector(".card__description", card) as HTMLElement
+            ).innerText = `${item.description}`;
+
+            getElementBySelector(".card", card).classList.add("card_wide");
+            getElementBySelector(".card__img", card).classList.add("card__img_wide");
+            getElementBySelector(".card__img_logo", card).style.display = "block";
+            getElementBySelector(".card__img_background", card).style.display = "block";
+            getElementBySelector(".card__img-wrapper", card).classList.add("card__img-wrapper_wide");
+            getElementBySelector(".card__info", card).classList.add("card__info_wide");
+            getElementBySelector(".card__name", card).classList.add("card__name_wide");
+            getElementBySelector(".card__description", card).style.display = "block";
+            getElementBySelector(".card__button_cart", card).classList.add("card__button_cart_wide");
+
+            cartList.appendChild(card);
+          }
+        }
+      });
+    }
   }
 }
 
