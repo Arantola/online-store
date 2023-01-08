@@ -193,8 +193,7 @@ export default class Catalog {
     displayElement.innerHTML = slide1 + " - " + slide2;
 
     const list = ["price", "playtime", "players"];
-    console.log(String(slide1));
-    console.log(String(slide2));
+
     this.query.setParam(`min_${list[index]}`, String(slide1));
     this.query.setParam(`max_${list[index]}`, String(slide2));
 
@@ -220,6 +219,7 @@ export default class Catalog {
         if (sliders[y].type === "range") {
           sliders[y].addEventListener("change", () => {
             this.getInputValues(<HTMLInputElement>this.sliderSections[index], index);
+            console.log(this.query.params.min_playtime);
           });
         }
       }
@@ -241,6 +241,8 @@ export default class Catalog {
   }
 
   listenResetButton() {
+    // this.query.getQueryFromURL();
+    // console.log("before",this.query.params);
     getElementBySelector(".button_reset").addEventListener("click", (e) => {
       e.preventDefault();
       window.history.pushState(
@@ -248,12 +250,36 @@ export default class Catalog {
         "/catalog",
         window.location.origin + "/catalog"
       );
-      this.query.setDefault();
-      // console.log(this.query.params);
+
       this.query.getQueryFromURL();
-      console.log(this.query.params);
-      this.setFilters(this.query.params);
+      // // console.log("after", this.query.params);
+      // console.log("before Default", this.query.params);
+      this.query.setDefault();
+
+      // console.log("after", this.query.params);
+
+      // const params = {
+      //   categories: "",
+      //   publishers: "",
+      //   input: "",
+      //   order_by: "",
+      //   ascending: "",
+      //   id: "",
+      //   view: "card",
+      //   min_price: "5",
+      //   max_price: "250",
+      //   min_players: "1",
+      //   max_players: "8",
+      //   min_playtime: "5",
+      //   max_playtime: "150",
+      //   page: "0",
+      // }
+      // this.setInputValues(this.sliderSections[0] as HTMLElement, 0, this.query.params);
+      // this.setInputValues(this.sliderSections[1] as HTMLElement, 1, this.query.params);
+      // this.setInputValues(this.sliderSections[2] as HTMLElement, 2, this.query.params);
+
       this.filterAndDrawCards();
+      // console.log("after", this.query.params);
     });
   }
 
@@ -318,15 +344,25 @@ export default class Catalog {
     });
   }
 
-  setFilters(currentQuery: IParams) {
-    const params = JSON.parse(JSON.stringify(currentQuery));
-    params.min_price = "5";
-    params.max_price = "250";
-    params.min_players = "1";
-    params.max_players = "8";
-    params.min_playtime = "5";
-    params.max_playtime = "150";
-    console.log("We goin to", params);
+  setFilters(currentQuery: IParams, reset = false) {
+    const defaultParams = {
+      categories: "",
+      publishers: "",
+      input: "",
+      order_by: "",
+      ascending: "",
+      id: "",
+      view: "card",
+      min_price: "5",
+      max_price: "250",
+      min_players: "1",
+      max_players: "8",
+      min_playtime: "5",
+      max_playtime: "150",
+      page: "0",
+    }
+    const params = reset ? defaultParams : currentQuery ;
+
     let sortOption = 0;
     switch (params.order_by) {
       case "price":

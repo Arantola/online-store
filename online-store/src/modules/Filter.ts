@@ -106,23 +106,23 @@ export default class Filter {
     });
   }
 
-  private mergeByProperty = (
-    target: Array<IGame>,
-    source: Array<IGame>,
-    field: string
-  ) => {
-    source.forEach((sourceElement) => {
-      const targetElement = target.find((targetElement) => {
-        return (
-          sourceElement[field as keyof typeof sourceElement] ===
-          targetElement[field as keyof typeof targetElement]
-        );
-      });
-      targetElement
-        ? Object.assign(targetElement, sourceElement)
-        : target.push(sourceElement);
-    });
-  };
+  // private mergeByProperty = (
+  //   target: Array<IGame>,
+  //   source: Array<IGame>,
+  //   field: string
+  // ) => {
+  //   source.forEach((sourceElement) => {
+  //     const targetElement = target.find((targetElement) => {
+  //       return (
+  //         sourceElement[field as keyof typeof sourceElement] ===
+  //         targetElement[field as keyof typeof targetElement]
+  //       );
+  //     });
+  //     targetElement
+  //       ? Object.assign(targetElement, sourceElement)
+  //       : target.push(sourceElement);
+  //   });
+  // };
 
   // input
   private filterByInput(collection: Array<IGame>, value: string) {

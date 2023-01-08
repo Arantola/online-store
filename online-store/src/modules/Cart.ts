@@ -1,67 +1,95 @@
 import Filter from "./Filter";
+import Query from "./Query";
 import { getElementBySelector, IGame } from "./types/types";
 
 export default class Cart {
-  constructor(
-    public filter: Filter,
-    private pageCount = 5,
-    private itemsOnPage = 5
-  ) {}
+  constructor(public filter: Filter, public query: Query) {}
 
   renderPage() {
     CreateModal();
     Validation();
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
-    this.drawCards(this.getOnePageCollection());
+
+    this.query.getQueryFromURL();
+    this.setPageCount();
+    this.setCurrentPageDisplay();
+    this.setOnPageDisplay();
     this.listenPageNumber();
     this.listenOnPageCount();
+    this.drawCards(this.getOnePageCollection());
   }
 
-  // combine with listenOnPageCount() DRY
+  setPageCount() {
+    const length = this.filter.getCart().length;
+    this.query.params.pages = String(
+      Math.ceil(length / +this.query.params.items)
+    );
+  }
+
+  setCurrentPageDisplay() {
+    getElementBySelector("#page-number").innerText = this.query.params.page;
+  }
+
+  setOnPageDisplay() {
+    getElementBySelector("#on-page").innerText = this.query.params.items;
+  }
+
   listenPageNumber() {
-    const pageInterface = getElementBySelector("#page-number-interface");
-    const display = getElementBySelector("#page-number", pageInterface);
-    let currentPage = +display.innerText;
-
-    pageInterface.addEventListener("click", (e) => {
-      if (e.target instanceof HTMLButtonElement) {
-        if (e.target.getAttribute("name") === "less") {
-          display.innerText = `${currentPage === 1 ? 1 : --currentPage}`;
+    getElementBySelector("#page-number-interface").addEventListener(
+      "click",
+      (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          if (e.target.getAttribute("name") === "less") {
+            if (+this.query.params.page > 1) {
+              this.query.setParam("page", `${+this.query.params.page - 1}`);
+              this.setCurrentPageDisplay();
+            }
+          }
+          if (e.target.getAttribute("name") === "more") {
+            if (+this.query.params.page < +this.query.params.pages) {
+              this.query.setParam("page", `${+this.query.params.page + 1}`);
+              this.setCurrentPageDisplay();
+            }
+          }
         }
-        if (e.target.getAttribute("name") === "more") {
-          display.innerText = `${currentPage === this.pageCount ? this.pageCount : ++currentPage}`;
-        }
+        this.drawCards(this.getOnePageCollection());
       }
-      this.drawCards(this.getOnePageCollection());
-    });
+    );
   }
 
-  // combine with listenPageNumber() DRY
   listenOnPageCount() {
-    const onPageInterface = getElementBySelector("#on-page-interface");
-    const display = getElementBySelector("#on-page", onPageInterface);
-    let currentOnPage = +display.innerText;
+    getElementBySelector("#on-page-interface").addEventListener(
+      "click",
+      (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          if (e.target.getAttribute("name") === "less") {
+            if (+this.query.params.items > 1) {
+              this.query.setParam("items", `${+this.query.params.items - 1}`);
+              this.setOnPageDisplay();
+            }
+          }
+          if (e.target.getAttribute("name") === "more") {
+            if (+this.query.params.items < this.filter.getCart().length) {
+              this.query.setParam("items", `${+this.query.params.items + 1}`);
+              this.setOnPageDisplay();
+            }
+          }
+          this.setPageCount();
 
-    onPageInterface.addEventListener("click", (e) => {
-      if (e.target instanceof HTMLButtonElement) {
-        if (e.target.getAttribute("name") === "less") {
-          display.innerText = `${currentOnPage === 1 ? 1 : --currentOnPage}`;
+          this.query.setParam("page", this.query.params.pages);
+          getElementBySelector("#page-number").innerText = this.query.params.pages;
+          console.log(this.query.params.items)
         }
-        if (e.target.getAttribute("name") === "more") {
-          display.innerText = `${currentOnPage === this.itemsOnPage ? this.itemsOnPage : ++currentOnPage}`;
-        }
+        this.drawCards(this.getOnePageCollection());
       }
-      this.drawCards(this.getOnePageCollection());
-    });
+    );
   }
 
   getOnePageCollection() {
     const items: Array<IGame> = this.filter.getCart();
-
-    const currentPage = +(getElementBySelector("#page-number") as HTMLSpanElement).innerText
-    const onPage = +(getElementBySelector("#on-page") as HTMLSpanElement).innerText
-
+    const currentPage = +this.query.params.page;
+    const onPage = +this.query.params.items;
     return items.slice(currentPage * onPage - onPage, currentPage * onPage);
   }
 
@@ -164,6 +192,7 @@ function CreateModal() {
     }
   };
 }
+
 function Validation() {
   const cardimg = [
     {

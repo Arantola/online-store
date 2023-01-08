@@ -16,7 +16,9 @@ class Query {
       max_players: "8",
       min_playtime: "5",
       max_playtime: "150",
-      page: "0",
+      items: "5",
+      page: "1",
+      pages: "10",
     }
   ) {}
 
@@ -50,9 +52,9 @@ class Query {
   goTowithQuery(searchParams: URLSearchParams | string) {
     window.history.pushState(
       {},
-      "/catalog",
+      "",
       window.location.origin +
-        "/catalog" +
+        window.location.pathname +
         `${String(searchParams)
             ? "?" + String(searchParams).replace(/%2C/g, ",")
             : ""
