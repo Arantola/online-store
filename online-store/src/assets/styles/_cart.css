@@ -6,7 +6,6 @@
     width: 70%;
     border: 1px solid orange;
     border-radius: 10px;
-    height: fit-content;
 }
 
 .cart-info {
@@ -17,16 +16,16 @@
     border-bottom: 1px solid orange;
 }
 
-.cart-page button {
+/* .cart-page button {
     border-radius: 50px;
     height: 25px;
     font-size: 1rem;
     color: #fff;
     border: 0;
     cursor: pointer;
-    background: orange;
-    white-space: nowrap;
-}
+    background: #ef6747;
+    white-space: nowrap; */
+/* } */
 
 .cart-item-container {
     border-bottom: 1px solid orange;
@@ -65,12 +64,10 @@
 .card__wrapper {
     display: flex;
     text-align: center;
-    width: 40%;
 }
 
 .card__interface {
-    padding: 10px;
-    background-color: #fff;
+    margin-bottom: 10px;
 }
 
 .card__button_add,
@@ -82,12 +79,12 @@
     color: #fff;
     border: 0;
     cursor: pointer;
-    background: orange;
+    background: #ef6747;
     white-space: nowrap;
 }
 
 .summary-data {
-    width: 25%;
+    width: 22%;
     border: 1px solid orange;
     border-radius: 10px;
     text-align: center;
@@ -114,13 +111,9 @@
     margin-bottom: 20px;
 }
 
-.sum-desc .promo-name {
-    margin-bottom: 10px;
-}
-
 .sum-desc button {
     cursor: pointer;
-    background: rgb(121, 121, 121);
+    background: orange;
     border: none;
     width: 100%;
     height: 54px;
@@ -129,8 +122,9 @@
     color: #FFFFFF;
     text-transform: uppercase;
 }
-.sum-desc button.active {
-    background: orange;
+
+.sum-desc .act-promo {
+    margin-bottom: 20px;
 }
 
 .button_cart-input {
@@ -156,24 +150,11 @@
 .display-and-buttons {
     display: flex;
 }
-.display-and-buttons_vertical {
-    display: flex;
-    flex-direction: column;
-}
 
 #page-number,
 #on-page {
     text-align: center;
     width: 30px;
-}
-
-.card__index {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 40px;
-    padding: 10px;
-    background: #fff;
 }
 
 .cart-items {
@@ -191,12 +172,6 @@
     gap: 10px;
     margin-top: 10px;
     min-height: 300px;
-}
-.sum-desc .btn-del {
-    background: red;
-    width: auto;
-    border-radius: 100%;
-    margin-left: 10px;
 }
 
 .cart_no-items::after{

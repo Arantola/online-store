@@ -1,6 +1,3 @@
-import cards from "../assets/icons/cards.svg";
-import list from "../assets/icons/list.svg";
-
 const catalog = `
 <div class="banner"></div>
 <div class="container">

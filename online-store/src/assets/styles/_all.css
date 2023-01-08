@@ -65,10 +65,9 @@ footer img{
 }
 
 footer .git-info{
-    margin-top: 75px;
-    /* min-height: 80px; */
+    margin-top: 40px;
+    min-height: 80px;
     text-align: center;
-    font-size: 20px;
 }
 
 .container {

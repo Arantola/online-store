@@ -70,27 +70,33 @@ const cart = `
             <div class="cart-lists">
                 <div class="cart-info">
                     <div>Product in cart</div>
-                    <div class="cart-page">
+                    <div class="cart-page" id="page-number-interface">
                         <span>PAGE:</span>
-                        <button><</button>
-                        <span>1</span>
-                        <button>></button>
+                        <div class="display-and-buttons">
+                            <button class="button_cart-input" name="less"><</button>
+                            <span id="page-number">1</span>
+                            <button class="button_cart-input" name="more">></button>
+                        </div>
+                    </div>
+                    <div class="cart-page"  id="on-page-interface">
+                        <span>On page:</span>
+                        <div class="display-and-buttons">
+                            <button class="button_cart-input" name="less"><</button>
+                            <span id="on-page">5</span>
+                            <button class="button_cart-input" name="more">></button>
+                        </div>
                     </div>
                 </div>
-                <div class="cart-items">
+                <div class="cart-items" id="cart-items">
                 </div>
             </div>
             <div class="summary-data">
                 <div class="sum-res"><h2>Result</h2></div>
                 <div class="sum-desc">
-                    <div>Product: <span class="total-product"></span></div>
-                    <div class="total"><span class="total-cost__cart"></span>$</div>
-                    <div class="total-discount"><span class="total-dicount-cost__cart"></span>$</div>
-                    <div class="used-promo"></div>
+                    <div class="total">302$</div>
                     <input type="text" name="" id="promocode" placeholder="Enter promo code">
-                    <div class="promo-name">promo: <span class="code-one">sell</span>, <span class="code-two">RSS</span></div>
                     <button class="act-promo">Activate promo code</button>
-                    <button id="buyBtn" class="buy active">buy now</button>
+                    <button id="buyBtn" class="buy">buy now</button>
                 </div>
             </div>
 </div>`;
