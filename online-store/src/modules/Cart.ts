@@ -1,6 +1,13 @@
 import Filter from "./Filter";
 import Query from "./Query";
+
 import { getElementBySelector, IGame } from "./types/types";
+
+interface Promo {
+  name: string;
+  discount: number;
+  used: boolean;
+}
 
 export default class Cart {
   constructor(public filter: Filter, public query: Query) {}
@@ -95,74 +102,63 @@ export default class Cart {
 
   drawCards(collection: Array<IGame>) {
     const cartList = getElementBySelector("#cart-items");
+    const cartArray = this.filter.getCart();
     cartList.innerHTML = "";
     if (collection.length === 0) {
       cartList.classList.add("cart_no-items");
     } else {
       cartList.classList.remove("cart_no-items");
       collection.forEach((item: IGame) => {
-        const outer: Node = getElementBySelector("#card-interface-for-cart");
+        const clone: Node =
+          (
+            document.getElementById(
+              "card-interface-for-cart"
+            ) as HTMLTemplateElement
+          ).content.cloneNode(true) || null;
 
-        if (outer instanceof HTMLTemplateElement) {
-          const card = document.importNode(outer.content, true);
+        if (clone instanceof DocumentFragment) {
+          getElementBySelector(".card__index", clone).innerText = `${
+            cartArray.findIndex((elem: IGame) => {
+              return elem.id === item.id;
+            }) + 1
+          }`;
 
-          // Example
-          // var outer = document.querySelector('#outer');
-          // var outerClone = document.importNode(outer.content, true);
-          // var check = outerClone.querySelector('template');
-          // var innerClone = document.importNode(check.content,true);
-          // outerClone.appendChild(innerClone);
-          // var tDiv = document.querySelector('#temp');
-          // tDiv.appendChild(outerClone);
+          (
+            getElementBySelector(".card__link", clone) as HTMLLinkElement
+          ).href = `/product?id=${item.id}`;
+          (
+            getElementBySelector(".card__img", clone) as HTMLImageElement
+          ).src = `${
+            item.images.box
+              ? item.images.box
+              : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
+          }`;
+          (
+            getElementBySelector(".card__img_logo", clone) as HTMLImageElement
+          ).src = item.images.logo;
+          (
+            getElementBySelector(".card__img_background", clone) as HTMLImageElement
+          ).src = `${item.images.background}`;
+          (
+            getElementBySelector(".card__img", clone) as HTMLImageElement
+          ).alt = `${item.name}`;
 
-          if (card instanceof DocumentFragment) {
-            (
-              getElementBySelector(".card__link", card) as HTMLLinkElement
-            ).href = `/product?id=${item.id}`;
-            (
-              getElementBySelector(".card__img", card) as HTMLImageElement
-            ).src = `${
-              item.images.box
-                ? item.images.box
-                : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
-            }`;
-            (
-              getElementBySelector(".card__img_logo", card) as HTMLImageElement
-            ).src = item.images.logo;
-            (
-              getElementBySelector(".card__img_background", card) as HTMLImageElement
-            ).src = `${item.images.background}`;
-            (
-              getElementBySelector(".card__img", card) as HTMLImageElement
-            ).alt = `${item.name}`;
-            (
-              getElementBySelector(".card__name", card) as HTMLElement
-            ).textContent = `${item.name}`;
-            (
-              getElementBySelector(".card__price", card) as HTMLElement
-            ).textContent = `${item.price} $`;
-            (
-            getElementBySelector(".card__button_cart", card) as HTMLButtonElement
-            ).id = `${item.id}`;
-            (
-              getElementBySelector(".card__button_cart", card) as HTMLButtonElement
-            ).innerText = "Add to cart";
-            (
-              getElementBySelector(".card__description", card) as HTMLElement
-            ).innerText = `${item.description}`;
+          getElementBySelector(".card__name", clone).textContent = `${item.name}`;
+          getElementBySelector(".card__price", clone).textContent = `${item.price} $`;
+          getElementBySelector(".card__description", clone).textContent = `${item.description}`;
 
-            getElementBySelector(".card", card).classList.add("card_wide");
-            getElementBySelector(".card__img", card).classList.add("card__img_wide");
-            getElementBySelector(".card__img_logo", card).style.display = "block";
-            getElementBySelector(".card__img_background", card).style.display = "block";
-            getElementBySelector(".card__img-wrapper", card).classList.add("card__img-wrapper_wide");
-            getElementBySelector(".card__info", card).classList.add("card__info_wide");
-            getElementBySelector(".card__name", card).classList.add("card__name_wide");
-            getElementBySelector(".card__description", card).style.display = "block";
-            getElementBySelector(".card__button_cart", card).classList.add("card__button_cart_wide");
+          getElementBySelector(".card", clone).classList.add("card_wide");
+          getElementBySelector(".card__img", clone).classList.add("card__img_wide");
+          getElementBySelector(".card__img_logo", clone).style.display = "block";
+          getElementBySelector(".card__img_background", clone).style.display = "block";
+          getElementBySelector(".card__img-wrapper", clone).classList.add("card__img-wrapper_wide");
+          getElementBySelector(".card__info", clone).classList.add("card__info_wide");
+          getElementBySelector(".card__name", clone).classList.add("card__name_wide");
+          getElementBySelector(".card__description", clone).style.display = "block";
+          getElementBySelector(".card__button_cart", clone).style.display = "none";
+          getElementBySelector(".card__count-menu", clone).id = `${item.id}`;
 
-            cartList.appendChild(card);
-          }
+          cartList.appendChild(clone);
         }
       });
     }
@@ -394,6 +390,8 @@ function Validation() {
         valSecurity
       ) {
         btn.classList.add("active");
+        localStorage.setItem("cart", "{}");
+        window.location.href = "/catalog";
       } else {
         btn.classList.remove("active");
       }
@@ -466,4 +464,96 @@ function Validation() {
     const v = cardSecurity.value.replace(/[^0-9.]+/g, "");
     cardSecurity.value = v;
   });
+}
+
+function TotalProduct() {
+  const curCart = JSON.parse(localStorage.getItem("cart") as string);
+  const count = Object.keys(curCart).length;
+  getElementBySelector(".total-product").innerText = String(count);
+}
+
+function promoCode(value: string) {
+  const promo: Promo[] = [
+    {
+      name: "sell",
+      discount: 15,
+      used: false,
+    },
+    {
+      name: "RSS",
+      discount: 10,
+      used: false,
+    },
+  ];
+  
+  const promBtn = document.querySelector<HTMLElement>(".act-promo");
+  const usedPromoDiv = document.querySelector<HTMLElement>(".used-promo");
+  const text = <HTMLInputElement>document.getElementById("promocode");
+
+  if (promBtn != null && usedPromoDiv != null) {
+    text.addEventListener("input", () => {
+      for (let i = 0; i < promo.length; i++) {
+        if (text.value === promo[i].name) {
+          promBtn.classList.add("active");
+          break;
+        } else {
+          promBtn.classList.remove("active");
+        }
+      }
+    });
+
+    promBtn.onclick = function () {
+      if (Number(value) > 0) {
+        for (let i = 0; i < promo.length; i++) {
+          if (text.value === promo[i].name && !promo[i].used) {
+            promo[i].used = true;
+            const createPromo = `<div class="used-promo__info">Used ${promo[i].name}:<br> discount ${promo[i].discount} <button class="btn-del">del</button></div>`;
+            usedPromoDiv.insertAdjacentHTML("beforeend", createPromo);
+            getElementBySelector(".total").style.textDecoration =
+              "line-through";
+            getElementBySelector(".total-discount").style.display = "block";
+            getElementBySelector(".total-dicount-cost__cart").innerText =
+              String(countDisc(Number(value), promo));
+            text.value = "";
+          }
+        }
+      }
+    };
+
+    const containerPromo = document.querySelector<HTMLElement>(".used-promo");
+    containerPromo?.addEventListener("click", function (evt) {
+      if (
+        evt.target != null &&
+        (evt.target as HTMLElement).className == "btn-del"
+      ) {
+        console.log((evt.target as HTMLElement).parentElement);
+        const inText = String(
+          (evt.target as HTMLElement).parentElement?.textContent
+        );
+        for (let i = 0; i < promo.length; i++) {
+          if (promo[i].name == inText.substring(5, 5 + promo[i].name.length)) {
+            promo[i].used = false;
+            console.log(promo[i].name);
+            (evt.target as HTMLElement).parentElement?.remove();
+            getElementBySelector(".total-dicount-cost__cart").innerText =
+              String(countDisc(Number(value), promo));
+            if (countDisc(Number(value), promo) === Number(value)) {
+              getElementBySelector(".total").style.textDecoration ="none";
+              getElementBySelector(".total-discount").style.display = "none";
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+function countDisc(value: number, promo: Promo[]) {
+  let allDis = 0;
+  for (let i = 0; i < promo.length; i++) {
+    if (promo[i].used){
+      allDis += promo[i].discount;
+    }
+  }
+  return Math.round((value - (value / 100) * allDis) * 100) / 100;
 }

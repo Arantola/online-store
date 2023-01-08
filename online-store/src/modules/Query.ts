@@ -99,4 +99,5 @@ class Query {
     this.goTowithQuery(searchParams);
   }
 }
+
 export default Query;

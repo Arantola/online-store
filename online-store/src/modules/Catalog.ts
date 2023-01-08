@@ -245,6 +245,7 @@ export default class Catalog {
     // console.log("before",this.query.params);
     getElementBySelector(".button_reset").addEventListener("click", (e) => {
       e.preventDefault();
+
       window.history.pushState(
         {},
         "/catalog",

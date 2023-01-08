@@ -12,9 +12,48 @@ class Product {
     this.ImgExpansion();
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
+    this.listenCartButton(currentGame.id);
+    this.listenCartButtonsNow(currentGame.id);
   }
 
-  addCardInfo(game?: any) {
+  listenCartButton(game: string) {
+    const btn = document.getElementById("product-buy-btn");
+    if (btn) {
+      btn.addEventListener("click", (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          const curCart = JSON.parse(localStorage.getItem("cart") as string);
+          if (curCart[`${game}`] > 0) {
+            curCart[`${game}`] += 1;
+          } else {
+            curCart[`${game}`] = 1;
+          }
+          localStorage.setItem("cart", JSON.stringify(curCart));
+          this.filter.updateCartDisplay();
+          this.filter.updateTotalCost();
+        }
+      });
+    }
+  }
+
+  listenCartButtonsNow(game: string) {
+    const btn = document.getElementById("product-buy-now-btn");
+    if (btn) {
+      btn.addEventListener("click", (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          const curCart = JSON.parse(localStorage.getItem("cart") as string);
+          if (!curCart[`${game}`]) {
+            curCart[`${game}`] = 1;
+          }
+          localStorage.setItem("cart", JSON.stringify(curCart));
+          this.filter.updateCartDisplay();
+          this.filter.updateTotalCost();
+          window.location.href = "/cart";
+        }
+      });
+    }
+  }
+
+  addCardInfo(game: any) {
     const info = [
       {
         text: "Price",
@@ -50,30 +89,31 @@ class Product {
     if (game) {
       // Добавляем информацию в поля
       const breadTheme = document.getElementById("bread-theme");
-      if (breadTheme != undefined) breadTheme.innerHTML = `${game.categories[0]}`;
+      if (breadTheme)
+        breadTheme.innerHTML = `${game.categories.split(/\s*,\s*/)[0]}`;
       const breadBrand = document.getElementById("bread-brand");
-      if (breadBrand != undefined) breadBrand.innerHTML = `${game.publishers}`;
+      if (breadBrand) breadBrand.innerHTML = `${game.publishers}`;
       const breadName = document.getElementById("bread-name");
-      if (breadName != undefined) breadName.innerHTML = `${game.name}`;
+      if (breadName) breadName.innerHTML = `${game.name}`;
 
       const backgroundImg = document.querySelector<HTMLElement>(".item");
-      if (backgroundImg != undefined) {
+      if (backgroundImg) {
         backgroundImg.style.background = `linear-gradient( rgba(0, 0, 0, 0.80) 100%, rgba(0, 0, 0, 0.5)100%), url(${game.images.background})`;
         backgroundImg.style.backgroundSize = `cover`;
         backgroundImg.style.backgroundPosition = `center`;
       }
       const nameLogo = document.getElementById("name-logo");
-      if (nameLogo != undefined)
+      if (nameLogo)
         nameLogo.innerHTML = `<img src="${game.images.logo}" alt="${game.name}">`;
       const mainImg = document.querySelector<HTMLElement>(".main-img");
-      if (mainImg != undefined)
+      if (mainImg)
         mainImg.innerHTML = `<img src="${game.images.box}" alt="${game.name}">`;
       const newImg = document.querySelector<HTMLElement>(".small-img");
-      if (newImg != undefined)
+      if (newImg)
         newImg.innerHTML = `<img src="${game.images.photo1}" alt="${game.name}"><img src="${game.images.photo2}" alt="${game.name}">`;
 
       const allInfo = document.querySelector<HTMLElement>(".characteristic");
-      if (allInfo != undefined) {
+      if (allInfo) {
         for (let i = 0; i < info.length; i++) {
           const detailDiv = `
           <div class="detail">
@@ -84,7 +124,7 @@ class Product {
         }
       }
       const descText = document.getElementById("desc-text");
-      if (descText != undefined) descText.innerHTML = `${game.description}`;
+      if (descText) descText.innerHTML = `${game.description}`;
     } else {
       // Делаем запрос на сервер
       // Добавляем информацию в поля
@@ -96,29 +136,29 @@ class Product {
     const openImg = document.querySelector<HTMLElement>(".all-img");
     const span = document.querySelector<HTMLElement>(".close");
 
-    if (openImg != null) {
+    if (openImg) {
       openImg.addEventListener("click", (e: Event) => {
         const urlImg = e.target as HTMLImageElement;
-        if (e.target instanceof HTMLImageElement){
+        if (e.target instanceof HTMLImageElement) {
           const modalImg = document.querySelector<HTMLElement>(".modal-img");
-          if (modal != null) {
+          if (modal) {
             modal.style.display = "block";
-            if (modalImg != undefined)
+            if (modalImg)
               modalImg.innerHTML = `<img src="${urlImg.src}" alt="${urlImg.alt}">`;
           }
         }
       });
     }
 
-    if (span != null) {
+    if (span) {
       span.onclick = function () {
-        if (modal != null) {
+        if (modal) {
           modal.style.display = "none";
         }
       };
     }
     window.onclick = function (event) {
-      if (event.target == modal && modal != null) {
+      if (event.target == modal && modal) {
         modal.style.display = "none";
       }
     };

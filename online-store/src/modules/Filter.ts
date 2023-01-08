@@ -37,14 +37,20 @@ export default class Filter {
     getElementBySelector(".total-cost__display").innerText = cost;
   }
 
-  public filterByQueryParams(currentQuery: IParams, additional = "") {
-    const query = JSON.parse(JSON.stringify(currentQuery));
+  public cartTotalCost() {
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    const cost = this.getCart()
+      .reduce(
+        (acc: number, game: IGame) => acc + +game.price * +curCart[game.id],
+        0
+      )
+      .toFixed(2);
+    getElementBySelector(".total-cost__cart").innerText = cost;
+    return cost;
+  }
+
+  public filterByQueryParams(query: IParams) {
     let collection = JSON.parse(this.initialCollection);
-    if (additional) {
-      const field = additional.split(",")[0];
-      const value = additional.split(",")[1];
-      query[field] = currentQuery[field] + "," + value;
-    }
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
@@ -106,23 +112,31 @@ export default class Filter {
     });
   }
 
-  // private mergeByProperty = (
-  //   target: Array<IGame>,
-  //   source: Array<IGame>,
-  //   field: string
-  // ) => {
-  //   source.forEach((sourceElement) => {
-  //     const targetElement = target.find((targetElement) => {
-  //       return (
-  //         sourceElement[field as keyof typeof sourceElement] ===
-  //         targetElement[field as keyof typeof targetElement]
-  //       );
-  //     });
-  //     targetElement
-  //       ? Object.assign(targetElement, sourceElement)
-  //       : target.push(sourceElement);
-  //   });
-  // };
+  public filterForPreview(field: string, value: string) {
+    let expectCollection = JSON.parse(this.initialCollection);
+    const currentCollection = this.collection || JSON.parse(this.initialCollection);
+    expectCollection = this.filterByField(expectCollection, field, value);
+    this.mergeByProperty(currentCollection, expectCollection, "id");
+    return expectCollection.length;
+  }
+
+  private mergeByProperty = (
+    target: Array<IGame>,
+    source: Array<IGame>,
+    field: string
+  ) => {
+    source.forEach((sourceElement) => {
+      const targetElement = target.find((targetElement) => {
+        return (
+          sourceElement[field as keyof typeof sourceElement] ===
+          targetElement[field as keyof typeof targetElement]
+        );
+      });
+      targetElement
+        ? Object.assign(targetElement, sourceElement)
+        : target.push(sourceElement);
+    });
+  };
 
   // input
   private filterByInput(collection: Array<IGame>, value: string) {

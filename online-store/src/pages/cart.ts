@@ -1,5 +1,3 @@
-import red from "../assets/images/red-dragon.jpg";
-
 const cart = `
 <div class="modal-container">
             <div class="modal-content">
