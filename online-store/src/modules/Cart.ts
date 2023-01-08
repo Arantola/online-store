@@ -78,8 +78,8 @@ export default class Cart {
           this.setPageCount();
 
           this.query.setParam("page", this.query.params.pages);
-          getElementBySelector("#page-number").innerText = this.query.params.pages;
-          console.log(this.query.params.items)
+          getElementBySelector("#page-number").innerText =
+            this.query.params.pages;
         }
         this.drawCards(this.getOnePageCollection());
       }
