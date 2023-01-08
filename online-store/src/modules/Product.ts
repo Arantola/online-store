@@ -6,7 +6,7 @@ class Product {
 
   renderPage() {
     const id = String(new URLSearchParams(document.location.search).get("id"));
-    const currentGame: any = this.filter.getSingle(id)[0];
+    const currentGame = this.filter.getSingle(id)[0];
     console.log(currentGame);
     this.addCardInfo(currentGame);
     this.ImgExpansion();
@@ -45,6 +45,7 @@ class Product {
             curCart[`${game}`] = 1;
           }
           localStorage.setItem("cart", JSON.stringify(curCart));
+          localStorage.setItem("modal", "true");
           this.filter.updateCartDisplay();
           this.filter.updateTotalCost();
           window.location.href = "/cart";
@@ -119,7 +120,7 @@ class Product {
           <div class="detail">
             <div class="">${info[i].text}</div>
             <div class="">${info[i].info}</div>
-          </div>`
+          </div>`;
           allInfo.insertAdjacentHTML("beforeend", detailDiv);
         }
       }
@@ -167,7 +168,6 @@ class Product {
   addListeners() {
     // добавляем обработчики
   }
-
 }
 
 export default Product;
