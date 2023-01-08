@@ -236,6 +236,7 @@ export default class Catalog {
   listenResetButton() {
     getElementBySelector(".button_reset").addEventListener("click", (e) => {
       e.preventDefault();
+
       window.history.pushState(
         {},
         "/catalog",

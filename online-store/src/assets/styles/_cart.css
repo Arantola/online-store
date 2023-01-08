@@ -67,7 +67,8 @@
 }
 
 .card__interface {
-    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
 }
 
 .card__button_add,
@@ -150,11 +151,24 @@
 .display-and-buttons {
     display: flex;
 }
+.display-and-buttons_vertical {
+    display: flex;
+    flex-direction: column;
+}
 
 #page-number,
 #on-page {
     text-align: center;
     width: 30px;
+}
+
+.card__index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    padding: 10px;
+    background: #fff;
 }
 
 .cart-items {
