@@ -94,10 +94,12 @@ export default class Cart {
   }
 
   drawCards(collection: Array<IGame>) {
-    if (collection) {
-      const cartList = getElementBySelector("#cart-items");
-      cartList.innerHTML = "";
-
+    const cartList = getElementBySelector("#cart-items");
+    cartList.innerHTML = "";
+    if (collection.length === 0) {
+      cartList.classList.add("cart_no-items");
+    } else {
+      cartList.classList.remove("cart_no-items");
       collection.forEach((item: IGame) => {
         const outer: Node = getElementBySelector("#card-interface-for-cart");
 
