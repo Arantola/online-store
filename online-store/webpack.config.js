@@ -3,6 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -25,6 +26,9 @@ const config = {
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),
+    new FaviconsWebpackPlugin({
+      logo: "./src/assets/icons/favicon.png"
+    })
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
