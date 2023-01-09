@@ -1,8 +1,3 @@
-interface IGamesArray {
-  games: Array<IGame>;
-  count: number;
-}
-
 interface IGame {
   id: string;
   name: string;
@@ -20,10 +15,7 @@ interface IGame {
   art: string;
   designer: string;
   categories: string;
-  publisher: {
-    id: string;
-    name: string;
-  };
+  publishers: string;
 
   store: string;
   description: string;
@@ -58,4 +50,4 @@ function getElementBySelector<T extends HTMLElement>(
   return element;
 }
 
-export { getElementBySelector, IGame, IGamesArray, IParams, Iroutes };
+export { getElementBySelector, IGame, IParams, Iroutes };
