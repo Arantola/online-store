@@ -469,10 +469,14 @@ function Validation() {
     }
   }
 
+  const makeBtnActive = [false, false, false, false, false, false, false];
   const inpName = <HTMLInputElement>document.getElementById("inpName");
   inpName?.addEventListener("input", () => {
     const v = inpName.value.replace(/\s[^A-Za-z]/g, "");
     inpName.value = v;
+    makeBtnActive[0] = true;
+    if (v == "") makeBtnActive[0] = false;
+    fMakeBtnActive();
   });
 
   const inpPhone = <HTMLInputElement>document.getElementById("inpPhone");
@@ -482,6 +486,23 @@ function Validation() {
     if (v.length > 0 && v[0] !== "+") {
       inpPhone.value = v.replace(/^/, "+");
     }
+    makeBtnActive[1] = true;
+    if (v == "") makeBtnActive[1] = false;
+    fMakeBtnActive();
+  });
+
+  const inpAddress = <HTMLInputElement>document.getElementById("inpAddress");
+  inpAddress?.addEventListener("input", () => {
+    makeBtnActive[2] = true;
+    if (inpName.value == "") makeBtnActive[2] = false;
+    fMakeBtnActive();
+  });
+
+  const inpEmail = <HTMLInputElement>document.getElementById("inpAddress");
+  inpEmail?.addEventListener("input", () => {
+    makeBtnActive[3] = true;
+    if (inpName.value == "") makeBtnActive[3] = false;
+    fMakeBtnActive();
   });
 
   const cardNumber = <HTMLInputElement>document.getElementById("cardNumber");
@@ -513,6 +534,9 @@ function Validation() {
         }
       }
     }
+    makeBtnActive[4] = true;
+    if (inpName.value == "") makeBtnActive[4] = false;
+    fMakeBtnActive();
   });
 
   const cardData = <HTMLInputElement>document.getElementById("cardData");
@@ -526,6 +550,9 @@ function Validation() {
       }
       cardData.value = matches.join("/");
     }
+    makeBtnActive[5] = true;
+    if (inpName.value == "") makeBtnActive[5] = false;
+    fMakeBtnActive();
   });
 
   const cardSecurity = <HTMLInputElement>(
@@ -534,7 +561,23 @@ function Validation() {
   cardSecurity?.addEventListener("input", () => {
     const v = cardSecurity.value.replace(/[^0-9.]+/g, "");
     cardSecurity.value = v;
+    makeBtnActive[6] = true;
+    if (inpName.value == "") makeBtnActive[6] = false;
+    fMakeBtnActive();
   });
+
+  function fMakeBtnActive() {
+    const btn = document.querySelector<HTMLElement>(".order-btn");
+    if (btn)
+      if (
+        Array.from(new Set(makeBtnActive))[0] &&
+        Array.from(new Set(makeBtnActive)).length == 1
+      ) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+  }
 }
 
 function promoCode(value: string) {
@@ -654,4 +697,11 @@ function CheckEmail(val: string) {
   return val;
 }
 
-export { CalculateDisc, checkString, TakeNumber, checkRegex, RegNotNull, CheckEmail };
+export {
+  CalculateDisc,
+  checkString,
+  TakeNumber,
+  checkRegex,
+  RegNotNull,
+  CheckEmail,
+};
