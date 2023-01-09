@@ -227,7 +227,6 @@ export default class Catalog {
         if (sliders[y].type === "range") {
           sliders[y].addEventListener("change", () => {
             this.getInputValues(<HTMLInputElement>this.sliderSections[index], index);
-            console.log(this.query.params.min_playtime);
           });
         }
       }

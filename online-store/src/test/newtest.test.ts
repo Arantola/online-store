@@ -120,4 +120,3 @@ jest.mock("../modules/Product");
 test("test using mock Have Been Called", () => {
   expect(Product).not.toHaveBeenCalled();
 });
-
