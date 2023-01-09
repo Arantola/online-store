@@ -50,7 +50,6 @@ class Query {
   }
 
   goTowithQuery(searchParams: URLSearchParams | string) {
-    console.log("aha!")
     window.history.pushState(
       {},
       "",

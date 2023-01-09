@@ -212,7 +212,6 @@ export default class Catalog {
       }
     });
     input.addEventListener("change", (e: Event) => {
-      console.log((e.target as HTMLInputElement).value === "");
       if ((e.target as HTMLInputElement).value == "") {
         const searchParams = new URLSearchParams(document.location.search);
         searchParams.delete("input");
