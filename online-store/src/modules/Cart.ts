@@ -215,7 +215,7 @@ export default class Cart {
           getElementBySelector(".card__total-price-display", cardInterface).innerText = `${curCart[`${item.id}`] * +item.price} $`
           getElementBySelector(".card__stock", clone).textContent= `${item.store}`;
           getElementBySelector(".card__count-display", cardInterface).innerText = curCart[`${item.id}`];
-          
+
           cartList.appendChild(clone);
         }
       });
