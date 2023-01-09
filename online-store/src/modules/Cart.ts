@@ -17,6 +17,9 @@ export default class Cart {
     Validation();
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
+    this.filter.cartTotalCost();
+    TotalProduct();
+    promoCode(this.filter.cartTotalCost());
 
     this.query.getQueryFromURL();
     this.setPageCount();
@@ -134,6 +137,8 @@ export default class Cart {
           }
           this.filter.updateTotalCost();
           this.filter.updateCartDisplay();
+          this.filter.cartTotalCost();
+          promoCode(this.filter.cartTotalCost());
         }
       }
     });
@@ -223,22 +228,23 @@ function CreateModal() {
   const btn = document.getElementById("buyBtn");
   const span = document.querySelector<HTMLElement>(".close");
 
+  if (localStorage.getItem("modal") == "true") {
+    if (modal) modal.style.display = "block";
+    localStorage.setItem("modal", "{}");
+  }
+
   if (btn != null) {
     btn.onclick = function () {
-      if (modal != null) {
-        modal.style.display = "block";
-      }
+      if (modal) modal.style.display = "block";
     };
   }
   if (span != null) {
     span.onclick = function () {
-      if (modal != null) {
-        modal.style.display = "none";
-      }
+      if (modal) modal.style.display = "none";
     };
   }
   window.onclick = function (event) {
-    if (event.target == modal && modal != null) {
+    if (event.target == modal && modal) {
       modal.style.display = "none";
     }
   };
@@ -347,12 +353,12 @@ function Validation() {
     const v = value;
     const parts = v.split(" ");
     const note = document.querySelectorAll<HTMLElement>(".input-error")[2];
-    if (parts[0].length < 5 || parts[1].length < 5 || parts[2].length < 5) {
-      note.style.display = "block";
-      valAddress = false;
-    } else {
+    if (checkString(parts)) {
       note.style.display = "none";
       valAddress = true;
+    } else {
+      note.style.display = "block";
+      valAddress = false;
     }
     btnActive();
     return value;
@@ -377,12 +383,7 @@ function Validation() {
 
   function cardNumber_format(value: string) {
     const v = value.replace(/[^0-9]/gi, "");
-    const matches = v.match(/\d{4,16}/g);
-    const match = (matches && matches[0]) || "";
-    const parts = [];
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
+    const parts = TakeNumber(v);
     if (parts.length) {
       if (parts.join("").length == 16) {
         valNumber = true;
@@ -390,9 +391,6 @@ function Validation() {
         valNumber = false;
       }
       btnActive();
-      return parts.join(" ");
-    } else {
-      return value;
     }
   }
 
@@ -405,9 +403,6 @@ function Validation() {
       parts.push(match.substring(i, i + 2));
     }
     if (parts.length) {
-      if (Number(parts[0]) > 12) {
-        parts.splice(0, 1);
-      }
       if (parts.join("").length === 4) {
         valData = true;
       } else {
@@ -444,7 +439,11 @@ function Validation() {
       ) {
         btn.classList.add("active");
         localStorage.setItem("cart", "{}");
-        window.location.href = "/catalog";
+        const tyText = document.querySelector<HTMLElement>(".modal-content");
+        if (tyText) {
+          tyText.innerHTML = "order is processed";
+          setTimeout(() => (window.location.href = "/catalog"), 3000);
+        }
       } else {
         btn.classList.remove("active");
       }
@@ -468,15 +467,15 @@ function Validation() {
 
   const cardNumber = <HTMLInputElement>document.getElementById("cardNumber");
   cardNumber?.addEventListener("input", () => {
-
     const v = cardNumber.value.replace(/[^0-9.]+/g, "");
     cardNumber.value = v;
     const matches = v.match(/\d{1,4}/g);
     if (matches) cardNumber.value = matches.join(" ");
     for (let i = 0; i < cardimg.length; i++) {
-      const re = new RegExp(cardimg[i].regex);
+      const re = cheackRegex(cardimg[i].regex);
       const cardImg = document.querySelector<HTMLElement>(".card-num-img");
-      if (cardNumber.value.match(re) != null) {
+      console.log(RegNotNull(re, cardNumber.value));
+      if (RegNotNull(re, cardNumber.value) != null) {
         if (cardImg) {
           cardImg.remove();
           cardNumber.insertAdjacentHTML(
@@ -538,7 +537,6 @@ function promoCode(value: string) {
       used: false,
     },
   ];
-  
   const promBtn = document.querySelector<HTMLElement>(".act-promo");
   const usedPromoDiv = document.querySelector<HTMLElement>(".used-promo");
   const text = <HTMLInputElement>document.getElementById("promocode");
@@ -568,6 +566,7 @@ function promoCode(value: string) {
             getElementBySelector(".total-dicount-cost__cart").innerText =
               String(countDisc(Number(value), promo));
             text.value = "";
+            promBtn.classList.remove("active");
           }
         }
       }
@@ -589,7 +588,7 @@ function promoCode(value: string) {
             getElementBySelector(".total-dicount-cost__cart").innerText =
               String(countDisc(Number(value), promo));
             if (countDisc(Number(value), promo) === Number(value)) {
-              getElementBySelector(".total").style.textDecoration ="none";
+              getElementBySelector(".total").style.textDecoration = "none";
               getElementBySelector(".total-discount").style.display = "none";
             }
           }
@@ -602,9 +601,41 @@ function promoCode(value: string) {
 function countDisc(value: number, promo: Promo[]) {
   let allDis = 0;
   for (let i = 0; i < promo.length; i++) {
-    if (promo[i].used){
+    if (promo[i].used) {
       allDis += promo[i].discount;
     }
   }
+  return CalculateDisc(value, allDis);
+}
+function CalculateDisc(value: number, allDis: number) {
   return Math.round((value - (value / 100) * allDis) * 100) / 100;
 }
+function checkString(parts: string[]) {
+  let count = 0;
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length >= 5) {
+      count += 1;
+    }
+  }
+  if (parts.length == count && parts.length >= 3) {
+    return true;
+  }
+  return false;
+}
+function TakeNumber(value: string) {
+  const matches = value.match(/\d{4,16}/g);
+  const match = (matches && matches[0]) || "";
+  const parts = [];
+  for (let i = 0, len = match.length; i < len; i += 4) {
+    parts.push(match.substring(i, i + 4));
+  }
+  return parts;
+}
+function RegNotNull(re: RegExp, val: string) {
+  return val.match(re);
+}
+function cheackRegex(re: string) {
+  return new RegExp(re);
+}
+
+export { CalculateDisc, checkString, TakeNumber, cheackRegex, RegNotNull };

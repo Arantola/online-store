@@ -93,10 +93,14 @@ const cart = `
             <div class="summary-data">
                 <div class="sum-res"><h2>Result</h2></div>
                 <div class="sum-desc">
-                    <div class="total">302$</div>
+                    <div>Product: <span class="total-product"></span></div>
+                    <div class="total"><span class="total-cost__cart"></span>$</div>
+                    <div class="total-discount"><span class="total-dicount-cost__cart"></span>$</div>
+                    <div class="used-promo"></div>
                     <input type="text" name="" id="promocode" placeholder="Enter promo code">
+                    <div class="promo-name">promo: <span class="code-one">sell</span>, <span class="code-two">RSS</span></div>
                     <button class="act-promo">Activate promo code</button>
-                    <button id="buyBtn" class="buy">buy now</button>
+                    <button id="buyBtn" class="buy active">buy now</button>
                 </div>
             </div>
 </div>`;

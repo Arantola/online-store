@@ -10,7 +10,7 @@ const product = `
 </div>
 <div id="container-items" class="container">
                         <div class="breadcrumb">
-                            <div><a href="../main/index.html">Store</a></div>
+                            <div><a href="/catalog">Store</a></div>
                             <span>>></span>
                             <div id="bread-theme">Theme</div>
                             <span>>></span>
@@ -19,16 +19,11 @@ const product = `
                             <div id="bread-name">Name</div>
                         </div>
                         <div class="item">
-                            <div id="name-logo" class="name">
-                                <img src="../assets/images/en_2000.png" alt="name">
-                            </div>
+                            <div id="name-logo" class="name"></div>
                             <div class="item-info">
                                 <div class="all-img">
-                                    <div class="main-img"><img src="../assets/images/red-dragon.jpg" alt="red-dragon"></div>
+                                    <div class="main-img"></div>
                                     <div class="small-img">
-                                        <img src="../assets/images/red-dragon.jpg" alt="red-dragon">
-                                        <img src="../assets/images/red-dragon.jpg" alt="red-dragon">
-                                        <img src="../assets/images/red-dragon.jpg" alt="red-dragon">
                                     </div>
                                 </div>
                                 <div class="characteristic">

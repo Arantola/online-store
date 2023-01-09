@@ -22,7 +22,10 @@ a {
 h1, h3, h2 {
     margin: 0;
 }
-
+.logo {
+    font-weight: 400;
+    font-family: 'Lobster', cursive;
+}
 .cart {
     background: url('../icons/shopping-cart.svg') center center contain blue;
     background-size: cover;
