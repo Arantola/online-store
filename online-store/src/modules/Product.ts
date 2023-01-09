@@ -1,13 +1,34 @@
 import Filter from "./Filter";
 import QueryParams from "./Query";
 
+interface game {
+  id: string;
+  name: string;
+  price: string;
+  min_players: number;
+  max_players: number;
+  min_playtime: number;
+  max_playtime: number;
+  categories: string;
+  designer: string;
+  art: string;
+  publishers: string;
+  images: {
+    logo: string;
+    box: string;
+    background: string;
+    photo1: string;
+    photo2: string;
+  };
+  description: string;
+}
+
 class Product {
   constructor(public filter: Filter, public queryParams: QueryParams) {}
 
   renderPage() {
     const id = String(new URLSearchParams(document.location.search).get("id"));
     const currentGame = this.filter.getSingle(id)[0];
-    console.log(currentGame);
     this.addCardInfo(currentGame);
     this.ImgExpansion();
     this.filter.updateCartDisplay();
@@ -26,6 +47,8 @@ class Product {
             curCart[`${game}`] += 1;
           } else {
             curCart[`${game}`] = 1;
+            const buyBtnChange = document.getElementById("product-buy-btn");
+            if (buyBtnChange) buyBtnChange.innerHTML = `Add another to cart`;
           }
           localStorage.setItem("cart", JSON.stringify(curCart));
           this.filter.updateCartDisplay();
@@ -54,7 +77,7 @@ class Product {
     }
   }
 
-  addCardInfo(game: any) {
+  addCardInfo(game: game) {
     const info = [
       {
         text: "Price",
@@ -126,6 +149,12 @@ class Product {
       }
       const descText = document.getElementById("desc-text");
       if (descText) descText.innerHTML = `${game.description}`;
+
+      const curCart = JSON.parse(localStorage.getItem("cart") as string);
+      const buyBtnChange = document.getElementById("product-buy-btn");
+      if (curCart[`${game.id}`] > 0) {
+        if (buyBtnChange) buyBtnChange.innerHTML = `Add another to cart`;
+      }
     } else {
       // Делаем запрос на сервер
       // Добавляем информацию в поля

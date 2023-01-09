@@ -180,12 +180,7 @@ function Validation() {
 
   function cardNumber_format(value: string) {
     const v = value.replace(/[^0-9]/gi, "");
-    const matches = v.match(/\d{4,16}/g);
-    const match = (matches && matches[0]) || "";
-    const parts = [];
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
+    const parts = TakeNumber(v);
     if (parts.length) {
       if (parts.join("").length == 16) {
         valNumber = true;
@@ -193,9 +188,6 @@ function Validation() {
         valNumber = false;
       }
       btnActive();
-      return parts.join(" ");
-    } else {
-      return value;
     }
   }
 
@@ -208,9 +200,6 @@ function Validation() {
       parts.push(match.substring(i, i + 2));
     }
     if (parts.length) {
-      if (Number(parts[0]) > 12) {
-        parts.splice(0, 1);
-      }
       if (parts.join("").length === 4) {
         valData = true;
       } else {
@@ -280,9 +269,10 @@ function Validation() {
     const matches = v.match(/\d{1,4}/g);
     if (matches) cardNumber.value = matches.join(" ");
     for (let i = 0; i < cardimg.length; i++) {
-      const re = new RegExp(cardimg[i].regex);
+      const re = cheackRegex(cardimg[i].regex);
       const cardImg = document.querySelector<HTMLElement>(".card-num-img");
-      if (cardNumber.value.match(re) != null) {
+      console.log(RegNotNull(re, cardNumber.value));
+      if (RegNotNull(re, cardNumber.value) != null) {
         if (cardImg) {
           cardImg.remove();
           cardNumber.insertAdjacentHTML(
@@ -428,5 +418,20 @@ function checkString(parts: string[]) {
   }
   return false;
 }
+function TakeNumber(value: string) {
+  const matches = value.match(/\d{4,16}/g);
+  const match = (matches && matches[0]) || "";
+  const parts = [];
+  for (let i = 0, len = match.length; i < len; i += 4) {
+    parts.push(match.substring(i, i + 4));
+  }
+  return parts;
+}
+function RegNotNull(re: RegExp, val: string) {
+  return val.match(re);
+}
+function cheackRegex(re: string) {
+  return new RegExp(re);
+}
 
-export { CalculateDisc, checkString };
+export { CalculateDisc, checkString, TakeNumber, cheackRegex, RegNotNull };

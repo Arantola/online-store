@@ -10,7 +10,7 @@ const product = `
 </div>
 <div id="container-items" class="container">
                         <div class="breadcrumb">
-                            <div><a href="../main/index.html">Store</a></div>
+                            <div><a href="/catalog">Store</a></div>
                             <span>>></span>
                             <div id="bread-theme">Theme</div>
                             <span>>></span>
