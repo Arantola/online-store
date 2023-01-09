@@ -392,10 +392,13 @@ function Validation() {
   function cardNumber_format(value: string) {
     const v = value.replace(/[^0-9]/gi, "");
     const parts = TakeNumber(v);
-    if (parts.length) {
+    const note = document.querySelector<HTMLElement>(".card-error__number");
+    if (note) {
       if (parts.join("").length == 16) {
+        note.style.display = "none";
         valNumber = true;
       } else {
+        note.style.display = "block";
         valNumber = false;
       }
       btnActive();
@@ -407,13 +410,16 @@ function Validation() {
     const matches = v.match(/\d{2,4}/g);
     const match = (matches && matches[0]) || "";
     const parts = [];
+    const note = document.querySelector<HTMLElement>(".card-error__data");
     for (let i = 0, len = match.length; i < len; i += 2) {
       parts.push(match.substring(i, i + 2));
     }
-    if (parts.length) {
+    if (note) {
       if (parts.join("").length === 4) {
+        note.style.display = "none";
         valData = true;
       } else {
+        note.style.display = "block";
         valData = false;
       }
       btnActive();
@@ -424,10 +430,15 @@ function Validation() {
   }
 
   function cardSecurity_format(value: string) {
-    if (value.length === 3) {
-      valSecurity = true;
-    } else {
-      valSecurity = false;
+    const note = document.querySelector<HTMLElement>(".card-error__cvv");
+    if (note) {
+      if (value.length === 3) {
+        note.style.display = "none";
+        valSecurity = true;
+      } else {
+        note.style.display = "block";
+        valSecurity = false;
+      }
     }
     btnActive();
     return value;

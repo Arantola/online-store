@@ -59,6 +59,11 @@ const cart = `
                                 <input id="cardSecurity" type="text" maxlength="3">
                             </div>
                         </div>
+                        <div class="card-error">
+                            <div class="card-error__number">Card number Error</div>
+                            <div class="card-error__data">Card Data Error</div>
+                            <div class="card-error__cvv">Card CVV Error</div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-order">
