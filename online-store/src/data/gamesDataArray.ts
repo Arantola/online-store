@@ -228,32 +228,7 @@ const gamesDataArray = [
         },
         "description": " Prospector, captain, mayor, trader, settler, craftsman, or builder? Which roles will you play in the new world? Will you own the most prosperous plantations? Will you build the most valuable buildings? You have but one goal: achieve the greatest prosperity and highest respect! This is shown by the player who earns the most victory points. He will win the game! \r\n \r\n \r\n In Puerto Rico, players assume the roles of colonial governors on the island of Puerto Rico. The aim of the game is to amass victory points by shipping goods to Europe or by constructing buildings. \r\n Each player uses a separate small board with spaces for city buildings, plantations, and resources. Shared between the players are three ships, a trading house, and a supply of resources and doubloons. \r\n The resource cycle of the game is that players grow crops which they exchange for points or doubloons. Doubloons can then be used to buy buildings, which allow players to produce more crops or give them other abilities. Buildings and plantations do not work unless they are manned by colonists. \r\n During each round, players take turns selecting a role card from those on the table (such as \"Trader\" or \"Builder\"). When a role is chosen, every player gets to take the action appropriate to that role. The player that selected the role also receives a small privilege for doing so - for example, choosing the \"Builder\" role allows all players to construct a building, but the player who chose the role may do so at a discount on that turn. Unused roles gain a doubloon bonus at the end of each turn, so the next player who chooses that role gets to keep any doubloon bonus associated with it. This encourages players to make use of all the roles throughout a typical course of a game. \r\n Puerto Rico uses a variable phase order mechanism in which a \"governor\" token is passed clockwise to the next player at the conclusion of a turn. The player with the token begins the round by choosing a role and taking the first action. \r\n Players earn victory points for owning buildings, for shipping goods, and for manned \"large buildings.\" Each player's accumulated shipping chips are kept face down and come in denominations of one or five. This prevents other players from being able to determine the exact score of another player. Goods and doubloons are placed in clear view of other players and the totals of each can always be requested by a player. As the game enters its later stages, the unknown quantity of shipping tokens and its denominations require players to consider their options before choosing a role that can end the game. \r\n In 2011 and mostly afterwards, Puerto Rico was published to include both Puerto Rico: Expansion I – New Buildings and Puerto Rico: Expansion II – The Nobles. These versions are included in the other game entry Puerto Rico (with two expansions), not this regular game entry for Puerto Rico. Some editions of Puerto Rico list the player count as 2-5 instead of 3-5, and they include variant rules for games with only two players. \r\n \r\n \r\n \r\n \r\n 0 Links \r\n \r\n "
     },
-    {
-        "id": "I77I9HybTm",
-        "name": "Welcome to...",
-        "price": "19.49",
-        "discount": "0.35",
-        "rank": 3.8057424658758374,
-        "min_players": 1,
-        "max_players": 100,
-        "min_playtime": 25,
-        "max_playtime": 30,
-        "categories": "building",
-        "designer": "Benoit Turpin",
-        "art": "Anne Heidsieck",
-        "publishers": "Repos-Production",
-        "average_learning_complexity": 2,
-        "store": "6",
-        "images": {
-            "logo": "https://x.boardgamearena.net/data/gamemedia/welcometo/title/en_2000.png?h=1654762146",
-            "box" : "https://x.boardgamearena.net/data/gamemedia/welcometo/box/en_280.png?h=1651658972",
-            "background" : "https://x.boardgamearena.net/data/gamemedia/welcometo/banner/default.jpg?h=1657634926",
-            "photo1": "https://x.boardgamearena.net/data/gamemedia/welcometo/display/0.jpg?h=1651658974",
-            "photo2": "https://x.boardgamearena.net/data/gamemedia/welcometo/display/1.jpg?h=1651658974",
-        },
-        "description": " A roll and write without dice! Players will become architects in the American 50's as they use combinations of cards and actions to construct American dream real estate.  As an architect in Welcome to, you want to build the best new town in the United States during the 1950s. Players are developing estates, parks, pools, hiring employees, and more. Welcome to plays like a roll-and-write dice game in which you mark results on a scoresheet... but without dice. "
-    },
-    {
+   {
         "id": "5H5JS0KLzK",
         "name": "Wingspan",
         "price": "44.97",

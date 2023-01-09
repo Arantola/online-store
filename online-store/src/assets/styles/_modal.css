@@ -175,7 +175,7 @@
     padding: 30px;
     border-radius: 10px;
     width: 300px;
-    height: 170px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -235,6 +235,14 @@
 
 .card-other-num input:focus {
     outline: none;
+}
+
+.card-error {
+    color: red;
+    margin-top: 10px;
+}
+.card-error__number, .card-error__data, .card-error__cvv {
+    display: none;
 }
 
 .order-btn {

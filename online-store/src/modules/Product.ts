@@ -79,6 +79,9 @@ class Product {
   }
 
   addCardInfo(game: game) {
+    if (!game) {
+      window.location.href = "/404";
+    }
     const info = [
       {
         text: "Price",

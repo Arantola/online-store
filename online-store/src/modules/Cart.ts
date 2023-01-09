@@ -97,7 +97,7 @@ export default class Cart {
     );
   }
 
-  listenCards() { //target.parentElement
+  listenCards() {
     getElementBySelector("#cart-items").addEventListener("click", (e) => {
       if (e.target instanceof HTMLButtonElement) {
         if (e.target.parentElement?.parentElement) {
@@ -113,13 +113,10 @@ export default class Cart {
               curCart[`${cardInterface.id}`] += 1;
               localStorage.setItem("cart", JSON.stringify(curCart));
 
-              totalPrice.innerText = `
-                ${(
-                  +(cardInterface.getAttribute("price") as string) *
-                  curCart[`${cardInterface.id}`]
-                ).toFixed(2)} $`;
-
-              console.log(localStorage.getItem("cart"))
+              totalPrice.innerText = `${(
+                +(cardInterface.getAttribute("price") as string) *
+                curCart[`${cardInterface.id}`]
+              ).toFixed(2)} $`;
             }
           }
           if (e.target.getAttribute("name") === "less") {
@@ -128,18 +125,14 @@ export default class Cart {
               curCart[`${cardInterface.id}`] -= 1;
               localStorage.setItem("cart", JSON.stringify(curCart));
 
-              totalPrice.innerText = `
-                ${(
-                  +(cardInterface.getAttribute("price") as string) *
-                  curCart[`${cardInterface.id}`]
-                ).toFixed(2)} $`;
-
-              console.log(localStorage.getItem("cart"))
+              totalPrice.innerText = `${(
+                +(cardInterface.getAttribute("price") as string) *
+                curCart[`${cardInterface.id}`]
+              ).toFixed(2)} $`;
             } else if (+displayCount.innerText === 1) {
               delete curCart[`${cardInterface.id}`];
               localStorage.setItem("cart", JSON.stringify(curCart));
               this.drawCards(this.getOnePageCollection());
-              console.log(localStorage.getItem("cart"))
             }
           }
           this.filter.updateTotalCost();
@@ -392,10 +385,13 @@ function Validation() {
   function cardNumber_format(value: string) {
     const v = value.replace(/[^0-9]/gi, "");
     const parts = TakeNumber(v);
-    if (parts.length) {
+    const note = document.querySelector<HTMLElement>(".card-error__number");
+    if (note) {
       if (parts.join("").length == 16) {
+        note.style.display = "none";
         valNumber = true;
       } else {
+        note.style.display = "block";
         valNumber = false;
       }
       btnActive();
@@ -407,13 +403,16 @@ function Validation() {
     const matches = v.match(/\d{2,4}/g);
     const match = (matches && matches[0]) || "";
     const parts = [];
+    const note = document.querySelector<HTMLElement>(".card-error__data");
     for (let i = 0, len = match.length; i < len; i += 2) {
       parts.push(match.substring(i, i + 2));
     }
-    if (parts.length) {
+    if (note) {
       if (parts.join("").length === 4) {
+        note.style.display = "none";
         valData = true;
       } else {
+        note.style.display = "block";
         valData = false;
       }
       btnActive();
@@ -424,10 +423,15 @@ function Validation() {
   }
 
   function cardSecurity_format(value: string) {
-    if (value.length === 3) {
-      valSecurity = true;
-    } else {
-      valSecurity = false;
+    const note = document.querySelector<HTMLElement>(".card-error__cvv");
+    if (note) {
+      if (value.length === 3) {
+        note.style.display = "none";
+        valSecurity = true;
+      } else {
+        note.style.display = "block";
+        valSecurity = false;
+      }
     }
     btnActive();
     return value;
@@ -458,10 +462,14 @@ function Validation() {
     }
   }
 
+  const makeBtnActive = [false, false, false, false, false, false, false];
   const inpName = <HTMLInputElement>document.getElementById("inpName");
   inpName?.addEventListener("input", () => {
     const v = inpName.value.replace(/\s[^A-Za-z]/g, "");
     inpName.value = v;
+    makeBtnActive[0] = true;
+    if (v == "") makeBtnActive[0] = false;
+    fMakeBtnActive();
   });
 
   const inpPhone = <HTMLInputElement>document.getElementById("inpPhone");
@@ -471,6 +479,23 @@ function Validation() {
     if (v.length > 0 && v[0] !== "+") {
       inpPhone.value = v.replace(/^/, "+");
     }
+    makeBtnActive[1] = true;
+    if (v == "") makeBtnActive[1] = false;
+    fMakeBtnActive();
+  });
+
+  const inpAddress = <HTMLInputElement>document.getElementById("inpAddress");
+  inpAddress?.addEventListener("input", () => {
+    makeBtnActive[2] = true;
+    if (inpName.value == "") makeBtnActive[2] = false;
+    fMakeBtnActive();
+  });
+
+  const inpEmail = <HTMLInputElement>document.getElementById("inpAddress");
+  inpEmail?.addEventListener("input", () => {
+    makeBtnActive[3] = true;
+    if (inpName.value == "") makeBtnActive[3] = false;
+    fMakeBtnActive();
   });
 
   const cardNumber = <HTMLInputElement>document.getElementById("cardNumber");
@@ -502,6 +527,9 @@ function Validation() {
         }
       }
     }
+    makeBtnActive[4] = true;
+    if (inpName.value == "") makeBtnActive[4] = false;
+    fMakeBtnActive();
   });
 
   const cardData = <HTMLInputElement>document.getElementById("cardData");
@@ -515,6 +543,9 @@ function Validation() {
       }
       cardData.value = matches.join("/");
     }
+    makeBtnActive[5] = true;
+    if (inpName.value == "") makeBtnActive[5] = false;
+    fMakeBtnActive();
   });
 
   const cardSecurity = <HTMLInputElement>(
@@ -523,7 +554,24 @@ function Validation() {
   cardSecurity?.addEventListener("input", () => {
     const v = cardSecurity.value.replace(/[^0-9.]+/g, "");
     cardSecurity.value = v;
+    makeBtnActive[6] = true;
+    if (inpName.value == "") makeBtnActive[6] = false;
+    fMakeBtnActive();
   });
+
+
+  function fMakeBtnActive() {
+    const btn = document.querySelector<HTMLElement>(".order-btn");
+    if (btn)
+      if (
+        Array.from(new Set(makeBtnActive))[0] &&
+        Array.from(new Set(makeBtnActive)).length == 1
+      ) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+  }
 }
 
 function promoCode(value: string) {
@@ -643,4 +691,11 @@ function CheckEmail(val: string) {
   return val;
 }
 
-export { CalculateDisc, checkString, TakeNumber, checkRegex, RegNotNull, CheckEmail };
+export {
+  CalculateDisc,
+  checkString,
+  TakeNumber,
+  checkRegex,
+  RegNotNull,
+  CheckEmail,
+};
