@@ -122,7 +122,7 @@ export default class Filter {
     return result;
   }
 
-  private filterByRange(
+  public filterByRange(
     collection: Array<IGame>,
     field: string,
     value: string,
@@ -135,9 +135,6 @@ export default class Filter {
         return Number(game[field as keyof IGame]) <= Number(value);
       }
     });
-  }
-  public asd() {
-    return true;
   }
 
   public filterByField(collection: Array<IGame>, field: string, value: string) {
@@ -152,14 +149,14 @@ export default class Filter {
     });
   }
 
-  private filterByInput(collection: Array<IGame>, value: string) {
+  public filterByInput(collection: Array<IGame>, value: string) {
     const rgx = new RegExp(value, "i");
     return collection.filter((item) => {
       return rgx.test(JSON.stringify(Object.values(item)));
     });
   }
 
-  private orderBy(collection: Array<IGame>, field: string, ascending: string) {
+  public orderBy(collection: Array<IGame>, field: string, ascending: string) {
     return collection.sort((a: IGame, b: IGame) => {
       const keyA = +a[field as keyof IGame];
       const keyB = +b[field as keyof IGame];

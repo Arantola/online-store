@@ -51,26 +51,18 @@ const newTestObj = [{
     name: "Azul",
     price: "26.99",
     discount: "0.33",
-
     rank: 3.854164176531431,
     average_learning_complexity: 2.083333333333333,
-
-    min_players: 1,
-    max_players: 2,
-    max_playtime: 5,
-    min_playtime: 10,
-
+    min_players: 2,
+    max_players: 4,
+    max_playtime: 60,
+    min_playtime: 30,
     art: "Chris Quilliams",
     designer: "Michael Kiesling",
     categories: "abstract",
-    publisher: {
-      id: "i5Oqu5VZgP",
-      name: "Azul",
-    },
-
+    publishers: "IELLO",
     store: "16",
     description: "Azul was designed",
-
     images: {
       logo: "https://x.boardgamearena.net/data/gamemedia/azul/title/en_2000.png?h=1651660181",
       box: "https://x.boardgamearena.net/data/gamemedia/azul/box/en_280.png?h=1651658184",
@@ -110,7 +102,7 @@ test("regexp card number not null", () => {
   ).toBeNull();
 });
 test("mergeByProperty is undefined", () => {
-  expect(filter.mergeByProperty(newTestObj, newTestObj, "a")).toBeUndefined();
+  expect(filter.filterByRange(newTestObj, "min_players", "1", true)).not.toBeUndefined();
 });
 test("input filter", () => {
   expect(filter.filterByInput(newTestObj, "Azul")).toEqual(newTestObj);
