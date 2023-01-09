@@ -18,7 +18,7 @@ export default class Cart {
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
     this.filter.cartTotalCost();
-    TotalProduct();
+    this.filter.updateCartDisplayCart();
     promoCode(this.filter.cartTotalCost());
 
     this.query.getQueryFromURL();
@@ -145,6 +145,7 @@ export default class Cart {
           this.filter.updateTotalCost();
           this.filter.updateCartDisplay();
           this.filter.cartTotalCost();
+          this.filter.updateCartDisplayCart();
           promoCode(this.filter.cartTotalCost());
         }
       }
@@ -372,7 +373,7 @@ function Validation() {
   }
 
   function inpEmail_format(value: string) {
-    const v = value;
+    const v = CheckEmail(value);
     const parts = v.split(
       /(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/
     );
@@ -479,7 +480,7 @@ function Validation() {
     const matches = v.match(/\d{1,4}/g);
     if (matches) cardNumber.value = matches.join(" ");
     for (let i = 0; i < cardimg.length; i++) {
-      const re = cheackRegex(cardimg[i].regex);
+      const re = checkRegex(cardimg[i].regex);
       const cardImg = document.querySelector<HTMLElement>(".card-num-img");
       console.log(RegNotNull(re, cardNumber.value));
       if (RegNotNull(re, cardNumber.value) != null) {
@@ -523,12 +524,6 @@ function Validation() {
     const v = cardSecurity.value.replace(/[^0-9.]+/g, "");
     cardSecurity.value = v;
   });
-}
-
-function TotalProduct() {
-  const curCart = JSON.parse(localStorage.getItem("cart") as string);
-  const count = Object.keys(curCart).length;
-  getElementBySelector(".total-product").innerText = String(count);
 }
 
 function promoCode(value: string) {
@@ -641,8 +636,11 @@ function TakeNumber(value: string) {
 function RegNotNull(re: RegExp, val: string) {
   return val.match(re);
 }
-function cheackRegex(re: string) {
+function checkRegex(re: string) {
   return new RegExp(re);
 }
+function CheckEmail(val: string) {
+  return val;
+}
 
-export { CalculateDisc, checkString, TakeNumber, cheackRegex, RegNotNull };
+export { CalculateDisc, checkString, TakeNumber, checkRegex, RegNotNull, CheckEmail };

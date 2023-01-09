@@ -16,10 +16,17 @@
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
-    border: 1px solid #888;
     width: 60%;
     border-radius: 10px;
     border: 2px solid orange;
+}
+
+.modal-product .modal-content{
+    background-color: unset;
+    padding: 0;
+    width: 60%;
+    border-radius: 0;
+    border: unset;
 }
 
 .modal-close-container {

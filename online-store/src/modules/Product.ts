@@ -5,6 +5,7 @@ interface game {
   id: string;
   name: string;
   price: string;
+  rank: number;
   min_players: number;
   max_players: number;
   min_playtime: number;
@@ -84,6 +85,10 @@ class Product {
         info: game.price,
       },
       {
+        text: "Rank",
+        info: Math.round(game.rank * 100) / 100,
+      },
+      {
         text: "Art by",
         info: game.art,
       },
@@ -108,10 +113,7 @@ class Product {
         info: game.categories,
       },
     ];
-    // Либо передаём обьект игры из списка в каталоге
-    // Либо делаем запрос по id на сервер
     if (game) {
-      // Добавляем информацию в поля
       const breadTheme = document.getElementById("bread-theme");
       if (breadTheme)
         breadTheme.innerHTML = `${game.categories.split(/\s*,\s*/)[0]}`;
@@ -135,7 +137,6 @@ class Product {
       const newImg = document.querySelector<HTMLElement>(".small-img");
       if (newImg)
         newImg.innerHTML = `<img src="${game.images.photo1}" alt="${game.name}"><img src="${game.images.photo2}" alt="${game.name}">`;
-
       const allInfo = document.querySelector<HTMLElement>(".characteristic");
       if (allInfo) {
         for (let i = 0; i < info.length; i++) {
@@ -155,9 +156,6 @@ class Product {
       if (curCart[`${game.id}`] > 0) {
         if (buyBtnChange) buyBtnChange.innerHTML = `Add another to cart`;
       }
-    } else {
-      // Делаем запрос на сервер
-      // Добавляем информацию в поля
     }
   }
 

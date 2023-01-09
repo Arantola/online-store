@@ -36,6 +36,19 @@ export default class Filter {
       getElementBySelector(".cart__display").innerText = `${0}`;
     }
   }
+  public updateCartDisplayCart() {
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    if (Object.keys(curCart).length > 0) {
+      let sum = 0;
+      for (const key in curCart) {
+        sum += curCart[key];
+      }
+      console.log(sum)
+      getElementBySelector(".total-product").innerText = `${sum}`;
+    } else {
+      getElementBySelector(".total-product").innerText = `${0}`;
+    }
+  }
 
   public updateTotalCost() {
     const curCart = JSON.parse(localStorage.getItem("cart") as string);
@@ -108,6 +121,9 @@ export default class Filter {
       }
     });
   }
+  public asd() {
+    return true;
+  }
 
   // categories, publisher
   public filterByField(collection: Array<IGame>, field: string, value: string) {
@@ -130,7 +146,7 @@ export default class Filter {
     return expectCollection.length;
   }
 
-  private mergeByProperty = (
+  public mergeByProperty = (
     target: Array<IGame>,
     source: Array<IGame>,
     field: string
@@ -149,7 +165,7 @@ export default class Filter {
   };
 
   // input
-  private filterByInput(collection: Array<IGame>, value: string) {
+  public filterByInput(collection: Array<IGame>, value: string) {
     const rgx = new RegExp(value, "i");
     return collection.filter((item) => {
       return rgx.test(JSON.stringify(Object.values(item)));
@@ -157,7 +173,7 @@ export default class Filter {
   }
 
   // price, rank
-  private orderBy(collection: Array<IGame>, field: string, ascending: string) {
+  public orderBy(collection: Array<IGame>, field: string, ascending: string) {
     return collection.sort((a: IGame, b: IGame) => {
       const keyA = +a[field as keyof IGame];
       const keyB = +b[field as keyof IGame];
