@@ -507,7 +507,6 @@ function Validation() {
     for (let i = 0; i < cardimg.length; i++) {
       const re = checkRegex(cardimg[i].regex);
       const cardImg = document.querySelector<HTMLElement>(".card-num-img");
-      console.log(RegNotNull(re, cardNumber.value));
       if (RegNotNull(re, cardNumber.value) != null) {
         if (cardImg) {
           cardImg.remove();
