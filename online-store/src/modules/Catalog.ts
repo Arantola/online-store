@@ -140,11 +140,19 @@ export default class Catalog {
               section[1],
               String((e.target as HTMLInputElement).getAttribute("idapi"))
             );
+            getElementBySelector(
+              ".checkbox__counter",
+              (e.target as HTMLInputElement).parentElement as HTMLElement
+            ).style.display = "none";
           } else {
             this.query.delParam(
               section[1],
               String((e.target as HTMLInputElement).getAttribute("idapi"))
             );
+            getElementBySelector(
+              ".checkbox__counter",
+              (e.target as HTMLInputElement).parentElement as HTMLElement
+            ).style.display = "block";
           }
           this.filterAndDrawCards();
       });
@@ -382,9 +390,10 @@ export default class Catalog {
           );
           const txt = document.createTextNode(
             String(
-              this.filter.filterForPreview(
+              this.filter.filterByQueryParams(
+                this.query.params,
                 section,
-                this.query.params.categories + "," + box.getAttribute("id")
+                box.getAttribute("id") + ""
               )
             )
           );

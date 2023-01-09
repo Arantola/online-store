@@ -3,7 +3,10 @@ import gamesDataArray from "../data/gamesDataArray";
 import { getElementBySelector } from "./types/types";
 
 export default class Filter {
-  constructor(private collection: string = JSON.stringify(gamesDataArray)) {}
+  constructor(
+    private collection: string = JSON.stringify(gamesDataArray),
+    private curentCollection?: Array<IGame>
+  ) {}
 
   public getSingle(id: string) {
     return JSON.parse(this.collection).filter((game: IGame) => {
@@ -55,7 +58,16 @@ export default class Filter {
     return cost;
   }
 
-  public filterByQueryParams(query: IParams) {
+  public filterByQueryParams(
+    inputQuery: IParams,
+    field?: string,
+    value?: string
+  ) {
+    const query = JSON.parse(JSON.stringify(inputQuery));
+    if (field && value) {
+      const oldValue = query[field];
+      query[field] = oldValue + "," + value;
+    }
     let collection = JSON.parse(this.collection);
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
@@ -86,7 +98,15 @@ export default class Filter {
         }
       }
     }
-    return collection;
+    let result;
+    if (field && value) {
+      result = collection.length;
+    } else {
+      this.curentCollection = collection;
+      result = collection;
+    }
+
+    return result;
   }
 
   private filterByRange(
@@ -113,32 +133,6 @@ export default class Filter {
         }
       }
       return flag;
-    });
-  }
-
-  public filterForPreview(field: string, value: string) {
-    let expectCollection = JSON.parse(this.collection);
-    const currentCollection = JSON.parse(this.collection);
-    expectCollection = this.filterByField(expectCollection, field, value);
-    this.mergeByProperty(currentCollection, expectCollection, "id");
-    return expectCollection.length;
-  }
-
-  private mergeByProperty(
-    target: Array<IGame>,
-    source: Array<IGame>,
-    field: string
-  ) {
-    source.forEach((sourceElement) => {
-      const targetElement = target.find((targetElement) => {
-        return (
-          sourceElement[field as keyof typeof sourceElement] ===
-          targetElement[field as keyof typeof targetElement]
-        );
-      });
-      targetElement
-        ? Object.assign(targetElement, sourceElement)
-        : target.push(sourceElement);
     });
   }
 
