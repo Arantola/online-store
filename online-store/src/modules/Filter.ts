@@ -41,7 +41,6 @@ export default class Filter {
       for (const key in curCart) {
         sum += curCart[key];
       }
-      console.log(sum)
       getElementBySelector(".total-product").innerText = `${sum}`;
     } else {
       getElementBySelector(".total-product").innerText = `${0}`;
