@@ -14,6 +14,7 @@ const gamesDataArray = [
     "art": "Chris Quilliams",
     "publishers": "IELLO",
     "average_learning_complexity": 2.083333333333333,
+    "store": "16",
     "images": {
         "logo": "https://x.boardgamearena.net/data/gamemedia/azul/title/en_2000.png?h=1651660181",
         "box" : "https://x.boardgamearena.net/data/gamemedia/azul/box/en_280.png?h=1651658184",
@@ -38,6 +39,7 @@ const gamesDataArray = [
         "art": "Klemens Franz, Rex Lee",
         "publishers": "Rio-Grande-Games",
         "average_learning_complexity": 1.5,
+        "store": "13",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/patchwork/title/en_2000.png?h=1654730394",
             "box" : "https://x.boardgamearena.net/data/gamemedia/patchwork/box/en_280.png?h=1651658688",
@@ -62,6 +64,7 @@ const gamesDataArray = [
         "art": "Lina Cossette, David Forest",
         "publishers": "IELLO",
         "average_learning_complexity": 1.5,
+        "store": "7",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/santorini/title/en_2000.png?h=1654730568",
             "box" : "https://x.boardgamearena.net/data/gamemedia/santorini/box/en_280.png?h=1651658763",
@@ -86,6 +89,7 @@ const gamesDataArray = [
         "art": "John Yianni",
         "publishers": "IELLO",
         "average_learning_complexity": 2,
+        "store": "4",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/hive/title/en_2000.png?h=1654730162",
             "box" : "https://x.boardgamearena.net/data/gamemedia/hive/box/en_280.png?h=1651658477",
@@ -110,6 +114,7 @@ const gamesDataArray = [
         "art": "Humanity",
         "publishers": "Feuerland-Spiele",
         "average_learning_complexity": 2.25,
+        "store": "8",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/chess/title/en_2000.png?h=1654729958",
             "box" : "https://x.boardgamearena.net/data/gamemedia/chess/box/en_280.png?h=1661256002",
@@ -135,6 +140,7 @@ const gamesDataArray = [
         "art": "C. B. Canga",
         "publishers": "Rio-Grande-Games",
         "average_learning_complexity": 1.6666666666666667,
+        "store": "7",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/forbiddenisland/title/en_2000.png?h=1661177268",
             "box" : "https://x.boardgamearena.net/data/gamemedia/forbiddenisland/box/en_280.png?h=1651658409",
@@ -159,6 +165,7 @@ const gamesDataArray = [
         "art": "Miguel Coimbra",
         "publishers": "Z-Man-Games",
         "average_learning_complexity": 2.75,
+        "store": "7",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/sevenwonders/title/en_2000.png?h=1654730658",
             "box" : "https://x.boardgamearena.net/data/gamemedia/sevenwonders/box/en_280.png?h=1651658786",
@@ -183,6 +190,7 @@ const gamesDataArray = [
         "art": "Cyril Bouquet",
         "publishers": "Stonemaier-Games",
         "average_learning_complexity": 1,
+        "store": "12",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/kingdomino/title/en_2000.png?h=1654730200",
             "box" : "https://x.boardgamearena.net/data/gamemedia/kingdomino/box/en_280.png?h=1651658531",
@@ -210,6 +218,7 @@ const gamesDataArray = [
         "art": "Franz Vohwinkel, Harald Lieske",
         "publishers": "Rio-Grande-Games",
         "average_learning_complexity": 3,
+        "store": "3",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/puertorico/title/en_2000.png?h=1654730458",
             "box" : "https://x.boardgamearena.net/data/gamemedia/puertorico/box/en_280.png?h=1651658709",
@@ -234,6 +243,7 @@ const gamesDataArray = [
         "art": "Anne Heidsieck",
         "publishers": "Repos-Production",
         "average_learning_complexity": 2,
+        "store": "6",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/welcometo/title/en_2000.png?h=1654762146",
             "box" : "https://x.boardgamearena.net/data/gamemedia/welcometo/box/en_280.png?h=1651658972",
@@ -258,6 +268,7 @@ const gamesDataArray = [
         "art": "Ana Maria Martinez Jaramillo, Natalia Rojas",
         "publishers": "Stonemaier-Games",
         "average_learning_complexity": 2.5,
+        "store": "15",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/wingspan/title/en_2000.png?h=1663148597",
             "box" : "https://x.boardgamearena.net/data/gamemedia/wingspan/box/en_280.png?h=1651652157",
@@ -282,6 +293,7 @@ const gamesDataArray = [
         "art": "Miguel Coimbra",
         "publishers": "Repos-Production",
         "average_learning_complexity": 2.4444444444444446,
+        "store": "5",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/sevenwondersduel/title/en_2000.png?h=1654730634",
             "box" : "https://x.boardgamearena.net/data/gamemedia/sevenwondersduel/box/en_280.png?h=1651658789",
@@ -306,6 +318,7 @@ const gamesDataArray = [
         "art": "Abbas Amirabadi, Mahmoud Arasteh Nasab",
         "publishers": "Space-Cowboys",
         "average_learning_complexity": 1.8333333333333335,
+        "store": "6",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/splendor/title/en_2000.png?h=1651660390",
             "box" : "https://x.boardgamearena.net/data/gamemedia/splendor/box/en_280.png?h=1651658831",
@@ -331,6 +344,7 @@ const gamesDataArray = [
         "art": "Claus Stephan, Martin Hoffmann",
         "publishers": "Rio-Grande-Games",
         "average_learning_complexity": 3.5,
+        "store": "15",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/raceforthegalaxy/title/en_2000.png?h=1654730472",
             "box" : "https://x.boardgamearena.net/data/gamemedia/raceforthegalaxy/box/en_280.png?h=1651658726",
@@ -355,6 +369,7 @@ const gamesDataArray = [
         "art": "Vincent Dutrait, Alexandre Roche",
         "publishers": "Feuerland-Spiele",
         "average_learning_complexity": 2,
+        "store": "9",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/jaipur/title/en_2000.png?h=1654730179",
             "box" : "https://x.boardgamearena.net/data/gamemedia/jaipur/box/en_280.png?h=1651658510",
@@ -379,6 +394,7 @@ const gamesDataArray = [
         "art": "Andrew Hepworth, Jeff Himmelman",
         "publishers": "Z-Man-Games",
         "average_learning_complexity": 0,
+        "store": "10",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/loveletter/title/en_2000.png?h=1654730297",
             "box" : "https://x.boardgamearena.net/data/gamemedia/loveletter/box/en_280.png?h=1651658583",
@@ -404,6 +420,7 @@ const gamesDataArray = [
         "art": "Nan Rangsima",
         "publishers": "Space-Cowboys",
         "average_learning_complexity": 1.25,
+        "store": "10",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/sushigo/title/en_2000.png?h=1654730814",
             "box" : "https://x.boardgamearena.net/data/gamemedia/sushigo/box/en_280.png?h=1651658850",
@@ -428,6 +445,7 @@ const gamesDataArray = [
         "art": "Anke Pohl, Thilo Rick",
         "publishers": "Space-Cowboys",
         "average_learning_complexity": 1.6,
+        "store": "8",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/lostcities/title/en_2000.png?h=1654730289",
             "box" : "https://x.boardgamearena.net/data/gamemedia/lostcities/box/en_280.png?h=1651658579",
@@ -455,6 +473,7 @@ const gamesDataArray = [
         "art": "Bruno Sautter",
         "publishers": "Repos-Production",
         "average_learning_complexity": 1.2,
+        "store": "7",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/justone/title/en_2000.png?h=1658959040",
             "box" : "https://x.boardgamearena.net/data/gamemedia/justone/box/en_280.png?h=1651658516",
@@ -479,6 +498,7 @@ const gamesDataArray = [
         "art": "J. Cappel, C. Hanisch",
         "publishers": "Z-Man-Games",
         "average_learning_complexity": 2,
+        "store": "11",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/pandemic/title/en_2000.png?h=1654730384",
             "box" : "https://x.boardgamearena.net/data/gamemedia/pandemic/box/en_280.png?h=1651658679",
@@ -503,6 +523,7 @@ const gamesDataArray = [
         "art": "Rikki Tahta",
         "publishers": "Feuerland-Spiele",
         "average_learning_complexity": 1.5,
+        "store": "5",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/coupcitystate/title/en_2000.png?h=1654730019",
             "box" : "https://x.boardgamearena.net/data/gamemedia/coupcitystate/box/en_280.png?h=1651658315",
@@ -527,6 +548,7 @@ const gamesDataArray = [
         "art": "Jacqui Davis, David Montgomery",
         "publishers": "Stonemaier-Games",
         "average_learning_complexity": 2.7999999999999994,
+        "store": "8",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/viticulture/title/en_2000.png?h=1654730995",
             "box" : "https://x.boardgamearena.net/data/gamemedia/viticulture/box/en_280.png?h=1651658965",
@@ -551,6 +573,7 @@ const gamesDataArray = [
         "art": "Michael Menzel, Pete Fenlon",
         "publishers": "Catan-Studio",
         "average_learning_complexity": 2.090909090909091,
+        "store": "6",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/catan/title/en_2000.png?h=1655114136",
             "box" : "https://x.boardgamearena.net/data/gamemedia/catan/box/en_280.png?h=1651658264",
@@ -576,6 +599,7 @@ const gamesDataArray = [
         "art": "Klemens Franz",
         "publishers": "Rio-Grande-Games",
         "average_learning_complexity": 3,
+        "store": "5",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/clansofcaledonia/title/en_2000.png?h=1654729978",
             "box" : "https://x.boardgamearena.net/data/gamemedia/clansofcaledonia/box/en_280.png?h=1651658290",
@@ -600,6 +624,7 @@ const gamesDataArray = [
         "art": "Milan Vavroň",
         "publishers": "Stonemaier-Games",
         "average_learning_complexity": 3,
+        "store": "3",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/tzolkin/title/en_2000.png?h=1654730977",
             "box" : "https://x.boardgamearena.net/data/gamemedia/tzolkin/box/en_280.png?h=1651658946",
@@ -624,6 +649,7 @@ const gamesDataArray = [
         "art": "Dennis Lohausen",
         "publishers": "Feuerland-Spiele",
         "average_learning_complexity": 3.5,
+        "store": "12",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/feastforodin/title/en_2000.png?h=1654730099",
             "box" : "https://x.boardgamearena.net/data/gamemedia/feastforodin/box/en_280.png?h=1651658394",
@@ -648,6 +674,7 @@ const gamesDataArray = [
         "art": "Martin Hoffmann, Claus Stephan",
         "publishers": "Rio-Grande-Games",
         "average_learning_complexity": 3,
+        "store": "5",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/rollforthegalaxy/title/en_2000.png?h=1654730515",
             "box" : "https://x.boardgamearena.net/data/gamemedia/rollforthegalaxy/box/en_280.png?h=1651658748",
@@ -672,6 +699,7 @@ const gamesDataArray = [
         "art": "H.Ludvigsen, T.Masson",
         "publishers": "CMON",
         "average_learning_complexity": 3,
+        "store": "5",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/bloodrage/title/en_2000.png?h=1654729841",
             "box" : "https://x.boardgamearena.net/data/gamemedia/bloodrage/box/en_280.png?h=1651658213",
@@ -700,6 +728,7 @@ const gamesDataArray = [
         "art": "Dennis Lohausen",
         "publishers": "Feuerland-Spiele",
         "average_learning_complexity": 4,
+        "store": "6",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/terramystica/title/en_2000.png?h=1654730842",
             "box" : "https://x.boardgamearena.net/data/gamemedia/terramystica/box/en_280.png?h=1651658873",
@@ -724,6 +753,7 @@ const gamesDataArray = [
         "art": "Régis Torres",
         "publishers": "IELLO",
         "average_learning_complexity": 1.5,
+        "store": "2",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/kingoftokyo/title/en_2000.png?h=1654730206",
             "box" : "https://x.boardgamearena.net/data/gamemedia/kingoftokyo/box/en_280.png?h=1651658536",
@@ -748,6 +778,7 @@ const gamesDataArray = [
         "art": "Dennis Lohausen",
         "publishers": "Z-Man-Games",
         "average_learning_complexity": 4,
+        "store": "4",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/gaiaproject/title/en_2000.png?h=1654730122",
             "box" : "https://x.boardgamearena.net/data/gamemedia/gaiaproject/box/en_280.png?h=1651658421",
@@ -772,6 +803,7 @@ const gamesDataArray = [
         "art": "Cyrille Daujean, Julien Delval",
         "publishers": "IELLO",
         "average_learning_complexity": 2,
+        "store": "11",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/memoir/title/en_2000.png?h=1654164629",
             "box" : "https://x.boardgamearena.net/data/gamemedia/memoir/box/en_280.png?h=1651658618",
@@ -796,6 +828,7 @@ const gamesDataArray = [
         "art": "Brigette Indelicato",
         "publishers": "Stonemaier-Games",
         "average_learning_complexity": 2,
+        "store": "15",
         "images": {
             "logo": "https://x.boardgamearena.net/data/gamemedia/warchest/title/en_2000.png?h=1657550719",
             "box" : "https://x.boardgamearena.net/data/gamemedia/warchest/box/en_280.png?h=1664181118",
