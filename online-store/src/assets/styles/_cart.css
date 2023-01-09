@@ -9,6 +9,8 @@
 }
 
 .cart-info {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -81,6 +83,8 @@
     border-radius: 10px;
     text-align: center;
     padding: 10px;
+    background: #fff;
+    height: fit-content;
 }
 
 .sum-res {
@@ -125,6 +129,9 @@
 }
 .sum-desc button.active{
     background: orange;
+}
+.sum-desc button.active:hover {
+    background: rgb(255, 187, 60);
 }
 
 .sum-desc .act-promo {
