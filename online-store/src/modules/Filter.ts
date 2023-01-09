@@ -136,6 +136,9 @@ export default class Filter {
       }
     });
   }
+  public asd() {
+    return true;
+  }
 
   public filterByField(collection: Array<IGame>, field: string, value: string) {
     return collection.filter((game: IGame) => {

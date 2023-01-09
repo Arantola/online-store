@@ -559,6 +559,7 @@ function Validation() {
     fMakeBtnActive();
   });
 
+
   function fMakeBtnActive() {
     const btn = document.querySelector<HTMLElement>(".order-btn");
     if (btn)

@@ -1,5 +1,6 @@
 import { expect, jest, test } from "@jest/globals";
 import Filter from "../modules/Filter";
+
 import Product from "../modules/Product";
 
 const filter = new Filter();
@@ -119,3 +120,4 @@ jest.mock("../modules/Product");
 test("test using mock Have Been Called", () => {
   expect(Product).not.toHaveBeenCalled();
 });
+
