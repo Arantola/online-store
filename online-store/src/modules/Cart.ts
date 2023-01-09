@@ -17,6 +17,9 @@ export default class Cart {
     Validation();
     this.filter.updateCartDisplay();
     this.filter.updateTotalCost();
+    this.filter.cartTotalCost();
+    TotalProduct();
+    promoCode(this.filter.cartTotalCost());
 
     this.query.getQueryFromURL();
     this.setPageCount();
@@ -141,6 +144,8 @@ export default class Cart {
           }
           this.filter.updateTotalCost();
           this.filter.updateCartDisplay();
+          this.filter.cartTotalCost();
+          promoCode(this.filter.cartTotalCost());
         }
       }
     });
@@ -568,6 +573,7 @@ function promoCode(value: string) {
             getElementBySelector(".total-dicount-cost__cart").innerText =
               String(countDisc(Number(value), promo));
             text.value = "";
+            promBtn.classList.remove("active");
           }
         }
       }

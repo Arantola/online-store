@@ -278,7 +278,7 @@ export default class Catalog {
       // this.setInputValues(this.sliderSections[0] as HTMLElement, 0, this.query.params);
       // this.setInputValues(this.sliderSections[1] as HTMLElement, 1, this.query.params);
       // this.setInputValues(this.sliderSections[2] as HTMLElement, 2, this.query.params);
-
+      this.setFilters(this.query.params, true);
       this.filterAndDrawCards();
       // console.log("after", this.query.params);
     });
