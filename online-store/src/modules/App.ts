@@ -23,7 +23,7 @@ class App {
     this.queryParams = new Query();
     this.catalogPage = new Catalog(this.filter, this.queryParams);
     this.productPage = new Product(this.filter, this.queryParams);
-    this.cartPage = new Cart(this.filter);
+    this.cartPage = new Cart(this.filter, this.queryParams);
     this.setRouter();
   }
 

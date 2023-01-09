@@ -92,9 +92,6 @@
     color: #FFFFFF;
     text-transform: uppercase;
 }
-.pay-block button:hover {
-    background: rgb(255, 187, 60);
-}
 .modal-img {
     width: 500px;
     margin: auto;

@@ -1,5 +1,7 @@
 import Filter from "./Filter";
-import { getElementBySelector } from "./types/types";
+import Query from "./Query";
+
+import { getElementBySelector, IGame } from "./types/types";
 
 interface Promo {
   name: string;
@@ -8,7 +10,8 @@ interface Promo {
 }
 
 export default class Cart {
-  constructor(public filter: Filter) {}
+  constructor(public filter: Filter, public query: Query) {}
+
   renderPage() {
     CreateModal();
     Validation();
@@ -17,6 +20,213 @@ export default class Cart {
     this.filter.cartTotalCost();
     TotalProduct();
     promoCode(this.filter.cartTotalCost());
+
+    this.query.getQueryFromURL();
+    this.setPageCount();
+    this.setCurrentPageDisplay();
+    this.setOnPageDisplay();
+    this.listenPageNumber();
+    this.listenOnPageCount();
+    this.listenCards();
+    this.drawCards(this.getOnePageCollection());
+  }
+
+  setPageCount() {
+    const length = this.filter.getCart().length;
+    this.query.params.pages = String(
+      Math.ceil(length / +this.query.params.items)
+    );
+  }
+
+  setCurrentPageDisplay() {
+    getElementBySelector("#page-number").innerText = this.query.params.page;
+  }
+
+  setOnPageDisplay() {
+    getElementBySelector("#on-page").innerText = this.query.params.items;
+  }
+
+  listenPageNumber() {
+    getElementBySelector("#page-number-interface").addEventListener(
+      "click",
+      (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          if (e.target.getAttribute("name") === "less") {
+            if (+this.query.params.page > 1) {
+              this.query.setParam("page", `${+this.query.params.page - 1}`);
+              this.setCurrentPageDisplay();
+            }
+          }
+          if (e.target.getAttribute("name") === "more") {
+            if (+this.query.params.page < +this.query.params.pages) {
+              this.query.setParam("page", `${+this.query.params.page + 1}`);
+              this.setCurrentPageDisplay();
+            }
+          }
+        }
+        this.drawCards(this.getOnePageCollection());
+      }
+    );
+  }
+
+  listenOnPageCount() {
+    getElementBySelector("#on-page-interface").addEventListener(
+      "click",
+      (e) => {
+        if (e.target instanceof HTMLButtonElement) {
+          if (e.target.getAttribute("name") === "less") {
+            if (+this.query.params.items > 1) {
+              this.query.setParam("items", `${+this.query.params.items - 1}`);
+              this.setOnPageDisplay();
+            }
+          }
+          if (e.target.getAttribute("name") === "more") {
+            if (+this.query.params.items < this.filter.getCart().length) {
+              this.query.setParam("items", `${+this.query.params.items + 1}`);
+              this.setOnPageDisplay();
+            }
+          }
+          this.setPageCount();
+
+          this.query.setParam("page", this.query.params.pages);
+          getElementBySelector("#page-number").innerText =
+            this.query.params.pages;
+        }
+        this.drawCards(this.getOnePageCollection());
+      }
+    );
+  }
+
+  listenCards() { //target.parentElement
+    getElementBySelector("#cart-items").addEventListener("click", (e) => {
+      if (e.target instanceof HTMLButtonElement) {
+        if (e.target.parentElement?.parentElement) {
+          const curCart = JSON.parse(localStorage.getItem("cart") as string);
+          const cardInterface: HTMLElement = e.target.parentElement.parentElement;
+          const displayCount = getElementBySelector(".card__count-display", cardInterface);
+          const displayStock: HTMLElement = getElementBySelector(".card__stock", cardInterface);
+          const totalPrice: HTMLElement = getElementBySelector(".card__total-price-display", cardInterface);
+
+          if (e.target.getAttribute("name") === "more") {
+            if (+displayCount.innerText < +displayStock.innerText) {
+              displayCount.innerText = `${+displayCount.innerText + 1}`;
+              curCart[`${cardInterface.id}`] += 1;
+              localStorage.setItem("cart", JSON.stringify(curCart));
+
+              totalPrice.innerText = `
+                ${(
+                  +(cardInterface.getAttribute("price") as string) *
+                  curCart[`${cardInterface.id}`]
+                ).toFixed(2)} $`;
+
+              console.log(localStorage.getItem("cart"))
+            }
+          }
+          if (e.target.getAttribute("name") === "less") {
+            if (+displayCount.innerText > 1) {
+              displayCount.innerText = `${+displayCount.innerText - 1}`;
+              curCart[`${cardInterface.id}`] -= 1;
+              localStorage.setItem("cart", JSON.stringify(curCart));
+
+              totalPrice.innerText = `
+                ${(
+                  +(cardInterface.getAttribute("price") as string) *
+                  curCart[`${cardInterface.id}`]
+                ).toFixed(2)} $`;
+
+              console.log(localStorage.getItem("cart"))
+            } else if (+displayCount.innerText === 1) {
+              delete curCart[`${cardInterface.id}`];
+              localStorage.setItem("cart", JSON.stringify(curCart));
+              this.drawCards(this.getOnePageCollection());
+              console.log(localStorage.getItem("cart"))
+            }
+          }
+          this.filter.updateTotalCost();
+          this.filter.updateCartDisplay();
+          this.filter.cartTotalCost();
+          promoCode(this.filter.cartTotalCost());
+        }
+      }
+    });
+  }
+
+  getOnePageCollection() {
+    const items: Array<IGame> = this.filter.getCart();
+    const currentPage = +this.query.params.page;
+    const onPage = +this.query.params.items;
+    return items.slice(currentPage * onPage - onPage, currentPage * onPage);
+  }
+
+  drawCards(collection: Array<IGame>) {
+    const cartList = getElementBySelector("#cart-items");
+    const cartArray = this.filter.getCart();
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    cartList.innerHTML = "";
+    if (collection.length === 0) {
+      cartList.classList.add("cart_no-items");
+    } else {
+      cartList.classList.remove("cart_no-items");
+      collection.forEach((item: IGame) => {
+        const clone: Node =
+          (
+            document.getElementById(
+              "card-interface-for-cart"
+            ) as HTMLTemplateElement
+          ).content.cloneNode(true) || null;
+
+        if (clone instanceof DocumentFragment) {
+          getElementBySelector(".card__index", clone).innerText = `${
+            cartArray.findIndex((elem: IGame) => {
+              return elem.id === item.id;
+            }) + 1
+          }`;
+
+          (
+            getElementBySelector(".card__link", clone) as HTMLLinkElement
+          ).href = `/product?id=${item.id}`;
+          (
+            getElementBySelector(".card__img", clone) as HTMLImageElement
+          ).src = `${
+            item.images.box
+              ? item.images.box
+              : "https://w7.pngwing.com/pngs/380/764/png-transparent-paper-box-computer-icons-symbol-random-icons-miscellaneous-angle-text-thumbnail.png"
+          }`;
+          (
+            getElementBySelector(".card__img_logo", clone) as HTMLImageElement
+          ).src = item.images.logo;
+          (
+            getElementBySelector(".card__img_background", clone) as HTMLImageElement
+          ).src = `${item.images.background}`;
+          (
+            getElementBySelector(".card__img", clone) as HTMLImageElement
+          ).alt = `${item.name}`;
+
+          getElementBySelector(".card__name", clone).textContent = `${item.name}`;
+          getElementBySelector(".card__price", clone).textContent = `${item.price} $`;
+          getElementBySelector(".card__description", clone).textContent = `${item.description}`;
+
+          getElementBySelector(".card", clone).classList.add("card_wide");
+          getElementBySelector(".card__img", clone).classList.add("card__img_wide");
+          getElementBySelector(".card__img_logo", clone).style.display = "block";
+          getElementBySelector(".card__img_background", clone).style.display = "block";
+          getElementBySelector(".card__img-wrapper", clone).classList.add("card__img-wrapper_wide");
+          getElementBySelector(".card__info", clone).classList.add("card__info_wide");
+          getElementBySelector(".card__name", clone).classList.add("card__name_wide");
+          getElementBySelector(".card__description", clone).style.display = "block";
+          getElementBySelector(".card__button_cart", clone).style.display = "none";
+          const cardInterface = getElementBySelector(".card__interface", clone);
+          cardInterface.id = `${item.id}`;
+          cardInterface.setAttribute("price", `${item.price}`);
+
+          getElementBySelector(".card__total-price-display", cardInterface).innerText = `${curCart[`${item.id}`] * +item.price} $`
+          getElementBySelector(".card__stock", clone).textContent= `${item.store}`;
+          getElementBySelector(".card__count-display", cardInterface).innerText = curCart[`${item.id}`];
+          
+          cartList.appendChild(clone);
+        }
+      });
+    }
   }
 }
 
@@ -180,12 +390,7 @@ function Validation() {
 
   function cardNumber_format(value: string) {
     const v = value.replace(/[^0-9]/gi, "");
-    const matches = v.match(/\d{4,16}/g);
-    const match = (matches && matches[0]) || "";
-    const parts = [];
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
+    const parts = TakeNumber(v);
     if (parts.length) {
       if (parts.join("").length == 16) {
         valNumber = true;
@@ -193,9 +398,6 @@ function Validation() {
         valNumber = false;
       }
       btnActive();
-      return parts.join(" ");
-    } else {
-      return value;
     }
   }
 
@@ -208,9 +410,6 @@ function Validation() {
       parts.push(match.substring(i, i + 2));
     }
     if (parts.length) {
-      if (Number(parts[0]) > 12) {
-        parts.splice(0, 1);
-      }
       if (parts.join("").length === 4) {
         valData = true;
       } else {
@@ -280,9 +479,10 @@ function Validation() {
     const matches = v.match(/\d{1,4}/g);
     if (matches) cardNumber.value = matches.join(" ");
     for (let i = 0; i < cardimg.length; i++) {
-      const re = new RegExp(cardimg[i].regex);
+      const re = cheackRegex(cardimg[i].regex);
       const cardImg = document.querySelector<HTMLElement>(".card-num-img");
-      if (cardNumber.value.match(re) != null) {
+      console.log(RegNotNull(re, cardNumber.value));
+      if (RegNotNull(re, cardNumber.value) != null) {
         if (cardImg) {
           cardImg.remove();
           cardNumber.insertAdjacentHTML(
@@ -373,6 +573,7 @@ function promoCode(value: string) {
             getElementBySelector(".total-dicount-cost__cart").innerText =
               String(countDisc(Number(value), promo));
             text.value = "";
+            promBtn.classList.remove("active");
           }
         }
       }
@@ -428,5 +629,20 @@ function checkString(parts: string[]) {
   }
   return false;
 }
+function TakeNumber(value: string) {
+  const matches = value.match(/\d{4,16}/g);
+  const match = (matches && matches[0]) || "";
+  const parts = [];
+  for (let i = 0, len = match.length; i < len; i += 4) {
+    parts.push(match.substring(i, i + 4));
+  }
+  return parts;
+}
+function RegNotNull(re: RegExp, val: string) {
+  return val.match(re);
+}
+function cheackRegex(re: string) {
+  return new RegExp(re);
+}
 
-export { CalculateDisc, checkString };
+export { CalculateDisc, checkString, TakeNumber, cheackRegex, RegNotNull };

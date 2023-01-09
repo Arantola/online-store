@@ -24,7 +24,17 @@ export default class Filter {
   }
 
   public updateCartDisplay() {
-    getElementBySelector(".cart__display").innerText = this.getCart().length;
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    if (Object.keys(curCart).length > 0) {
+      let sum = 0;
+      for (const key in curCart) {
+        sum += curCart[key];
+      }
+      console.log(sum)
+      getElementBySelector(".cart__display").innerText = `${sum}`;
+    } else {
+      getElementBySelector(".cart__display").innerText = `${0}`;
+    }
   }
 
   public updateTotalCost() {
@@ -80,13 +90,7 @@ export default class Filter {
         }
       }
     }
-    this.collection = collection;
-    return this.filterByPage(collection, query.view, query.page);
-  }
-
-  private filterByPage(collection: Array<IGame>, mode: string ,page: string) {
-    const count = mode === "list" ? 4 : 16;
-    return collection.slice(+page, +page + +count);
+    return collection;
   }
 
   // min-max price, players, playtime
@@ -121,17 +125,8 @@ export default class Filter {
   public filterForPreview(field: string, value: string) {
     let expectCollection = JSON.parse(this.initialCollection);
     const currentCollection = this.collection || JSON.parse(this.initialCollection);
-    // console.log("Текущая коллекция: ", currentCollection);
     expectCollection = this.filterByField(expectCollection, field, value);
-    // console.log("Ожидаемая коллекция: ", expectCollection);
     this.mergeByProperty(currentCollection, expectCollection, "id");
-    // currentCollection?.map((game: IGame) => JSON.stringify(game));
-    // expectCollection.map((game: IGame) => JSON.stringify(game));
-    // console.log(value)
-    // console.log(currentCollection)
-    // console.log(expectCollection)
-    // return expectCollection.length - (currentCollection?.length as number)
-    console.log(value);
     return expectCollection.length;
   }
 
