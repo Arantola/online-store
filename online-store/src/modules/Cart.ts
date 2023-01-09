@@ -97,7 +97,7 @@ export default class Cart {
     );
   }
 
-  listenCards() { //target.parentElement
+  listenCards() {
     getElementBySelector("#cart-items").addEventListener("click", (e) => {
       if (e.target instanceof HTMLButtonElement) {
         if (e.target.parentElement?.parentElement) {
@@ -113,13 +113,10 @@ export default class Cart {
               curCart[`${cardInterface.id}`] += 1;
               localStorage.setItem("cart", JSON.stringify(curCart));
 
-              totalPrice.innerText = `
-                ${(
-                  +(cardInterface.getAttribute("price") as string) *
-                  curCart[`${cardInterface.id}`]
-                ).toFixed(2)} $`;
-
-              console.log(localStorage.getItem("cart"))
+              totalPrice.innerText = `${(
+                +(cardInterface.getAttribute("price") as string) *
+                curCart[`${cardInterface.id}`]
+              ).toFixed(2)} $`;
             }
           }
           if (e.target.getAttribute("name") === "less") {
@@ -128,18 +125,14 @@ export default class Cart {
               curCart[`${cardInterface.id}`] -= 1;
               localStorage.setItem("cart", JSON.stringify(curCart));
 
-              totalPrice.innerText = `
-                ${(
-                  +(cardInterface.getAttribute("price") as string) *
-                  curCart[`${cardInterface.id}`]
-                ).toFixed(2)} $`;
-
-              console.log(localStorage.getItem("cart"))
+              totalPrice.innerText = `${(
+                +(cardInterface.getAttribute("price") as string) *
+                curCart[`${cardInterface.id}`]
+              ).toFixed(2)} $`;
             } else if (+displayCount.innerText === 1) {
               delete curCart[`${cardInterface.id}`];
               localStorage.setItem("cart", JSON.stringify(curCart));
               this.drawCards(this.getOnePageCollection());
-              console.log(localStorage.getItem("cart"))
             }
           }
           this.filter.updateTotalCost();

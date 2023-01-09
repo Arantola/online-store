@@ -4,19 +4,18 @@ import { getElementBySelector } from "./types/types";
 
 export default class Filter {
   constructor(
-    private initialCollection: string = JSON.stringify(gamesDataArray),
-    public collection?: Array<IGame>
+    private collection: string = JSON.stringify(gamesDataArray),
+    private curentCollection?: Array<IGame>
   ) {}
 
   public getSingle(id: string) {
-    const tempCollection = JSON.parse(this.initialCollection);
-    return tempCollection?.filter((game: IGame) => {
+    return JSON.parse(this.collection).filter((game: IGame) => {
       return game.id == id;
     });
   }
 
   public getCart() {
-    const tempCollection = JSON.parse(this.initialCollection);
+    const tempCollection = JSON.parse(this.collection);
     const curCart = JSON.parse(localStorage.getItem("cart") as string);
     return tempCollection.filter((game: IGame) => {
       return Object.keys(curCart).includes(game.id);
@@ -30,7 +29,6 @@ export default class Filter {
       for (const key in curCart) {
         sum += curCart[key];
       }
-      console.log(sum)
       getElementBySelector(".cart__display").innerText = `${sum}`;
     } else {
       getElementBySelector(".cart__display").innerText = `${0}`;
@@ -52,7 +50,8 @@ export default class Filter {
 
   public updateTotalCost() {
     const curCart = JSON.parse(localStorage.getItem("cart") as string);
-    const cost = this.getCart().reduce(
+    const cost = this.getCart()
+      .reduce(
         (acc: number, game: IGame) => acc + +game.price * +curCart[game.id],
         0
       )
@@ -72,8 +71,17 @@ export default class Filter {
     return cost;
   }
 
-  public filterByQueryParams(query: IParams) {
-    let collection = JSON.parse(this.initialCollection);
+  public filterByQueryParams(
+    inputQuery: IParams,
+    field?: string,
+    value?: string
+  ) {
+    const query = JSON.parse(JSON.stringify(inputQuery));
+    if (field && value) {
+      const oldValue = query[field];
+      query[field] = oldValue + "," + value;
+    }
+    let collection = JSON.parse(this.collection);
     for (const key in query) {
       if (query[key][0] !== undefined && query[key] !== undefined) {
         switch (key) {
@@ -103,10 +111,17 @@ export default class Filter {
         }
       }
     }
-    return collection;
+    let result;
+    if (field && value) {
+      result = collection.length;
+    } else {
+      this.curentCollection = collection;
+      result = collection;
+    }
+
+    return result;
   }
 
-  // min-max price, players, playtime
   private filterByRange(
     collection: Array<IGame>,
     field: string,
@@ -125,7 +140,6 @@ export default class Filter {
     return true;
   }
 
-  // categories, publisher
   public filterByField(collection: Array<IGame>, field: string, value: string) {
     return collection.filter((game: IGame) => {
       let flag = false;
@@ -138,42 +152,14 @@ export default class Filter {
     });
   }
 
-  public filterForPreview(field: string, value: string) {
-    let expectCollection = JSON.parse(this.initialCollection);
-    const currentCollection = this.collection || JSON.parse(this.initialCollection);
-    expectCollection = this.filterByField(expectCollection, field, value);
-    this.mergeByProperty(currentCollection, expectCollection, "id");
-    return expectCollection.length;
-  }
-
-  public mergeByProperty = (
-    target: Array<IGame>,
-    source: Array<IGame>,
-    field: string
-  ) => {
-    source.forEach((sourceElement) => {
-      const targetElement = target.find((targetElement) => {
-        return (
-          sourceElement[field as keyof typeof sourceElement] ===
-          targetElement[field as keyof typeof targetElement]
-        );
-      });
-      targetElement
-        ? Object.assign(targetElement, sourceElement)
-        : target.push(sourceElement);
-    });
-  };
-
-  // input
-  public filterByInput(collection: Array<IGame>, value: string) {
+  private filterByInput(collection: Array<IGame>, value: string) {
     const rgx = new RegExp(value, "i");
     return collection.filter((item) => {
       return rgx.test(JSON.stringify(Object.values(item)));
     });
   }
 
-  // price, rank
-  public orderBy(collection: Array<IGame>, field: string, ascending: string) {
+  private orderBy(collection: Array<IGame>, field: string, ascending: string) {
     return collection.sort((a: IGame, b: IGame) => {
       const keyA = +a[field as keyof IGame];
       const keyB = +b[field as keyof IGame];
