@@ -24,7 +24,17 @@ export default class Filter {
   }
 
   public updateCartDisplay() {
-    getElementBySelector(".cart__display").innerText = this.getCart().length;
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
+    if (Object.keys(curCart).length > 0) {
+      let sum = 0;
+      for (const key in curCart) {
+        sum += curCart[key];
+      }
+      console.log(sum)
+      getElementBySelector(".cart__display").innerText = `${sum}`;
+    } else {
+      getElementBySelector(".cart__display").innerText = `${0}`;
+    }
   }
 
   public updateTotalCost() {

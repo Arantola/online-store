@@ -70,15 +70,15 @@ const cart = `
             <div class="cart-lists">
                 <div class="cart-info">
                     <div>Product in cart</div>
-                    <div class="cart-page" id="page-number-interface">
-                        <span>PAGE:</span>
+                    <div class="page-interface" id="page-number-interface">
+                        <span>Page:</span>
                         <div class="display-and-buttons">
                             <button class="button_cart-input" name="less"><</button>
                             <span id="page-number">1</span>
                             <button class="button_cart-input" name="more">></button>
                         </div>
                     </div>
-                    <div class="cart-page"  id="on-page-interface">
+                    <div class="page-interface"  id="on-page-interface">
                         <span>On page:</span>
                         <div class="display-and-buttons">
                             <button class="button_cart-input" name="less"><</button>

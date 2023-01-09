@@ -391,3 +391,14 @@ section.range-slider {
     border-top: 3px solid #fff;
     border-bottom: 3px solid #fff;
 }
+
+.card__index {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 10px;
+    background: #fff;
+    font-size: larger;
+    font-weight: 500;
+    min-width: 40px;
+}

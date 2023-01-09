@@ -408,10 +408,10 @@ export default class Catalog {
           );
           const txt = document.createTextNode(
             String(
-              this.filter.filterByQueryParams(
-                this.query.params,
-                `${section}, ${box.getAttribute("id")}`
-              ).length
+              this.filter.filterForPreview(
+                section,
+                this.query.params.categories + "," + box.getAttribute("id")
+              )
             )
           );
           span.innerHTML = "";

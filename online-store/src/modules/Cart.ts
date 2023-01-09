@@ -24,6 +24,7 @@ export default class Cart {
     this.setOnPageDisplay();
     this.listenPageNumber();
     this.listenOnPageCount();
+    this.listenCards();
     this.drawCards(this.getOnePageCollection());
   }
 
@@ -93,6 +94,58 @@ export default class Cart {
     );
   }
 
+  listenCards() { //target.parentElement
+    getElementBySelector("#cart-items").addEventListener("click", (e) => {
+      if (e.target instanceof HTMLButtonElement) {
+        if (e.target.parentElement?.parentElement) {
+          const curCart = JSON.parse(localStorage.getItem("cart") as string);
+          const cardInterface: HTMLElement = e.target.parentElement.parentElement;
+          const displayCount = getElementBySelector(".card__count-display", cardInterface);
+          const displayStock: HTMLElement = getElementBySelector(".card__stock", cardInterface);
+          const totalPrice: HTMLElement = getElementBySelector(".card__total-price-display", cardInterface);
+
+          if (e.target.getAttribute("name") === "more") {
+            if (+displayCount.innerText < +displayStock.innerText) {
+              displayCount.innerText = `${+displayCount.innerText + 1}`;
+              curCart[`${cardInterface.id}`] += 1;
+              localStorage.setItem("cart", JSON.stringify(curCart));
+
+              totalPrice.innerText = `
+                ${(
+                  +(cardInterface.getAttribute("price") as string) *
+                  curCart[`${cardInterface.id}`]
+                ).toFixed(2)} $`;
+
+              console.log(localStorage.getItem("cart"))
+            }
+          }
+          if (e.target.getAttribute("name") === "less") {
+            if (+displayCount.innerText > 1) {
+              displayCount.innerText = `${+displayCount.innerText - 1}`;
+              curCart[`${cardInterface.id}`] -= 1;
+              localStorage.setItem("cart", JSON.stringify(curCart));
+
+              totalPrice.innerText = `
+                ${(
+                  +(cardInterface.getAttribute("price") as string) *
+                  curCart[`${cardInterface.id}`]
+                ).toFixed(2)} $`;
+
+              console.log(localStorage.getItem("cart"))
+            } else if (+displayCount.innerText === 1) {
+              delete curCart[`${cardInterface.id}`];
+              localStorage.setItem("cart", JSON.stringify(curCart));
+              this.drawCards(this.getOnePageCollection());
+              console.log(localStorage.getItem("cart"))
+            }
+          }
+          this.filter.updateTotalCost();
+          this.filter.updateCartDisplay();
+        }
+      }
+    });
+  }
+
   getOnePageCollection() {
     const items: Array<IGame> = this.filter.getCart();
     const currentPage = +this.query.params.page;
@@ -103,6 +156,7 @@ export default class Cart {
   drawCards(collection: Array<IGame>) {
     const cartList = getElementBySelector("#cart-items");
     const cartArray = this.filter.getCart();
+    const curCart = JSON.parse(localStorage.getItem("cart") as string);
     cartList.innerHTML = "";
     if (collection.length === 0) {
       cartList.classList.add("cart_no-items");
@@ -156,8 +210,14 @@ export default class Cart {
           getElementBySelector(".card__name", clone).classList.add("card__name_wide");
           getElementBySelector(".card__description", clone).style.display = "block";
           getElementBySelector(".card__button_cart", clone).style.display = "none";
-          getElementBySelector(".card__count-menu", clone).id = `${item.id}`;
+          const cardInterface = getElementBySelector(".card__interface", clone);
+          cardInterface.id = `${item.id}`;
+          cardInterface.setAttribute("price", `${item.price}`);
 
+          getElementBySelector(".card__total-price-display", cardInterface).innerText = `${curCart[`${item.id}`] * +item.price} $`
+          getElementBySelector(".card__stock", clone).textContent= `${item.store}`;
+          getElementBySelector(".card__count-display", cardInterface).innerText = curCart[`${item.id}`];
+          
           cartList.appendChild(clone);
         }
       });

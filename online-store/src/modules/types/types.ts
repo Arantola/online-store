@@ -25,6 +25,7 @@ interface IGame {
     name: string;
   };
 
+  store: string;
   description: string;
 
   images: {
