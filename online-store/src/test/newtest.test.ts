@@ -1,5 +1,7 @@
 import { expect, jest, test } from "@jest/globals";
 import Filter from "../modules/Filter";
+import Product from "../modules/Product";
+
 const filter = new Filter();
 
 const {
@@ -118,4 +120,10 @@ test("regexp email addres", () => {
 });
 test("Defined orderBy", () => {
   expect(filter.orderBy(newTestObj, "40", "130")).toBeDefined();
+});
+
+jest.mock("../modules/Product");
+
+test("test using mock Have Been Called", () => {
+  expect(Product).not.toHaveBeenCalled();
 });
