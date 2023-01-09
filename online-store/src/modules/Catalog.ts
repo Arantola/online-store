@@ -289,19 +289,33 @@ export default class Catalog {
   listenResetButton() {
     getElementBySelector(".button_reset").addEventListener("click", (e) => {
       e.preventDefault();
-
       window.history.pushState(
         {},
         "/catalog",
         window.location.origin + "/catalog"
       );
-
+      this.resetRange();
       this.query.getQueryFromURL();
       this.query.setDefault();
 
       this.setFilters(this.query.params, true);
       this.filterAndDrawCards();
     });
+  }
+
+  resetRange() {
+    const minPrice = <HTMLInputElement>document.getElementById("min-price");
+    minPrice.value = "5";
+    const maxPrice = <HTMLInputElement>document.getElementById("max-price");
+    maxPrice.value = "250";
+    const minTime = <HTMLInputElement>document.getElementById("min-time");
+    minTime.value = "5";
+    const maxTime = <HTMLInputElement>document.getElementById("max-time");
+    maxTime.value = "250";
+    const minPlayers = <HTMLInputElement>document.getElementById("min-players");
+    minPlayers.value = "1";
+    const maxPlayers = <HTMLInputElement>document.getElementById("max-players");
+    maxPlayers.value = "8";
   }
 
   listenTitlesRoll() {
