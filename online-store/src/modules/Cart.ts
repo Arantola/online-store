@@ -216,7 +216,7 @@ export default class Cart {
           getElementBySelector(".card__total-price-display", cardInterface).innerText = `${curCart[`${item.id}`] * +item.price} $`
           getElementBySelector(".card__stock", clone).textContent= `${item.store}`;
           getElementBySelector(".card__count-display", cardInterface).innerText = curCart[`${item.id}`];
-          
+
           cartList.appendChild(clone);
         }
       });
@@ -507,7 +507,6 @@ function Validation() {
     for (let i = 0; i < cardimg.length; i++) {
       const re = checkRegex(cardimg[i].regex);
       const cardImg = document.querySelector<HTMLElement>(".card-num-img");
-      console.log(RegNotNull(re, cardNumber.value));
       if (RegNotNull(re, cardNumber.value) != null) {
         if (cardImg) {
           cardImg.remove();

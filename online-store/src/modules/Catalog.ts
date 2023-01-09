@@ -80,7 +80,10 @@ export default class Catalog {
             getElementBySelector(".card__img_logo", clone) as HTMLImageElement
           ).src = item.images.logo;
           (
-            getElementBySelector(".card__img_background", clone) as HTMLImageElement
+            getElementBySelector(
+              ".card__img_background",
+              clone
+            ) as HTMLImageElement
           ).src = `${item.images.background}`;
           (
             getElementBySelector(".card__img", clone) as HTMLImageElement
@@ -92,10 +95,16 @@ export default class Catalog {
             getElementBySelector(".card__price", clone) as HTMLElement
           ).textContent = `${item.price} $`;
           (
-          getElementBySelector(".card__button_cart", clone) as HTMLButtonElement
+            getElementBySelector(
+              ".card__button_cart",
+              clone
+            ) as HTMLButtonElement
           ).id = `${item.id}`;
           (
-            getElementBySelector(".card__button_cart", clone) as HTMLButtonElement
+            getElementBySelector(
+              ".card__button_cart",
+              clone
+            ) as HTMLButtonElement
           ).innerText = "Add to cart";
           (
             getElementBySelector(".card__description", clone) as HTMLElement
@@ -103,22 +112,40 @@ export default class Catalog {
 
           if (this.query.params.view == "list") {
             getElementBySelector(".card", clone).classList.add("card_wide");
-            getElementBySelector(".card__img", clone).classList.add("card__img_wide");
-            getElementBySelector(".card__img_logo", clone).style.display = "block";
-            getElementBySelector(".card__img_background", clone).style.display = "block";
-            getElementBySelector(".card__img-wrapper", clone).classList.add("card__img-wrapper_wide");
-            getElementBySelector(".card__info", clone).classList.add("card__info_wide");
-            getElementBySelector(".card__name", clone).classList.add("card__name_wide");
-            getElementBySelector(".card__description", clone).style.display = "block";
-            getElementBySelector(".card__button_cart", clone).classList.add("card__button_cart_wide");
+            getElementBySelector(".card__img", clone).classList.add(
+              "card__img_wide"
+            );
+            getElementBySelector(".card__img_logo", clone).style.display =
+              "block";
+            getElementBySelector(".card__img_background", clone).style.display =
+              "block";
+            getElementBySelector(".card__img-wrapper", clone).classList.add(
+              "card__img-wrapper_wide"
+            );
+            getElementBySelector(".card__info", clone).classList.add(
+              "card__info_wide"
+            );
+            getElementBySelector(".card__name", clone).classList.add(
+              "card__name_wide"
+            );
+            getElementBySelector(".card__description", clone).style.display =
+              "block";
+            getElementBySelector(".card__button_cart", clone).classList.add(
+              "card__button_cart_wide"
+            );
           }
 
           // check if item in cart
           const cart: string = localStorage.getItem("cart") as string;
           if (cart.includes(item.id)) {
-            getElementBySelector(".card__link", clone).classList.add("card_in-cart");
-            getElementBySelector(".card__button_cart", clone).classList.add("card__button_in-cart");
-            getElementBySelector(".card__button_cart", clone).innerText = "Added";
+            getElementBySelector(".card__link", clone).classList.add(
+              "card_in-cart"
+            );
+            getElementBySelector(".card__button_cart", clone).classList.add(
+              "card__button_in-cart"
+            );
+            getElementBySelector(".card__button_cart", clone).innerText =
+              "Added";
           }
 
           catalogGameList.appendChild(clone);
@@ -155,7 +182,8 @@ export default class Catalog {
             ).style.display = "block";
           }
           this.filterAndDrawCards();
-      });
+        }
+      );
     }
   }
 
@@ -172,26 +200,34 @@ export default class Catalog {
   }
 
   listenInputFilter() {
-    getElementBySelector("#search").addEventListener(
-      "keydown",
-      (e: KeyboardEvent) => {
-        if (e.key === "Enter") {
-          if ((e.target as HTMLInputElement).value == "") {
-            this.query.delParam("input", (e.target as HTMLInputElement).value);
-          } else {
-            this.query.setParam("input", (e.target as HTMLInputElement).value);
-          }
-          this.filterAndDrawCards();
+    const input = getElementBySelector("#search");
+    input.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        if ((e.target as HTMLInputElement).value == "") {
+          this.query.delParam("input", (e.target as HTMLInputElement).value);
+        } else {
+          this.query.setParam("input", (e.target as HTMLInputElement).value);
         }
+        this.filterAndDrawCards();
       }
-    );
+    });
+    input.addEventListener("change", (e: Event) => {
+      if ((e.target as HTMLInputElement).value == "") {
+        const searchParams = new URLSearchParams(document.location.search);
+        searchParams.delete("input");
+        this.query.goTowithQuery(searchParams);
+      } else {
+        this.query.setParam("input", (e.target as HTMLInputElement).value);
+      }
+      this.filterAndDrawCards();
+    });
   }
 
   getInputValues(parent: HTMLElement, index: number) {
     const slides = parent.getElementsByTagName("input");
     let slide1 = parseFloat(slides[0].value);
     let slide2 = parseFloat(slides[1].value);
-     // slides[0].value = (slides[0].getAttribute("value") as string);
+    // slides[0].value = (slides[0].getAttribute("value") as string);
     // slides[1].value = (slides[1].getAttribute("value") as string);
 
     if (slide1 > slide2) {
@@ -226,8 +262,10 @@ export default class Catalog {
       for (let y = 0; y < sliders.length; y++) {
         if (sliders[y].type === "range") {
           sliders[y].addEventListener("change", () => {
-            this.getInputValues(<HTMLInputElement>this.sliderSections[index], index);
-            console.log(this.query.params.min_playtime);
+            this.getInputValues(
+              <HTMLInputElement>this.sliderSections[index],
+              index
+            );
           });
         }
       }
@@ -271,14 +309,17 @@ export default class Catalog {
       getElementBySelector(
         ".filters__title",
         box as HTMLElement
-      ).addEventListener("click", (e) => {
+      ).addEventListener("click", () => {
         getElementBySelector(
           ".filters__title",
           box as HTMLElement
-        ).classList.toggle("roll-up")
-        getElementBySelector(".filters__list", box as HTMLElement).classList.toggle("none");
+        ).classList.toggle("roll-up");
+        getElementBySelector(
+          ".filters__list",
+          box as HTMLElement
+        ).classList.toggle("none");
       });
-    })
+    });
   }
 
   listenCartButtons() {
@@ -363,9 +404,17 @@ export default class Catalog {
     for (const filter of ["categories", "publishers"]) {
       document.querySelectorAll(`.input_${filter}`).forEach((box) => {
         (box as HTMLInputElement).checked = false;
+        getElementBySelector(
+          ".checkbox__counter",
+          (box as HTMLInputElement).parentElement as HTMLElement
+        ).style.display = "block";
         for (const value of params[filter].split(",")) {
           if (box.getAttribute("idAPI") == value) {
             (box as HTMLInputElement).checked = true;
+            getElementBySelector(
+              ".checkbox__counter",
+              (box as HTMLInputElement).parentElement as HTMLElement
+            ).style.display = "none";
           }
         }
       });
